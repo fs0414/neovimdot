@@ -74,10 +74,10 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["coc.nvim"] = {
+  ["cmp-nvim-lsp"] = {
     loaded = true,
-    path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/coc.nvim",
-    url = "https://github.com/neoclide/coc.nvim"
+    path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
+    url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
   ["colorbuddy.nvim"] = {
     loaded = true,
@@ -89,43 +89,12 @@ _G.packer_plugins = {
     path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/colorbuddy.vim",
     url = "https://github.com/tjdevries/colorbuddy.vim"
   },
-  ["ddc-around"] = {
-    loaded = true,
-    path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/ddc-around",
-    url = "https://github.com/Shougo/ddc-around"
-  },
-  ["ddc-file"] = {
-    loaded = true,
-    path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/ddc-file",
-    url = "https://github.com/LumaKernel/ddc-file"
-  },
-  ["ddc-nvim-lsp"] = {
-    loaded = true,
-    path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/ddc-nvim-lsp",
-    url = "https://github.com/Shougo/ddc-nvim-lsp"
-  },
-  ["ddc-ui-native"] = {
-    loaded = true,
-    path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/ddc-ui-native",
-    url = "https://github.com/Shougo/ddc-ui-native"
-  },
-  ["ddc.vim"] = {
-    loaded = true,
-    path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/ddc.vim",
-    url = "https://github.com/Shougo/ddc.vim"
-  },
-  ["denops.vim"] = {
-    loaded = true,
-    path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/denops.vim",
-    url = "https://github.com/vim-denops/denops.vim"
-  },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
     path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
     url = "https://github.com/williamboman/mason-lspconfig.nvim"
   },
   ["mason.nvim"] = {
-    config = { "\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21extensions.mason\frequire\0" },
     loaded = true,
     path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
@@ -144,6 +113,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
+  },
+  ["nvim-cmp"] = {
+    loaded = true,
+    path = "/Users/fujitanisougaku/.local/share/nvim/site/pack/packer/start/nvim-cmp",
+    url = "https://github.com/hrsh7th/nvim-cmp"
   },
   ["nvim-lsp"] = {
     loaded = true,
@@ -193,10 +167,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: mason.nvim
-time([[Config for mason.nvim]], true)
-try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21extensions.mason\frequire\0", "config", "mason.nvim")
-time([[Config for mason.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

@@ -1,30 +1,39 @@
---require('mason').setup {
---  ui = {
---    check_outdated_packages_on_open = false,
---    border = 'single',
---  },
---}
---
---require('mason-lspconfig').setup_handlers {
---  function(server_name)
---    require('lspconfig')[server_name].setup {}
---  end,
---}
-
 local lspconfig = require('lspconfig')
- -- golang LSP
- require'lspconfig'.gopls.setup{}
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
--- TypeScript, ReactJS, VueJS LSP
-lspconfig.tsserver.setup{
-  cmd = {"typescript-language-server", "--stdio"},
-  filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue" },
-  root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
-}
+require'lspconfig'.gopls.setup{}
+require("mason").setup({})
+require("mason-lspconfig").setup({})
 
--- Ruby LSP
- lspconfig.solargraph.setup{
-  cmd = {"solargraph", "stdio"},
-  filetypes = {"ruby"},
-  root_dir = lspconfig.util.root_pattern("Gemfile", ".git"),
+require("mason-lspconfig").setup_handlers({
+  function(server_name)
+    lspconfig[server_name].setup{
+      capabilities = capabilities,
+    }
+  end,
+})
+
+local cmp = require 'cmp'
+local map = cmp.mapping
+
+cmp.setup {
+  window = {
+    completion = cmp.config.window.bordered({
+      border = 'single'
+    }),
+    documentation = cmp.config.window.bordered({
+      border = 'single'
+    }),
+  },
+  mapping = map.preset.insert {
+    ['<C-d>'] = map.scroll_docs(-4),
+    ['<C-f>'] = map.scroll_docs(4),
+    ['<C-Space>'] = map.complete(),
+    ['<C-e>'] = map.abort(),
+    ['<CR>'] = map.confirm { select = false },
+  },
+  sources = cmp.config.sources {
+    { name = 'nvim_lsp' },
+    { name = "nvim_lsp_signature_help" },
+  },
 }

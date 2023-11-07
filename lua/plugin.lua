@@ -23,18 +23,21 @@ require('packer').startup(function(use)
     'tjdevries/colorbuddy.nvim',
     'svrana/neosolarized.nvim',
     'ishan9299/nvim-solarized-lua',
-    -- coc
-    'neoclide/coc.nvim',
-      branch = "release",
-    -- lsp
-    'neovim/nvim-lspconfig',
     'neovim/nvim-lsp',
     -- mason
     'williamboman/mason.nvim',
-      config = function() require 'extensions.mason' end,
-      requires = {
-        'williamboman/mason-lspconfig.nvim', 'neovim/nvim-lspconfig',
-      },
+    'williamboman/mason-lspconfig.nvim',
+    "neovim/nvim-lspconfig",
+    --coc
+    --'neoclide/coc.nvim', branch = 'release',
+    -- cmp
+    "hrsh7th/nvim-cmp",
+    "hrsh7th/cmp-nvim-lsp",
+    --'hrsh7th/cmp-nvim-lsp',
+    --'hrsh7th/cmp-buffer',
+    --'hrsh7th/cmp-path',
+    --'hrsh7th/cmp-cmdline',
+    --'hrsh7th/nvim-cmp',
     -- yank
     'svermeulen/vim-yoink',
     -- ?
