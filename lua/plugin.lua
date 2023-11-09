@@ -1,15 +1,3 @@
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
-end
-
-local status = pcall(require, "packer")
-if (not status) then
-  print("Packer is not installed")
-  return
-end
-
 require('nvim-autopairs').setup{}
 
 require('packer').startup(function(use)
@@ -33,13 +21,13 @@ require('packer').startup(function(use)
     -- cmp
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
-    --'hrsh7th/cmp-nvim-lsp',
-    --'hrsh7th/cmp-buffer',
-    --'hrsh7th/cmp-path',
-    --'hrsh7th/cmp-cmdline',
-    --'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
     -- yank
     'svermeulen/vim-yoink',
+    -- authrairs
+    'windwp/nvim-autopairs',
     -- ?
     'windwp/nvim-autopairs',
     'tjdevries/colorbuddy.vim',
