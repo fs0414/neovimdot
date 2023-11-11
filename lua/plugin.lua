@@ -28,6 +28,8 @@ require('packer').startup(function(use)
     'svermeulen/vim-yoink',
     -- authrairs
     'windwp/nvim-autopairs',
+    -- ale
+    'dense-analysis/ale',
     -- ?
     'windwp/nvim-autopairs',
     'tjdevries/colorbuddy.vim',
