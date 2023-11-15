@@ -1,4 +1,4 @@
-ocal status, n = pcall(require, "orbital")
+local status, n = pcall(require, "orbital")
 if (not status) then return end
 
 n.setup({

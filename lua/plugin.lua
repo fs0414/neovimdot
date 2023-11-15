@@ -24,6 +24,9 @@ require('packer').startup(function(use)
     'hrsh7th/cmp-cmdline',
     -- yank
     'svermeulen/vim-yoink',
+    -- lualine
+    'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true },
     -- authrairs
     'windwp/nvim-autopairs',
     -- ale
