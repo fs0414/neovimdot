@@ -31,8 +31,10 @@ vim.g.yoinkMaxItems = 10
 vim.cmd("highlight TabLineSel guibg=red guifg=white")
 vim.cmd("highlight TabLine guibg=grey guifg=white")
 
-vim.opt.pumblend = 50 -- 補完メニューの透明度を10%に設定
-vim.opt.winblend = 50 -- ウィンドウの透明度を10%に設定
+vim.opt.ambiwidth = "single"
+vim.opt.winblend = 20
+vim.opt.pumblend = 20
+vim.opt.termguicolors=true
 
 vim.cmd[[ colorscheme solarized ]]
 

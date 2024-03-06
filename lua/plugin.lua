@@ -3,7 +3,7 @@ require('nvim-autopairs').setup{}
 require('packer').startup(function(use)
   use {
     'wbthomason/packer.nvim',
-    --colorSchema
+    -- colorSchema
     'folke/tokyonight.nvim',
     'davidcelis/vim-ariake-dark',
     'fcpg/vim-orbital',
@@ -22,15 +22,17 @@ require('packer').startup(function(use)
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
-    -- yank
+    ---- yank
     'svermeulen/vim-yoink',
-    -- lualine
+    ---- lualine
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true },
     -- authrairs
     'windwp/nvim-autopairs',
     -- ale
     'dense-analysis/ale',
+    -- copilot
+    "github/copilot.vim",
     -- ?
     'windwp/nvim-autopairs',
     'tjdevries/colorbuddy.vim',
