@@ -1,4 +1,4 @@
-require('nvim-autopairs').setup{}
+-- require('nvim-autopairs').setup{}
 
 require('packer').startup(function(use)
   use {
@@ -27,6 +27,11 @@ require('packer').startup(function(use)
     ---- lualine
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+    -- telescope
+    'nvim-telescope/telescope.nvim', tag = '0.1.5',
+    'nvim-lua/plenary.nvim',
+    'nvim-telescope/telescope-fzf-native.nvim',
+    'BurntSushi/ripgrep',
     -- authrairs
     'windwp/nvim-autopairs',
     -- ale
