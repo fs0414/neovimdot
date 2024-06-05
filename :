@@ -1,0 +1,88 @@
+local vim = vim
+--n ファイルのエンコーディングをUTF-8に設定
+vim.opt.fileencoding = "utf-8"
+-- スワップファイルを使用しない
+vim.opt.swapfile = false
+-- ヘルプ言語を日本語に設定
+vim.opt.helplang = "ja"
+-- 非アクティブなバッファもバックグラウンドで開いておく
+vim.opt.hidden = true
+-- eob非表示
+vim.opt.fillchars = { eob = " " }
+
+-- クリップボードをunnamedplusに設定してシステムのクリップボードと連携
+vim.opt.clipboard:append({ "unnamedplus" })
+-- コマンドラインの補完機能を有効にする
+vim.opt.wildmenu = true
+-- ステータスラインを常に表示
+vim.opt.laststatus = 2
+
+-- 検索時にハイライト表示、インクリメンタル検索を有効にする
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
+-- マッチした検索項目を強調表示する時間を設定
+vim.opt.matchtime = 1
+
+-- telescopeの選択項目のハイライト色を設定
+vim.cmd [[
+  highlight TelescopeSelection guibg=#cccccc
+]]
+
+-- インデントに関する設定：スペース4つ分を使用
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+-- タブをスペースに展開
+vim.opt.expandtab = true
+-- 自動インデントを有効にする
+vim.opt.autoindent = true
+-- スマートインデントを有効にする
+vim.opt.smartindent = true
+
+-- 行番号の表示、折り返しを無効にする、マッチした括弧を表示
+vim.opt.number = true
+vim.opt.wrap = false
+vim.opt.showmatch = true
+
+-- 文字の太さ
+vim.opt.guifont = "Fira Code:h1:b"
+
+-- サインカラムを常に表示
+vim.opt.signcolumn = "yes"
+
+-- yoinkプラグインの設定
+vim.g.yoinkAutoFormat = 1
+-- vim.g.yoinkIncludeDeleteOperations = 1
+vim.g.yoinkMaxItems = 10
+
+-- アンビグ幅をsingleに設定
+-- 透過度
+vim.opt.ambiwidth = "single"
+vim.opt.winblend = 0
+vim.opt.pumblend = 0
+
+-- GUIカラーを使用
+vim.opt.termguicolors=true
+
+-- カラースキームをsolarizedに設定
+vim.cmd[[ colorscheme solarized ]]
+--vim.cmd[[ colorscheme orbital ]]
+
+-- ノーマルモードのバッファ背景を透明に設定
+vim.cmd[[ hi Normal guibg=NONE ctermbg=NONE ]]
+vim.cmd[[ hi NormalNC guibg=NONE ctermbg=NONE ]]
+vim.cmd[[ hi LineNr guibg=NONE ctermbg=NONE ]]
+vim.cmd[[ hi CursorLineNr guibg=NONE ctermbg=NONE ]]
+vim.cmd[[ hi CursorLine guibg=NONE ctermbg=NONE ]]
+
+-- 挿入モード時はカーソル行をハイライト、通常モード時はハイライトを解除
+vim.cmd [[
+  au InsertEnter * set cul
+  au InsertLeave * set nocul
+]]
+
+vim.cmd([[
+  highlight Normal guifg=#FFFFFF
+
+  highlight Comment guifg=#RRGGBB
+]])
+

@@ -1,0 +1,6 @@
+vim.cmd [[
+  let g:fern#default_hidden = 1
+  let g:fern#renderer = "nerdfont"
+]]
+
+vim.api.nvim_set_keymap('n', '<leader>ff', ':Fern . -drawer -reveal=% -toggle -width=30 -height=30<CR>', { noremap = true, silent = true })
