@@ -109,6 +109,23 @@ vim.cmd([[
   
 ]])
 
+vim.api.nvim_set_hl(0, 'Normal', { fg = '#DDFFFF', bold = true })
+vim.api.nvim_set_hl(0, 'Search', { fg = '#FF99FF', bold = true })
+vim.api.nvim_set_hl(0, 'KeywordColor', { fg = '#66CCFF', bold = true })
+vim.api.nvim_set_hl(0, 'FunctionColor', { fg = '#46EEFF', bold = true })
+vim.api.nvim_set_hl(0, 'IdentifierColor', { fg = '#0099FF', bold = true })
+vim.api.nvim_set_hl(0, 'String', { fg = '#EEEEEE', bold = true })
+vim.api.nvim_set_hl(0, 'Type', { fg = '#33CCFF', bold = true })
+vim.api.nvim_set_hl(0, 'Special', { fg = '#CC99FF', bold = true })
+vim.api.nvim_set_hl(0, 'Directory', { fg = '#11FFFF', bold = true })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { sp = '#FFFAFA', undercurl = true })
+vim.api.nvim_set_hl(0, 'Symbol', { sp = '#FF3333', undercurl = true })
+vim.api.nvim_set_hl(0, 'Character', { sp = '#FF3333', undercurl = true })
+--
+vim.api.nvim_set_hl(0, 'Statement', { sp = '#FF0000', undercurl = true })
+vim.api.nvim_set_hl(0, 'Variable', { sp = '#FF0000', undercurl = true })
+vim.api.nvim_set_hl(0, 'Constant', { sp = '#FF0000', undercurl = true })
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "php",
   callback = function()
@@ -132,24 +149,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.api.nvim_set_hl(0, 'Repeat', { sp = '#00FFFF', undercurl = true })
   end,
 })
-
-
-vim.api.nvim_set_hl(0, 'Normal', { fg = '#DDFFFF', bold = true })
-vim.api.nvim_set_hl(0, 'Search', { fg = '#FF99FF', bold = true })
-vim.api.nvim_set_hl(0, 'KeywordColor', { fg = '#66CCFF', bold = true })
-vim.api.nvim_set_hl(0, 'FunctionColor', { fg = '#46EEFF', bold = true })
-vim.api.nvim_set_hl(0, 'IdentifierColor', { fg = '#0099FF', bold = true })
-vim.api.nvim_set_hl(0, 'String', { fg = '#EEEEEE', bold = true })
-vim.api.nvim_set_hl(0, 'Type', { fg = '#33CCFF', bold = true })
-vim.api.nvim_set_hl(0, 'Special', { fg = '#CC99FF', bold = true })
-vim.api.nvim_set_hl(0, 'Directory', { fg = '#11FFFF', bold = true })
-vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { sp = '#FFFAFA', undercurl = true })
-vim.api.nvim_set_hl(0, 'Symbol', { sp = '#FF3333', undercurl = true })
-vim.api.nvim_set_hl(0, 'Character', { sp = '#FF3333', undercurl = true })
---
-vim.api.nvim_set_hl(0, 'Statement', { sp = '#FF0000', undercurl = true })
-vim.api.nvim_set_hl(0, 'Variable', { sp = '#FF0000', undercurl = true })
-vim.api.nvim_set_hl(0, 'Constant', { sp = '#FF0000', undercurl = true })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "ruby",

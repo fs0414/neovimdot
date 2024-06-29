@@ -38,7 +38,7 @@ require('mason').setup {
 vim.diagnostic.config({
   virtual_text = false,  -- 仮想テキストを非表示
   signs = true,          -- サインカラムのアイコンを表示
-  underline = false,      -- 問題のあるテキストを下線で表示
+  underline = true,      -- 問題のあるテキストを下線で表示
   update_in_insert = false,  -- 挿入モードで更新しない
   severity_sort = true,  -- 重要度順にソート
   float = {              -- フローティングウィンドウの設定
@@ -51,9 +51,9 @@ vim.diagnostic.config({
 
 function ShowDiagnostics()
   local opts = {
-    focusable = false,
+    focusable = true,
     close_events = {"BufLeave", "CursorMoved", "InsertEnter", "FocusLost"},
-    border = 'rounded',
+    border = 'single',
     source = 'current',  -- 診断のソースも表示
     prefix = ' ',
     scope = 'cursor',  -- カーソル位置の診断のみを表示
