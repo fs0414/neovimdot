@@ -13,17 +13,13 @@ map('n', '<c-f>', '<cmd>Telescope current_buffer_fuzzy_find<cr>', opts)
 -- help_tags
 map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', opts)
 
-
 -- fern
-map('n', '<C-e>', ':Fern . -reveal=% -drawer -width=40<CR>', opts)
-map('n', '<Leader>u', ':Fern . -drawer -reveal=% -toggle<CR>', opts)
+map('n', '<Leader>u', ':Fern . -drawer -reveal=% -width=40<CR>', opts)
+map('n', '<c-e>', ':Fern . -reveal=s<CR>', opts)
 
 -- neotest
 map("n", "<leader> tt", "<cmd>lua require('neotest').run.run()<CR>", opts)
 map("n", "<leader> tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<CR>", opts)
-
--- type check
-map('n', '<C-d>', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 
 -- window move
 map('n', 'sl', '<C-w>l', opts)

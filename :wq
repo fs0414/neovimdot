@@ -12,19 +12,13 @@ require('packer').startup(function(use)
     'oxfist/night-owl.nvim',
     'scottmckendry/cyberdream.nvim',
     'neovim/nvim-lsp',
-    "atmosuwiryo/vim-winteriscoming",
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
 
-    -- lsp
+    -- mason
     'williamboman/mason.nvim',
       config = function() require 'extensions.mason' end,
     'williamboman/mason-lspconfig.nvim',
     "neovim/nvim-lspconfig",
     'tami5/lspsaga.nvim',
-    'nvimdev/lspsaga.nvim',
-
-     "lewis6991/hover.nvim",
 
     -- nvim-ruby-lsp
     'mihyaeru21/nvim-ruby-lsp',
@@ -41,28 +35,27 @@ require('packer').startup(function(use)
     'rafamadriz/friendly-snippets',
 
     --dap
-    "jay-babu/mason-nvim-dap.nvim",
     'mfussenegger/nvim-dap',
     'rcarriga/nvim-dap-ui',
     'leoluz/nvim-dap-go',
-    --'mxsdev/nvim-dap-vscode-js',
-    --{
-    --  "microsoft/vscode-js-debug",
-    --  opt = true,
-    --  run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
-    --},
-    --config = function ()
-    --    vim.fn.sign_define('DapBreakpoint', {text='⛔', texthl='', linehl='', numhl=''})
-    --    vim.fn.sign_define('DapStopped', {text='👉', texthl='', linehl='', numhl=''})
-    --    require('dapui').setup()
-    --    require('dap-go').setup()
-    --    require("dap-vscode-js").setup()
-    --    require('dap.ext.vscode').load_launchjs()
-    --end,
+    'mxsdev/nvim-dap-vscode-js',
+    {
+      "microsoft/vscode-js-debug",
+      opt = true,
+      run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+    },
+    config = function ()
+        vim.fn.sign_define('DapBreakpoint', {text='⛔', texthl='', linehl='', numhl=''})
+        vim.fn.sign_define('DapStopped', {text='👉', texthl='', linehl='', numhl=''})
+        require('dapui').setup()
+        require('dap-go').setup()
+        --require("dap-vscode-js").setup()
+        require('dap.ext.vscode').load_launchjs()
+    end,
 
-    -- lualine
-    'nvim-lualine/lualine.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+  ---- lualine
+   'nvim-lualine/lualine.nvim',
+   requires = { 'nvim-tree/nvim-web-devicons', opt = true },
 
     -- telescope
     'nvim-telescope/telescope.nvim', tag = '0.1.5',
@@ -70,13 +63,6 @@ require('packer').startup(function(use)
     'nvim-telescope/telescope-fzf-native.nvim',
     'BurntSushi/ripgrep',
     'duane9/nvim-rg',
-
-    -- git
-    'lewis6991/gitsigns.nvim',
-    'dinhhuy258/git.nvim',
-
-  -- tag = 'release',
-  config = function() require 'extensions.gitsigns' end,
 
     -- noice
     --"folke/noice.nvim",
@@ -94,18 +80,30 @@ require('packer').startup(function(use)
     --},
 
     'folke/noice.nvim',
-    'MunifTanjim/nui.nvim',
-    "rcarriga/nvim-notify",
-
-    -- atac
-    "NachoNievaG/atac.nvim",
-        requires = { "akinsho/toggleterm.nvim" },
-        config = function() require('atac').setup({
-            dir = "~/my/work/directory", -- By default, the dir will be set as /tmp/atac
-        }) end,
-
-    -- lsp_signature
-    'ray-x/lsp_signature.nvim',
+    requires = {
+      'MunifTanjim/nui.nvim',
+      'rcarriga/nvim-notify',
+    },
+    config = function()
+      require('noice').setup({
+        -- ここに設定を追加します
+        -- デフォルトの設定を適用する場合は、空のテーブルを渡します
+        -- カスタマイズした設定を追加する場合は、以下のように設定を記述します
+        cmdline = {
+          enabled = true, -- コマンドラインをNoiceで表示する
+          view = "cmdline_popup", -- ポップアップ表示
+        },
+        messages = {
+          enabled = true, -- メッセージをNoiceで表示する
+          view = "notify", -- 通知表示
+        },
+        popupmenu = {
+          enabled = true, -- ポップアップメニューをNoiceで表示する
+          backend = "nui", -- NUIを使用
+        },
+        -- その他のカスタマイズ設定
+      })
+    end,
 
     -- rayso
     'ryoppippi/ray-so.vim',

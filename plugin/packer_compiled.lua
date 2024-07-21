@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1703358377/share/lua/5.1/?.lua;/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1703358377/share/lua/5.1/?/init.lua;/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1703358377/lib/luarocks/rocks-5.1/?.lua;/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1703358377/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1703358377/lib/lua/5.1/?.so"
+local package_path_str = "/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1720049189/share/lua/5.1/?.lua;/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1720049189/share/lua/5.1/?/init.lua;/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1720049189/lib/luarocks/rocks-5.1/?.lua;/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1720049189/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/fujitanisora/.cache/nvim/packer_hererocks/2.1.1720049189/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -74,11 +74,6 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  [";eosolarized.nvim"] = {
-    loaded = true,
-    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/;eosolarized.nvim",
-    url = "https://github.com/svrana/;eosolarized.nvim"
-  },
   ["FixCursorHold.nvim"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/FixCursorHold.nvim",
@@ -93,6 +88,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/ale",
     url = "https://github.com/w0rp/ale"
+  },
+  ["atac.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/atac.nvim",
+    url = "https://github.com/NachoNievaG/atac.nvim"
   },
   ["cmp-buffer"] = {
     loaded = true,
@@ -144,6 +144,11 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/cyberdream.nvim",
     url = "https://github.com/scottmckendry/cyberdream.nvim"
   },
+  ["denops.vim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/denops.vim",
+    url = "https://github.com/vim-denops/denops.vim"
+  },
   ["fern-renderer-nerdfont.vim"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/fern-renderer-nerdfont.vim",
@@ -159,6 +164,31 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/friendly-snippets",
     url = "https://github.com/rafamadriz/friendly-snippets"
   },
+  ["git.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/git.nvim",
+    url = "https://github.com/dinhhuy258/git.nvim"
+  },
+  ["gitsigns.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
+    url = "https://github.com/lewis6991/gitsigns.nvim"
+  },
+  ["hover.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/hover.nvim",
+    url = "https://github.com/lewis6991/hover.nvim"
+  },
+  ["lsp_signature.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
+    url = "https://github.com/ray-x/lsp_signature.nvim"
+  },
+  ["lspsaga.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
+    url = "https://github.com/tami5/lspsaga.nvim"
+  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/lualine.nvim",
@@ -168,6 +198,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
     url = "https://github.com/williamboman/mason-lspconfig.nvim"
+  },
+  ["mason-nvim-dap.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/mason-nvim-dap.nvim",
+    url = "https://github.com/jay-babu/mason-nvim-dap.nvim"
   },
   ["mason.nvim"] = {
     loaded = true,
@@ -198,6 +233,16 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/night-owl.nvim",
     url = "https://github.com/oxfist/night-owl.nvim"
+  },
+  ["noice.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/noice.nvim",
+    url = "https://github.com/folke/noice.nvim"
+  },
+  ["nui.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nui.nvim",
+    url = "https://github.com/MunifTanjim/nui.nvim"
   },
   ["nvim-autopairs"] = {
     loaded = true,
@@ -239,6 +284,11 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-nio",
     url = "https://github.com/nvim-neotest/nvim-nio"
   },
+  ["nvim-notify"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-notify",
+    url = "https://github.com/rcarriga/nvim-notify"
+  },
   ["nvim-rg"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-rg",
@@ -279,6 +329,11 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/pum.vim",
     url = "https://github.com/Shougo/pum.vim"
   },
+  ["ray-so.vim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/ray-so.vim",
+    url = "https://github.com/ryoppippi/ray-so.vim"
+  },
   ripgrep = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/ripgrep",
@@ -313,6 +368,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/vim-orbital",
     url = "https://github.com/fcpg/vim-orbital"
+  },
+  ["vim-winteriscoming"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/vim-winteriscoming",
+    url = "https://github.com/atmosuwiryo/vim-winteriscoming"
   },
   ["vim-yoink"] = {
     loaded = true,
