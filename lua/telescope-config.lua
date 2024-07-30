@@ -8,6 +8,7 @@ require("telescope").setup({
             "^Movies",
             "^Music",
             "node_modules/",
+            "dist/",
         },
         vimgrep_arguments = {
             "rg",

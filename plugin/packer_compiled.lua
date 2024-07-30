@@ -159,10 +159,20 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/fern.vim",
     url = "https://github.com/lambdalisue/fern.vim"
   },
+  ["fm-nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/fm-nvim",
+    url = "https://github.com/is0n/fm-nvim"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/friendly-snippets",
     url = "https://github.com/rafamadriz/friendly-snippets"
+  },
+  ["fzf-lua"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/fzf-lua",
+    url = "https://github.com/ibhagwan/fzf-lua"
   },
   ["git.nvim"] = {
     loaded = true,
@@ -179,6 +189,11 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/hover.nvim",
     url = "https://github.com/lewis6991/hover.nvim"
   },
+  ["lazygit.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/lazygit.nvim",
+    url = "https://github.com/kdheepak/lazygit.nvim"
+  },
   ["lsp_signature.nvim"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
@@ -187,7 +202,7 @@ _G.packer_plugins = {
   ["lspsaga.nvim"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
-    url = "https://github.com/tami5/lspsaga.nvim"
+    url = "https://github.com/nvimdev/lspsaga.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
@@ -268,6 +283,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
     url = "https://github.com/rcarriga/nvim-dap-ui"
+  },
+  ["nvim-dap-vscode-js"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-dap-vscode-js",
+    url = "https://github.com/mxsdev/nvim-dap-vscode-js"
   },
   ["nvim-lsp"] = {
     loaded = true,
@@ -378,6 +398,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/vim-yoink",
     url = "https://github.com/svermeulen/vim-yoink"
+  },
+  ["vscode-js-debug"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/vscode-js-debug",
+    url = "https://github.com/microsoft/vscode-js-debug"
   }
 }
 

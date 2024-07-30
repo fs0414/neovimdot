@@ -21,9 +21,6 @@ require('packer').startup(function(use)
       config = function() require 'extensions.mason' end,
     'williamboman/mason-lspconfig.nvim',
     "neovim/nvim-lspconfig",
-    'tami5/lspsaga.nvim',
-    'nvimdev/lspsaga.nvim',
-
      "lewis6991/hover.nvim",
 
     -- nvim-ruby-lsp
@@ -45,20 +42,10 @@ require('packer').startup(function(use)
     'mfussenegger/nvim-dap',
     'rcarriga/nvim-dap-ui',
     'leoluz/nvim-dap-go',
-    --'mxsdev/nvim-dap-vscode-js',
-    --{
-    --  "microsoft/vscode-js-debug",
-    --  opt = true,
-    --  run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
-    --},
-    --config = function ()
-    --    vim.fn.sign_define('DapBreakpoint', {text='⛔', texthl='', linehl='', numhl=''})
-    --    vim.fn.sign_define('DapStopped', {text='👉', texthl='', linehl='', numhl=''})
-    --    require('dapui').setup()
-    --    require('dap-go').setup()
-    --    require("dap-vscode-js").setup()
-    --    require('dap.ext.vscode').load_launchjs()
-    --end,
+    "mxsdev/nvim-dap-vscode-js",
+    "microsoft/vscode-js-debug",
+      opt = true,
+      run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
 
     -- lualine
     'nvim-lualine/lualine.nvim',
@@ -71,28 +58,23 @@ require('packer').startup(function(use)
     'BurntSushi/ripgrep',
     'duane9/nvim-rg',
 
+    -- fzf-lua
+    "ibhagwan/fzf-lua",
+      requires = { "nvim-tree/nvim-web-devicons" },
+
     -- git
     'lewis6991/gitsigns.nvim',
     'dinhhuy258/git.nvim',
+    "kdheepak/lazygit.nvim",
+      requires = {
+          "nvim-lua/plenary.nvim",
+      },
 
-  -- tag = 'release',
-  config = function() require 'extensions.gitsigns' end,
+    -- fm
+    'is0n/fm-nvim',
+      config = function() require 'extensions.gitsigns' end,
 
     -- noice
-    --"folke/noice.nvim",
-    --requires = {
-    --  "MunifTanjim/nui.nvim",
-    --  "rcarriga/nvim-notify",
-    --},
-
-    --'folke/noice.nvim',
-    --event = "VimEnter",
-    --requires = {
-    --  -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-    --  "MunifTanjim/nui.nvim",
-    --  "rcarriga/nvim-notify",
-    --},
-
     'folke/noice.nvim',
     'MunifTanjim/nui.nvim',
     "rcarriga/nvim-notify",
@@ -101,7 +83,7 @@ require('packer').startup(function(use)
     "NachoNievaG/atac.nvim",
         requires = { "akinsho/toggleterm.nvim" },
         config = function() require('atac').setup({
-            dir = "~/my/work/directory", -- By default, the dir will be set as /tmp/atac
+            dir = "~/my/work/directory",
         }) end,
 
     -- lsp_signature

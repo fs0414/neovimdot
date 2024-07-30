@@ -8,5 +8,3 @@ require("neotest").setup({
   }
 
 })
-
--- オプショナル: neotestのコマンドをよりアクセスしやすくするキーマッピング

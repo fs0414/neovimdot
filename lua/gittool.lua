@@ -10,3 +10,9 @@ git.setup({
     browse = "<Leader>go",
   }
 })
+
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+-- lazygit
+map('n', '<leader>g', ':Lazygit<CR>', opts)
+

@@ -1,5 +1,4 @@
 local lspconfig = require('lspconfig')
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 require('nvim-autopairs').setup{}
@@ -25,16 +24,17 @@ require('mason').setup {
 }
 
 vim.diagnostic.config({
-  virtual_text = false,  -- 仮想テキストを非表示
-  signs = true,          -- サインカラムのアイコンを表示
-  underline = true,      -- 問題のあるテキストを下線で表示
-  update_in_insert = false,  -- 挿入モードで更新しない
-  severity_sort = true,  -- 重要度順にソート
-  float = {              -- フローティングウィンドウの設定
-    show_header = false,   -- ヘッダーを非表示
-    source = 'cursor',     -- ソース(どのLSPからの診断か)を表示
-    border = 'rounded',    -- ボーダーを丸くする
-    focusable = true,      -- フォーカス可能にする
+  virtual_text = false,
+  signs = true, 
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  focusable = true,
+  float = {
+    show_header = false,
+    source = 'cursor',
+    border = 'rounded',
+    focusable = true,
   },
 })
 
@@ -43,9 +43,10 @@ function ShowDiagnostics()
     focusable = true,
     close_events = {"BufLeave", "CursorMoved", "InsertEnter", "FocusLost"},
     border = 'single',
-    source = 'current',  -- 診断のソースも表示
+    source = 'current',
     prefix = ' ',
-    scope = 'cursor',  -- カーソル位置の診断のみを表示
+    scope = 'cursor',
+    focusable = true,
   }
   vim.diagnostic.open_float(nil, opts)
 end
@@ -59,32 +60,20 @@ vim.api.nvim_set_keymap('n', '<c-m>', '<cmd>lua ShowDiagnostics()<CR>', {noremap
 vim.api.nvim_set_keymap('n', '<leader>dc', '<cmd>lua PrintDiagnosticConfig()<CR>', { noremap = true, silent = true })
 
 local function n(line) vim.cmd([[nnoremap ]] .. line) end
---n([[<leader><Space> :lua vim.lsp.buf.hover()<CR>]])
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = vim.api.nvim_get_hl_by_name('Normal', true).background })
 vim.api.nvim_set_hl(0, 'FloatBorder', { bg = vim.api.nvim_get_hl_by_name('Normal', true).background })
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
   vim.lsp.handlers.hover,
   {
-    border = "single", -- "shadow" , "none", "rounded"
+    border = "single",
     width = 70,
     height = 10,
     row = 10,
     col = 5,
     style = "minimal",
-    focusable = true,
+    focusable = false,
   }
 )
-
---require('lspsaga').setup({})
---local status, saga = pcall(require, "lspsaga")
---if (not status) then return end
---
---saga.init_lsp_saga {
---  server_filetype_map = {
---    typescript = 'typescript',
---    lua = 'lua'
---  }
---}
 
 require("hover").setup {
   init = function()
@@ -100,10 +89,27 @@ require("hover").setup {
   },
   mouse_delay = 1000
 }
-vim.keymap.set("n", "K", require("hover").hover, {desc = "hover.nvim"})
+--vim.keymap.set("n", "K", require("hover").hover, {desc = "hover.nvim"})
 vim.keymap.set("n", "gK", require("hover").hover_select, {desc = "hover.nvim (select)"})
-vim.keymap.set("n", "<C-p>", function() require("hover").hover_switch("previous") end, {desc = "hover.nvim (previous source)"})
+--vim.keymap.set("n", "<C-p>", function() require("hover").hover_switch("previous") end, {desc = "hover.nvim (previous source)"})
 vim.keymap.set("n", "<C-n>", function() require("hover").hover_switch("next") end, {desc = "hover.nvim (next source)"})
+
+require("hover").setup {
+            init = function()
+                require("hover.providers.lsp")
+            end,
+            preview_opts = {
+                border = 'single'
+            },
+            preview_window = false,
+            title = true,
+            mouse_providers = {
+                'LSP'
+            },
+            mouse_delay = 1000
+        }
+
+vim.keymap.set("n", "K", require("hover").hover, {desc = "hover.nvim"})
 
 -- Mouse support
 vim.keymap.set('n', '<MouseMove>', require('hover').hover_mouse, { desc = "hover.nvim (mouse)" })
@@ -116,19 +122,38 @@ lspconfig.graphql.setup{
   end,
 }
 
-require('mason-lspconfig').setup_handlers({
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local mason_lspconfig = require("mason-lspconfig")
+local servers = {
+  graphql = {
+    filetypes = { "graphql" },
+    root_dir = function(fname)
+      return lspconfig.util.root_pattern('package.json', '.git', '.graphqlrc', '.graphqlrc.json')(fname) or vim.fn.getcwd()
+    end,
+  },
+}
+
+mason_lspconfig.setup {
+  ensure_installed = vim.tbl_keys(servers),
+}
+
+mason_lspconfig.setup_handlers {
   function(server_name)
-    lspconfig[server_name].setup{
+    require("lspconfig")[server_name].setup {
       capabilities = capabilities,
+      on_attach = on_attach,
+      settings = servers[server_name],
+      filetypes = (servers[server_name] or {}).filetypes,
       handlers = {
         ["textDocument/publishDiagnostics"] = custom_on_publish_diagnostics,
-       },
+      },
+
     }
   end
-})
+}
 
 require "lsp_signature".setup({
-  bind = true, -- This is mandatory, otherwise border config won't get registered.
+  bind = true,
   handler_opts = {
     border = "rounded"
   }

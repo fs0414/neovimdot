@@ -8,13 +8,11 @@ map("n", "<F7>", ":lua require'dap'.step_into()<CR>", { silent = true})
 map("n", "<F8>", ":lua require'dap'.step_out()<CR>", { silent = true})
 map("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", { silent = true})
 map("n", "<leader>bc", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", { silent = true})
-map("n", "<leader>l", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", { silent = true})
+--map("n", "<leader>l", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", { silent = true})
 
 -- dap-ui key map
 map("n", "<leader>d", ":lua require'dapui'.toggle()<CR>", { silent = true})
-
 map("n", "<leader><leader>df", ":lua require'dapui'.eval()<CR>", { silent = true})
-
 -- dap-go key map
 map("n", "<leader>td", ":lua require'dap-go'.debug_test()<CR>", { silent = true })
 
@@ -84,6 +82,45 @@ dap.configurations.go = {
     }
 }
 
+-- dap-typescript
+require("dap-vscode-js").setup({
+  debugger_path = ".local/share/nvim/site/pack/packer/start/vscode-js-debug",
+  adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
+})
+
+for _, language in ipairs({ "typescript", "javascript", "typescriptreact" }) do
+  dap.configurations[language] = {
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Launch file",
+      program = "${file}",
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-node",
+      request = "attach",
+      name = "Attach",
+      processId = require("dap.utils").pick_process,
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Debug Jest Tests",
+      -- trace = true, -- include debugger info
+      runtimeExecutable = "node",
+      runtimeArgs = {
+        "./node_modules/jest/bin/jest.js",
+        "--runInBand",
+      },
+      rootPath = "${workspaceFolder}",
+      cwd = "${workspaceFolder}",
+      console = "integratedTerminal",
+      internalConsoleOptions = "neverOpen",
+    },
+  }
+end
 -- dapui
 require("dapui").setup({
 	icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
