@@ -15,7 +15,7 @@ cd ~/.config
 
 4. clone repo
 ```bash
-https://github.com/fs0414/neovimdot.git
+git clone　https://github.com/fs0414/neovimdot.git
 ```
 ※ Can be cloned from a fork
 
