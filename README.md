@@ -1,7 +1,8 @@
-1. install NeoVim
+1. install tools
 ```bash
-brew install neovim
+brew install neovim lazygit fzf
 ```
+
 2. packer install
 ```bash
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
