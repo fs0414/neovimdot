@@ -14,6 +14,12 @@ map('n', 'sh', '<C-w>h', opts)
 map('n', 'sj', '<C-w>j', opts)
 map('n', 'sk', '<C-w>k', opts)
 
+-- rename
+map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+
+-- term mode change
+map('t', '<A-Esc>', '<C-\\><C-n>', opts)
+
 -- lazygit
 map('n', '<leader>g', ':Lazygit<CR>', opts)
 
@@ -30,7 +36,6 @@ map('n', '<C-k>gd', '<cmd>lua split_and_goto_definition("aboveleft split")<CR>',
 map('n', '<C-l>gd', '<cmd>lua split_and_goto_definition("rightbelow vsplit")<CR>', opts)
 
 map('n', '<leader>s', ':source %<CR>', opts)
-map('n', '<leader>w', ':w<CR>', opts)
 
 -- diagnostic none
 map('n', '<leader>n', '<cmd>lua vim.diagnostic.config{virtual_text=false}<CR>', opts)
@@ -41,3 +46,6 @@ map("n", "<leader><leader>df", ":lua require'dapui'.eval()<CR>", { silent = true
 
 -- dap-go key map
 map("n", "<leader>td", ":lua require'dap-go'.debug_test()<CR>", { silent = true })
+
+--
+vim.api.nvim_set_keymap('n', '<Leader>try', [[:normal! Vito try {\r} catch (err) {\r    console.error(err);\r}<Esc>]], { noremap = true, silent = true })

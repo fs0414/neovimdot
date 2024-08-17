@@ -5,7 +5,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     local width = vim.api.nvim_get_option("columns")
     local height = vim.api.nvim_get_option("lines")
 
-    local win = vim.api.nvim_open_win(buf, true, {
+    local win = vim.api.(buf, true, {
       relative = "editor",
       width = width - 4,
       height = height - 4,

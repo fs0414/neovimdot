@@ -1,15 +1,16 @@
 vim.g["fern#default_hidden"] = 1
 vim.g["fern#show_hidden"] = 1
 
+vim.opt.runtimepath:append("~/lua/extension/ts-trycatch-encoder/main.ts")
+
 require('plugin')
 require('base')
-require('lsp-config')
-require('statusline')
-require('fzf-lua-config')
-require('toggleterm-config')
 require('keymap')
-require('neotest-config')
-require('dap-config')
-require('noice-config')
-require('gittool')
-
+require('plugin/lsp-config')
+require('plugin/statusline')
+require('plugin/fzf-lua-config')
+require('plugin/toggleterm-config')
+require('plugin/neotest-config')
+require('plugin/dap-config')
+require('plugin/gittool')
+require('plugin/notice-config')

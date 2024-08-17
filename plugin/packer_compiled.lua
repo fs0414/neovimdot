@@ -74,6 +74,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["Comment.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/Comment.nvim",
+    url = "https://github.com/numToStr/Comment.nvim"
+  },
   ["FixCursorHold.nvim"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/FixCursorHold.nvim",
@@ -149,6 +154,11 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/denops.vim",
     url = "https://github.com/vim-denops/denops.vim"
   },
+  ["diffview.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/diffview.nvim",
+    url = "https://github.com/sindrets/diffview.nvim"
+  },
   ["fern-renderer-nerdfont.vim"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/fern-renderer-nerdfont.vim",
@@ -184,6 +194,11 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
+  ["hlchunk.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/hlchunk.nvim",
+    url = "https://github.com/shellRaining/hlchunk.nvim"
+  },
   ["hover.nvim"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/hover.nvim",
@@ -198,11 +213,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
     url = "https://github.com/ray-x/lsp_signature.nvim"
-  },
-  ["lspsaga.nvim"] = {
-    loaded = true,
-    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
-    url = "https://github.com/nvimdev/lspsaga.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
@@ -228,6 +238,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/moonlight.nvim",
     url = "https://github.com/shaunsingh/moonlight.nvim"
+  },
+  neogit = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/neogit",
+    url = "https://github.com/NeogitOrg/neogit"
   },
   neotest = {
     loaded = true,
@@ -333,6 +348,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
+  },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/nvim-tree/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,

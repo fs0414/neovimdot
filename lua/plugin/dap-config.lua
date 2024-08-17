@@ -8,7 +8,6 @@ map("n", "<F7>", ":lua require'dap'.step_into()<CR>", { silent = true})
 map("n", "<F8>", ":lua require'dap'.step_out()<CR>", { silent = true})
 map("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", { silent = true})
 map("n", "<leader>bc", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", { silent = true})
---map("n", "<leader>l", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", { silent = true})
 
 -- dap-ui key map
 map("n", "<leader>d", ":lua require'dapui'.toggle()<CR>", { silent = true})
@@ -83,13 +82,30 @@ dap.configurations.go = {
 }
 
 -- dap-typescript
+-- dap.adapters["pwa-node"] = {
+--   type = "server",
+--   host = "localhost",
+--   port = "${port}", --let both ports be the same for now...
+--   executable = {
+--     command = "node",
+--     -- -- 💀 Make sure to update this path to point to your installation
+--     args = { vim.fn.stdpath('data') .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js", "${port}" },
+--     -- command = "js-debug-adapter",
+--     -- args = { "${port}" },
+--   },
+-- }
+
 require("dap-vscode-js").setup({
+
+  --debugger_path = ".local/share/nvim/site/pack/packer/start/vscode-js-debug",
   debugger_path = ".local/share/nvim/site/pack/packer/start/vscode-js-debug",
   adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
 })
 
-for _, language in ipairs({ "typescript", "javascript", "typescriptreact" }) do
-  dap.configurations[language] = {
+local js_based_languages = { "typescript", "javascript", "typescriptreact" }
+
+for _, language in ipairs(js_based_languages) do
+  require("dap").configurations[language] = {
     {
       type = "pwa-node",
       request = "launch",
@@ -101,26 +117,21 @@ for _, language in ipairs({ "typescript", "javascript", "typescriptreact" }) do
       type = "pwa-node",
       request = "attach",
       name = "Attach",
-      processId = require("dap.utils").pick_process,
+      processId = require 'dap.utils'.pick_process,
       cwd = "${workspaceFolder}",
     },
     {
-      type = "pwa-node",
+      type = "pwa-chrome",
       request = "launch",
-      name = "Debug Jest Tests",
-      -- trace = true, -- include debugger info
-      runtimeExecutable = "node",
-      runtimeArgs = {
-        "./node_modules/jest/bin/jest.js",
-        "--runInBand",
-      },
-      rootPath = "${workspaceFolder}",
-      cwd = "${workspaceFolder}",
-      console = "integratedTerminal",
-      internalConsoleOptions = "neverOpen",
-    },
+      name = "Start Chrome with \"localhost\"",
+      url = "http://localhost:3000",
+      webRoot = "${workspaceFolder}",
+      userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
+    }
   }
 end
+require('dap.ext.vscode').load_launchjs(nil, {})
+
 -- dapui
 require("dapui").setup({
 	icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },

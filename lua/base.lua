@@ -13,6 +13,27 @@ vim.opt.fillchars = { eob = " " }
 vim.o.mouse = "a"
 -- leader key
 vim.g.mapleader = " "
+-- hlsearchを有効にする 
+require('hlchunk').setup({
+    chunk = {
+      chars = {
+        horizontal_line = "─",
+        vertical_line = "│",
+        left_top = "┌",
+        left_bottom = "└",
+        right_arrow = "─",
+      },
+      style = "#888888",
+      enable = true
+    },
+    indent = {
+      enable = true,
+      chars = {
+        " ",
+      },
+    }
+})
+require'nvim-web-devicons'.get_icons()
 
 -- クリップボードをunnamedplusに設定してシステムのクリップボードと連携
 vim.opt.clipboard:append({ "unnamedplus" })
@@ -127,5 +148,30 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.api.nvim_set_hl(0, 'Character', { sp = '#FF3333' })
     vim.api.nvim_set_hl(0, 'Variable', { sp = '#FF3333' })
     vim.api.nvim_set_hl(0, 'Constant', { sp = '#FF3333' })
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function()
+    vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'LineNr', { fg = '#777777', bg = 'NONE', bold = false })
+    vim.api.nvim_set_hl(0, 'Normal', { fg = '#EEFFFF', bold = false })
+    vim.api.nvim_set_hl(0, 'Search', { fg = '#FF99FF', bold = false })
+    vim.api.nvim_set_hl(0, 'Keyword', { fg = '#66CCFF', bold = false })
+    vim.api.nvim_set_hl(0, 'Function', { fg = '#46EEFF', bold = false })
+    vim.api.nvim_set_hl(0, 'Identifier', { fg = '#0099FF', bold = false, undercurl = false})
+    vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099FF', bold = false, undercurl = false})
+    vim.api.nvim_set_hl(0, 'String', { fg = '#EEFFFF', bold = false })
+    vim.api.nvim_set_hl(0, 'Type', { fg = '#33CCFF', bold = false, undercurl = false})
+    vim.api.nvim_set_hl(0, 'Special', { fg = '#CC99FF', bold = false })
+    vim.api.nvim_set_hl(0, 'Directory', { fg = '#11FFFF', bold = false })
+    vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { sp = '#FFFAFA', undercurl = true })
+    vim.api.nvim_set_hl(0, 'Symbol', { fg = '#FF3333', undercurl = false })
+    vim.api.nvim_set_hl(0, 'Symbol', { fg = '#FF3333', undercurl = false })
+    vim.api.nvim_set_hl(0, 'Character', { fg = '#FF3333', undercurl = false })
+    vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099CC', bold = false, undercurl = false })
+    vim.api.nvim_set_hl(0, 'Variable', { fg = '#008080', bold = false, undercurl = false })
+    vim.api.nvim_set_hl(0, 'Constant', { fg = '#339999', bold = false, undercurl = false })
   end,
 })

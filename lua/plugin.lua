@@ -49,7 +49,12 @@ require('packer').startup(function(use)
 
     -- lualine
     'nvim-lualine/lualine.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+
+    -- icon
+    'nvim-tree/nvim-web-devicons',
+
+    -- noice
+    'folke/noice.nvim',
 
     -- telescope
     'nvim-telescope/telescope.nvim', tag = '0.1.5',
@@ -60,7 +65,6 @@ require('packer').startup(function(use)
 
     -- fzf-lua
     "ibhagwan/fzf-lua",
-      requires = { "nvim-tree/nvim-web-devicons" },
 
     -- git
     'lewis6991/gitsigns.nvim',
@@ -69,10 +73,27 @@ require('packer').startup(function(use)
       requires = {
           "nvim-lua/plenary.nvim",
       },
+    "NeogitOrg/neogit",
+    "sindrets/diffview.nvim",
+
+    -- comment
+    'numToStr/Comment.nvim',
+    config = function()
+        require('Comment').setup()
+    end,
+
+    -- hlchunk
+    "shellRaining/hlchunk.nvim",
 
     -- fm
     'is0n/fm-nvim',
-      config = function() require 'extensions.gitsigns' end,
+    config = function() require 'extensions.gitsigns' end,
+
+    -- comment
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+    end,
 
     -- noice
     'folke/noice.nvim',
@@ -81,10 +102,13 @@ require('packer').startup(function(use)
 
     -- atac
     "NachoNievaG/atac.nvim",
-        requires = { "akinsho/toggleterm.nvim" },
-        config = function() require('atac').setup({
-            dir = "~/my/work/directory",
-        }) end,
+    requires = { "akinsho/toggleterm.nvim" },
+    config = function() require('atac').setup({
+      dir = "~/my/work/directory",
+    }) end,
+
+    --denops
+    'vim-denops/denops.vim',
 
     -- lsp_signature
     'ray-x/lsp_signature.nvim',

@@ -1,4 +1,4 @@
- require'fzf-lua'.setup({
+require'fzf-lua'.setup({
   winopts = {
     height     = 0.85,
     width      = 0.80,
@@ -6,7 +6,7 @@
     col        = 0.50,
     border     = 'rounded',
     fullscreen = false,  },
-})
+  })
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
