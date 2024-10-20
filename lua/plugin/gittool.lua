@@ -13,14 +13,11 @@ local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
 -- lazygit
-map('n', '<leader>g', ':Lazygit<CR>', opts)
-
--- diffview
 require("diffview").setup()
-map('n', '<leader>df', ':DiffviewOpen<CR>', opts)
-
--- neogit
 local neogit = require('neogit')
 neogit.setup {}
 require("diffview").setup()
 
+map('n', '<leader>df', ':DiffviewOpen<CR>', opts)
+map('n', '<leader>g', ':Lazygit<CR>', opts)
+map('n', '<leader>ng', ':Neogit<CR>', opts)
