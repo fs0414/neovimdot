@@ -99,6 +99,11 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/atac.nvim",
     url = "https://github.com/NachoNievaG/atac.nvim"
   },
+  ["auto-save.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/auto-save.nvim",
+    url = "https://github.com/Pocco81/auto-save.nvim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/cmp-buffer",
@@ -193,6 +198,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
+  },
+  ["hello.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/hello.nvim",
+    url = "https://github.com/fs0414/hello.nvim"
   },
   ["hlchunk.nvim"] = {
     loaded = true,

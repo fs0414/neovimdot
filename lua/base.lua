@@ -14,6 +14,7 @@ vim.o.mouse = "a"
 -- leader key
 vim.g.mapleader = " "
 -- hlsearchを有効にする 
+
 require('hlchunk').setup({
     chunk = {
       chars = {
@@ -94,9 +95,9 @@ vim.opt.background = 'dark'
 
 -- colorscheme
 --vim.cmd[[ colorscheme solarized ]]
-vim.cmd[[ colorscheme tokyonight ]]
+-- vim.cmd[[ colorscheme tokyonight ]]
 --vim.cmd[[ colorscheme vim-winteriscoming ]]
---vim.cmd[[ colorscheme orbital ]]
+vim.cmd[[ colorscheme orbital ]]
 
 -- ノーマルモードのバッファ背景を透明に設定
 vim.cmd[[ hi Normal guibg=NONE ctermbg=NONE ]]
@@ -110,14 +111,38 @@ vim.cmd [[
   au InsertEnter * set cul
   au InsertLeave * set nocul
 ]]
+-- require'nvim-treesitter.configs'.setup {
+--   highlight = {
+--     enable = true,
+--     additional_vim_regex_highlighting = false,
+--     custom_captures = {
+--       -- Highlight groups for nvim-treesitter
+--       ["keyword"] = "Keyword",
+--       ["function"] = "Function",
+--       ["variable"] = "Variable",
+--       ["string"] = "String",
+--       ["type"] = "Type",
+--       ["constant"] = "Constant",
+--       ["identifier"] = "Identifier",
+--       ["statement"] = "Statement",
+--       ["special"] = "Special",
+--       ["directory"] = "Directory",
+--       ["character"] = "Character",
+--       ["symbol"] = "Symbol",
+--     },
+--   },
+-- }
 
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "+",
+--   callback = function()
 vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'LineNr', { fg = '#777777', bg = 'NONE', bold = false })
 vim.api.nvim_set_hl(0, 'Normal', { fg = '#EEFFFF', bold = false })
 vim.api.nvim_set_hl(0, 'Search', { fg = '#FF99FF', bold = false })
-vim.api.nvim_set_hl(0, 'Keyword', { fg = '#66CCFF', bold = false })
+vim.api.nvim_set_hl(0, 'Keyword', { fg = '#33CCFF', bold = false })
 vim.api.nvim_set_hl(0, 'Function', { fg = '#46EEFF', bold = false })
-vim.api.nvim_set_hl(0, 'Identifier', { fg = '#0099FF', bold = false, undercurl = false})
+vim.api.nvim_set_hl(0, 'Identifier', { fg = '#3399FF', bold = false, undercurl = false})
 vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099FF', bold = false, undercurl = false})
 vim.api.nvim_set_hl(0, 'String', { fg = '#EEFFFF', bold = false })
 vim.api.nvim_set_hl(0, 'Type', { fg = '#33CCFF', bold = false, undercurl = false})
@@ -128,31 +153,69 @@ vim.api.nvim_set_hl(0, 'Symbol', { fg = '#FF3333', undercurl = false })
 vim.api.nvim_set_hl(0, 'Symbol', { fg = '#FF3333', undercurl = false })
 vim.api.nvim_set_hl(0, 'Character', { fg = '#FF3333', undercurl = false })
 vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099CC', bold = false, undercurl = false })
-vim.api.nvim_set_hl(0, 'Variable', { fg = '#008080', bold = false, undercurl = false })
+vim.api.nvim_set_hl(0, 'Variable', { fg = '#33CCCC', bold = false, undercurl = false })
 vim.api.nvim_set_hl(0, 'Constant', { fg = '#339999', bold = false, undercurl = false })
+vim.api.nvim_set_hl(0, 'Number', { fg = '#339999', bold = false, undercurl = false })
+vim.api.nvim_set_hl(0, 'Boolean', { fg = '#339999', bold = false, undercurl = false })
+-- vim.api.nvim_set_hl(0, 'TabLineFill', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'BufferCurrent', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'BufferInactive', { bg = 'none' })
+--   end,
+-- })
+
+--
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "go, typescript, lua, ruby, go, prisma, graphql",
+--   callback = function()
+--     vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
+--     vim.api.nvim_set_hl(0, 'LineNr', { fg = '#777777', bg = 'NONE', bold = false })
+--     vim.api.nvim_set_hl(0, 'Normal', { fg = '#EEFFFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Search', { fg = '#FF99FF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Keyword', { fg = '#33CCFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Function', { fg = '#46EEFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Identifier', { fg = '#3399FF', bold = false, undercurl = false})
+--     vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099FF', bold = false, undercurl = false})
+--     vim.api.nvim_set_hl(0, 'String', { fg = '#EEFFFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Type', { fg = '#33CCFF', bold = false, undercurl = false})
+--     vim.api.nvim_set_hl(0, 'Special', { fg = '#CC99FF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Directory', { fg = '#11FFFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { sp = '#FFFAFA', undercurl = true })
+--     vim.api.nvim_set_hl(0, 'Symbol', { fg = '#FF3333', undercurl = false })
+--     vim.api.nvim_set_hl(0, 'Character', { fg = '#FF3333', undercurl = false })
+--     vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099CC', bold = false, undercurl = false })
+--     vim.api.nvim_set_hl(0, 'Variable', { fg = '#008080', bold = false, undercurl = false })
+--     vim.api.nvim_set_hl(0, 'Constant', { fg = '#339999', bold = false, undercurl = false })
+--   end,
+-- })
+
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "go, typescript, lua, ruby, go, prisma, graphql",
+--   print("タイプスクリプトと02"),
+--   callback = function()
+--     vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
+--     vim.api.nvim_set_hl(0, 'LineNr', { fg = '#777777', bg = 'NONE', bold = false })
+--     vim.api.nvim_set_hl(0, 'Normal', { fg = '#EEFFFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Search', { fg = '#FF99FF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Keyword', { fg = '#66CCFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Function', { fg = '#46EEFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Identifier', { fg = '#0099FF', bold = false, undercurl = false})
+--     vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099FF', bold = false, undercurl = false})
+--     vim.api.nvim_set_hl(0, 'String', { fg = '#EEFFFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Type', { fg = '#33CCFF', bold = false, undercurl = false})
+--     vim.api.nvim_set_hl(0, 'Special', { fg = '#CC99FF', bold = false })
+--     vim.api.nvim_set_hl(0, 'Directory', { fg = '#11FFFF', bold = false })
+--     vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { sp = '#FFFAFA', undercurl = true })
+--     vim.api.nvim_set_hl(0, 'Symbol', { fg = '#FF3333', undercurl = false })
+--     vim.api.nvim_set_hl(0, 'Symbol', { fg = '#FF3333', undercurl = false })
+--     vim.api.nvim_set_hl(0, 'Character', { fg = '#FF3333', undercurl = false })
+--     vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099CC', bold = false, undercurl = false })
+--     vim.api.nvim_set_hl(0, 'Variable', { fg = '#008080', bold = false, undercurl = false })
+--     vim.api.nvim_set_hl(0, 'Constant', { fg = '#339999', bold = false, undercurl = false })
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "ruby",
-  callback = function()
-    vim.api.nvim_set_hl(0, 'Normal', { fg = '#DDFFFF', bold = true })
-    vim.api.nvim_set_hl(0, 'Search', { fg = '#FF99FF', bold = true })
-    vim.api.nvim_set_hl(0, 'KeywordColor', { fg = '#FF0033', bold = true })
-    vim.api.nvim_set_hl(0, 'FunctionColor', { fg = '#46EEFF', bold = true })
-    vim.api.nvim_set_hl(0, 'IdentifierColor', { fg = '#0099FF', bold = true })
-    vim.api.nvim_set_hl(0, 'String', { fg = '#EEEEEE', bold = true })
-    vim.api.nvim_set_hl(0, 'Type', { fg = '#33CCFF', bold = true })
-    vim.api.nvim_set_hl(0, 'Special', { fg = '#CC99FF', bold = true })
-    vim.api.nvim_set_hl(0, 'Directory', { fg = '#11FFFF', bold = true })
-    vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { sp = '#FFFAFA' })
-    vim.api.nvim_set_hl(0, 'Symbol', { sp = '#FF3333' })
-    vim.api.nvim_set_hl(0, 'Character', { sp = '#FF3333' })
-    vim.api.nvim_set_hl(0, 'Variable', { sp = '#FF3333' })
-    vim.api.nvim_set_hl(0, 'Constant', { sp = '#FF3333' })
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "go",
+  pattern = "graphql",
   callback = function()
     vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
     vim.api.nvim_set_hl(0, 'LineNr', { fg = '#777777', bg = 'NONE', bold = false })
@@ -175,3 +238,32 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.api.nvim_set_hl(0, 'Constant', { fg = '#339999', bold = false, undercurl = false })
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "prisma",
+  callback = function()
+    vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'LineNr', { fg = '#777777', bg = 'NONE', bold = false })
+    vim.api.nvim_set_hl(0, 'Normal', { fg = '#EEFFFF', bold = false })
+    vim.api.nvim_set_hl(0, 'Search', { fg = '#FF99FF', bold = false })
+    vim.api.nvim_set_hl(0, 'Keyword', { fg = '#66CCFF', bold = false })
+    vim.api.nvim_set_hl(0, 'Function', { fg = '#46EEFF', bold = false })
+    vim.api.nvim_set_hl(0, 'Identifier', { fg = '#0099FF', bold = false, undercurl = false})
+    vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099FF', bold = false, undercurl = false})
+    vim.api.nvim_set_hl(0, 'String', { fg = '#EEFFFF', bold = false })
+    vim.api.nvim_set_hl(0, 'Type', { fg = '#33CCFF', bold = false, undercurl = false})
+    vim.api.nvim_set_hl(0, 'Special', { fg = '#CC99FF', bold = false })
+    vim.api.nvim_set_hl(0, 'Directory', { fg = '#11FFFF', bold = false })
+    vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { sp = '#FFFAFA', undercurl = true })
+    vim.api.nvim_set_hl(0, 'Symbol', { fg = '#FF3333', undercurl = false })
+    vim.api.nvim_set_hl(0, 'Symbol', { fg = '#FF3333', undercurl = false })
+    vim.api.nvim_set_hl(0, 'Character', { fg = '#FF3333', undercurl = false })
+    vim.api.nvim_set_hl(0, 'Statement', { fg = '#0099CC', bold = false, undercurl = false })
+    vim.api.nvim_set_hl(0, 'Variable', { fg = '#008080', bold = false, undercurl = false })
+    vim.api.nvim_set_hl(0, 'Constant', { fg = '#339999', bold = false, undercurl = false })
+  end,
+})
+
+-- :TSEnable highlight
+
+ -- require("bufferline").setup{}

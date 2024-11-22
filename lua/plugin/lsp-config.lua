@@ -5,14 +5,24 @@ require('nvim-autopairs').setup{}
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
+-- local custom_on_publish_diagnostics = function(_, result, ctx, config)
+--   local filtered_diagnostics = {}
+--   for _, diagnostic in ipairs(result.diagnostics) do
+--     if diagnostic.severity ~= vim.diagnostic.severity.INFO and diagnostic.severity ~= vim.diagnostic.severity.WARN then
+--        table.insert(filtered_diagnostics, diagnostic)
+--     end
+--   end
+--   result.diagnostics = filtered_diagnostics
+--   vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+-- end
+
 local custom_on_publish_diagnostics = function(_, result, ctx, config)
-  local filtered_diagnostics = {}
-  for _, diagnostic in ipairs(result.diagnostics) do
-    if diagnostic.severity ~= vim.diagnostic.severity.INFO and diagnostic.severity ~= vim.diagnostic.severity.WARN then
-       table.insert(filtered_diagnostics, diagnostic)
-    end
-  end
+  local filtered_diagnostics = vim.tbl_filter(function(diagnostic)
+    return diagnostic.severity > vim.lsp.protocol.DiagnosticSeverity.Warning
+  end, result.diagnostics)
+
   result.diagnostics = filtered_diagnostics
+
   vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
 end
 
@@ -23,6 +33,7 @@ require('mason').setup {
  },
 }
 
+vim.diagnostic.config({ virtual_text = false })
 vim.diagnostic.config({
   virtual_text = false,
   signs = true,
@@ -39,14 +50,25 @@ vim.diagnostic.config({
 })
 
 function ShowDiagnostics()
-  local opts = {
-    close_events = {"BufLeave", "CursorMoved", "InsertEnter", "FocusLost"},
-    border = 'single',
-    source = 'current',
-    prefix = ' ',
+  vim.diagnostic.open_float({
+    signs = true,
+    underline = true,
+    update_in_insert = false,
     focusable = true,
-  }
-  vim.diagnostic.open_float(nil, opts)
+    float = {
+      show_header = true,
+      source = "cursor",
+      border = "rounded",
+      focusable = true,
+    },
+    close_events = {
+      "CursorMoved",
+      "CursorMovedI",
+      "BufHidden",
+      -- "InsertCharPre",
+      -- "WinLeave",
+    },
+  })
 end
 
 function PrintDiagnosticConfig()
@@ -72,23 +94,6 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
   }
 )
 
-vim.keymap.set("n", "gK", require("hover").hover_select, {desc = "hover.nvim (select)"})
-vim.keymap.set("n", "<C-n>", function() require("hover").hover_switch("next") end, {desc = "hover.nvim (next source)"})
-
-function open_doc_url()
-    --local hover_data = vim.lsp.util.hover_contents()
-    --local url = string.match(hover_data, "http[s]?://[%w%.%-%/%?%=]+")
-    local url = "typescipt"
-    if url then
-        os.execute("open " .. url)  -- macOSの場合は 'open'、Linuxの場合は 'xdg-open'
-    else
-        print("No URL found in hover information")
-    end
-end
-
--- キーマッピングを設定
-vim.api.nvim_set_keymap('n', '<Leader>o', ':lua open_doc_url()<CR>', { noremap = true, silent = true })
-
 require("hover").setup {
   init = function()
       require("hover.providers.lsp")
@@ -106,28 +111,29 @@ require("hover").setup {
 
 vim.keymap.set("n", "K", require("hover").hover, {desc = "hover.nvim"})
 
--- Mouse support
 vim.keymap.set('n', '<MouseMove>', require('hover').hover_mouse, { desc = "hover.nvim (mouse)" })
 vim.o.mousemoveevent = true
-
--- lspconfig
-lspconfig.graphql.setup{
-  root_dir = function(fname)
-    return lspconfig.util.root_pattern('package.json', '.git', '.graphqlrc', '.graphqlrc.json')(fname) or vim.fn.getcwd()
-  end,
-}
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local mason_lspconfig = require("mason-lspconfig")
 local servers = {
   graphql = {
     filetypes = { "graphql" },
-    root_dir = function(fname)
-      return lspconfig.util.root_pattern('package.json', '.git', '.graphqlrc', '.graphqlrc.json')(fname) or vim.fn.getcwd()
-    end,
   },
-  prismals = {},
+  prismals = {
+    filetypes = { "prisma" },
+  },
+  denols = {
+    filetypes = { "deno" },
+  },
 }
+
+lspconfig.eslint.setup({
+  on_attach = function(client, bufnr)
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end,
+})
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
@@ -143,14 +149,14 @@ mason_lspconfig.setup_handlers {
       handlers = {
         ["textDocument/publishDiagnostics"] = custom_on_publish_diagnostics,
       },
-    }
+    };
   end
 }
 
 require "lsp_signature".setup({
   bind = true,
   handler_opts = {
-    border = "rounded"
+    border = "single"
   }
 })
 

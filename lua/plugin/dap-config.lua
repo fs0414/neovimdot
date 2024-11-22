@@ -11,6 +11,8 @@ map("n", "<leader>bc", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoin
 
 -- dap-ui key map
 map("n", "<leader>d", ":lua require'dapui'.toggle()<CR>", { silent = true})
+map("n", "<leader><leader>dc", ":lua require'dapui'.close()<CR>", { silent = true})
+map("n", "<leader><leader>dt", ":lua require'dap'.continue()<CR>", { silent = true})
 map("n", "<leader><leader>df", ":lua require'dapui'.eval()<CR>", { silent = true})
 -- dap-go key map
 map("n", "<leader>td", ":lua require'dap-go'.debug_test()<CR>", { silent = true })
@@ -21,6 +23,7 @@ require("mason-nvim-dap").setup({
         require('mason-nvim-dap').default_setup(config)
       end,
   },
+  ensure_installed = {'node2'}
 })
 
 dap.adapters.go = function(callback)
@@ -81,56 +84,85 @@ dap.configurations.go = {
     }
 }
 
--- dap-typescript
--- dap.adapters["pwa-node"] = {
---   type = "server",
---   host = "localhost",
---   port = "${port}", --let both ports be the same for now...
---   executable = {
---     command = "node",
---     -- -- 💀 Make sure to update this path to point to your installation
---     args = { vim.fn.stdpath('data') .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js", "${port}" },
---     -- command = "js-debug-adapter",
---     -- args = { "${port}" },
+-- dap.adapters.node2 = {
+--   type = 'executable',
+--   command = 'node',
+--   args = {vim.fn.stdpath("data") .. "/mason/packages/node-debug2-adapter/out/src/nodeDebug.js"},
+-- }
+--
+-- dap.configurations.javascript = {
+--   {
+--     name = 'Launch',
+--     type = 'node2',
+--     request = 'launch',
+--     program = '${file}',
+--     cwd = vim.fn.getcwd(),
+--     sourceMaps = true,
+--     protocol = 'inspector',
+--     console = 'integratedTerminal',
+--     -- outFiles = { "${workspaceFolder}/dist/**/*.js" },
 --   },
+--   {
+--     name = "marketing debug terminal",
+--     request = "launch",
+--     command = "aws-vault exec platform-dev",
+--     cwd = "${workspaceFolder}",
+--     envFile = "${workspaceFolder}/../../.env.local",
+--     sourceMaps = true,
+--     type = "node-terminal"
+--   }
 -- }
 
 require("dap-vscode-js").setup({
-
-  --debugger_path = ".local/share/nvim/site/pack/packer/start/vscode-js-debug",
-  debugger_path = ".local/share/nvim/site/pack/packer/start/vscode-js-debug",
-  adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
+  debugger_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/vscode-js-debug",
+  adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node' },
 })
 
-local js_based_languages = { "typescript", "javascript", "typescriptreact" }
-
-for _, language in ipairs(js_based_languages) do
-  require("dap").configurations[language] = {
+for _, language in ipairs({ "typescript", "javascript", "typescriptreact" }) do
+  dap.configurations[language] = {
     {
       type = "pwa-node",
       request = "launch",
       name = "Launch file",
       program = "${file}",
       cwd = "${workspaceFolder}",
+      runtimeExecutable = 'ts-node',
+      args = { '${file}' },
+      sourceMaps = true,
+      protocol = 'inspector',
+      skipFiles = { '<node_internals>/**', 'node_modules/**' },
     },
     {
       type = "pwa-node",
       request = "attach",
       name = "Attach",
-      processId = require 'dap.utils'.pick_process,
+      processId = require'dap.utils'.pick_process,
       cwd = "${workspaceFolder}",
     },
     {
-      type = "pwa-chrome",
+      type = "pwa-node",
+      name = "marketing-api debug",
       request = "launch",
-      name = "Start Chrome with \"localhost\"",
-      url = "http://localhost:3000",
-      webRoot = "${workspaceFolder}",
-      userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
+      runtimeExecutable = "pnpm",
+      sourceMaps = true,
+      cwd = "${workspaceFolder}",
+      envFile = "${workspaceFolder}/../../.env.local"
+
+    },
+    {
+      name = "marketing debug terminal",
+      request = "launch",
+      command = "aws-vault exec platform-dev",
+      cwd = "${workspaceFolder}",
+      envFile = "${workspaceFolder}/../../.env.local",
+      sourceMaps = true,
+      type = "node-terminal"
     }
+
   }
 end
-require('dap.ext.vscode').load_launchjs(nil, {})
+
+-- require('dap.ext.vscode').load_launchjs(nil, {})
 
 -- dapui
 require("dapui").setup({

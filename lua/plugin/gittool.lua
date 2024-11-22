@@ -20,4 +20,4 @@ require("diffview").setup()
 
 map('n', '<leader>df', ':DiffviewOpen<CR>', opts)
 map('n', '<leader>g', ':Lazygit<CR>', opts)
-map('n', '<leader>ng', ':Neogit<CR>', opts)
+map('n', '<leader>gg', ':Neogit<CR>', opts)

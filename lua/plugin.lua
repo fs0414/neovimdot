@@ -2,6 +2,15 @@ require('packer').startup(function(use)
   use {
     'wbthomason/packer.nvim',
 
+    -- "~/.config/nvim/lua/extension/hello.nvim",
+    "fs0414/hello.nvim",
+    -- run = function()
+    --   vim.cmd [[
+    --   cd ~/.local/share/nvim/site/pack/packer/start/hello.nvim
+    --   go build -o lua/hello.so -buildmode=plugin
+    --   ]]
+    -- end,
+
     -- colorSchema
     'folke/tokyonight.nvim',
     'davidcelis/vim-ariake-dark',
@@ -13,7 +22,7 @@ require('packer').startup(function(use)
     'scottmckendry/cyberdream.nvim',
     'neovim/nvim-lsp',
     "atmosuwiryo/vim-winteriscoming",
-    'nvim-treesitter/nvim-treesitter',
+    -- 'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
 
     -- lsp
@@ -38,23 +47,63 @@ require('packer').startup(function(use)
     'rafamadriz/friendly-snippets',
 
     --dap
-    "jay-babu/mason-nvim-dap.nvim",
-    'mfussenegger/nvim-dap',
-    'rcarriga/nvim-dap-ui',
-    'leoluz/nvim-dap-go',
-    "mxsdev/nvim-dap-vscode-js",
     "microsoft/vscode-js-debug",
-      opt = true,
-      run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+    opt = false,
+    run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle",
+
+    -- run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+    'mfussenegger/nvim-dap',
+    "jay-babu/mason-nvim-dap.nvim",
+    requires = {
+      'rcarriga/nvim-dap-ui',
+      "nvim-neotest/nvim-nio",
+      {
+        'mxsdev/nvim-dap-vscode-js',
+        requires = {'mfussenegger/nvim-dap'},
+      },
+      {
+        'leoluz/nvim-dap-go',
+      }
+    },
+    'rcarriga/nvim-dap-ui',
+    "nvim-neotest/nvim-nio",
+    'mxsdev/nvim-dap-vscode-js',
+      -- run = 'npm install --legacy-peer-deps && npm run compile',
+    'leoluz/nvim-dap-go',
 
     -- lualine
     'nvim-lualine/lualine.nvim',
 
+    -- barbar
+    -- "lewis6991/gitsigns.nvim",
+    -- "romgrk/barbar.nvim",
+    -- config = function ()
+    --   require('barbar').setup {
+    --     options = {
+    --       show_tab_indicators = true,
+    --       show_close_icon = false,
+    --       show_buffer_close_icons = false,
+    --       separator_style = "thin",
+    --       always_show_bufferline = false,
+    --       animation = false,
+    --     }
+    --   }
+    -- end,
+
     -- icon
     'nvim-tree/nvim-web-devicons',
+    config = function ()
+      require('nvim-web-devicons').setup{}
+    end,
 
     -- noice
     'folke/noice.nvim',
+
+    -- autosave
+    "Pocco81/auto-save.nvim",
+    config = function()
+		 require("auto-save").setup {}
+	end,
 
     -- telescope
     'nvim-telescope/telescope.nvim', tag = '0.1.5',
@@ -79,7 +128,7 @@ require('packer').startup(function(use)
     -- comment
     'numToStr/Comment.nvim',
     config = function()
-        require('Comment').setup()
+      require('Comment').setup()
     end,
 
     -- hlchunk

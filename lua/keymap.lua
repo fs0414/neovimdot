@@ -49,3 +49,7 @@ map("n", "<leader>td", ":lua require'dap-go'.debug_test()<CR>", { silent = true 
 
 --
 vim.api.nvim_set_keymap('n', '<Leader>try', [[:normal! Vito try {\r} catch (err) {\r    console.error(err);\r}<Esc>]], { noremap = true, silent = true })
+
+map('n', '<C-j>', '<Cmd>BufferPrevious<CR>', opts)
+map('n', '<C-k>', '<Cmd>BufferNext<CR>', opts)
+map('n', '<leader>e', '<Cmd>BufferClose<CR>', opts)
