@@ -344,6 +344,11 @@ _G.packer_plugins = {
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-ruby-lsp",
     url = "https://github.com/mihyaeru21/nvim-ruby-lsp"
   },
+  ["nvim-snippy"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-snippy",
+    url = "https://github.com/dcampos/nvim-snippy"
+  },
   ["nvim-solarized-lua"] = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-solarized-lua",
@@ -363,6 +368,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/nvim-tree/nvim-web-devicons"
+  },
+  ["oil.nvim"] = {
+    loaded = true,
+    path = "/Users/fujitanisora/.local/share/nvim/site/pack/packer/start/oil.nvim",
+    url = "https://github.com/stevearc/oil.nvim"
   },
   ["packer.nvim"] = {
     loaded = true,

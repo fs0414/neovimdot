@@ -84,35 +84,6 @@ dap.configurations.go = {
     }
 }
 
--- dap.adapters.node2 = {
---   type = 'executable',
---   command = 'node',
---   args = {vim.fn.stdpath("data") .. "/mason/packages/node-debug2-adapter/out/src/nodeDebug.js"},
--- }
---
--- dap.configurations.javascript = {
---   {
---     name = 'Launch',
---     type = 'node2',
---     request = 'launch',
---     program = '${file}',
---     cwd = vim.fn.getcwd(),
---     sourceMaps = true,
---     protocol = 'inspector',
---     console = 'integratedTerminal',
---     -- outFiles = { "${workspaceFolder}/dist/**/*.js" },
---   },
---   {
---     name = "marketing debug terminal",
---     request = "launch",
---     command = "aws-vault exec platform-dev",
---     cwd = "${workspaceFolder}",
---     envFile = "${workspaceFolder}/../../.env.local",
---     sourceMaps = true,
---     type = "node-terminal"
---   }
--- }
-
 require("dap-vscode-js").setup({
   debugger_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/vscode-js-debug",
   adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node' },
@@ -161,8 +132,6 @@ for _, language in ipairs({ "typescript", "javascript", "typescriptreact" }) do
 
   }
 end
-
--- require('dap.ext.vscode').load_launchjs(nil, {})
 
 -- dapui
 require("dapui").setup({

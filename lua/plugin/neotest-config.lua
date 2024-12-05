@@ -1,17 +1,17 @@
 require("neotest").setup({
   adapters = {
     require("neotest-vitest") {
-      filter_dir = function(name, rel_path, root)
+      filter_dir = function(name)
         return name ~= "node_modules"
       end,
     }
   }
-
 })
 
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
+local map = vim.keymap.set
 
-vim.keymap.set('n', '<leader>tt', function()
+map('n', '<leader>tt', function()
   require("neotest").run.run()
 end, {desc = "Run nearest test"})
+map("n", "<leader> tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<CR>", opts)
+

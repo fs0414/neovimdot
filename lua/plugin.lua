@@ -170,6 +170,10 @@ require('packer').startup(function(use)
     'lambdalisue/fern.vim',
     'lambdalisue/nerdfont.vim',
     'lambdalisue/fern-renderer-nerdfont.vim',
+    "stevearc/oil.nvim",
+
+    -- snippy 
+    'dcampos/nvim-snippy',
 
     --neotest
     'nvim-neotest/neotest',

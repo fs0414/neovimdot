@@ -1,4 +1,5 @@
 local vim = vim
+require'nvim-web-devicons'.get_icons()
 --n ファイルのエンコーディングをUTF-8に設定
 vim.opt.fileencoding = "utf-8"
 -- スワップファイルを使用しない
@@ -13,29 +14,6 @@ vim.opt.fillchars = { eob = " " }
 vim.o.mouse = "a"
 -- leader key
 vim.g.mapleader = " "
--- hlsearchを有効にする 
-
-require('hlchunk').setup({
-    chunk = {
-      chars = {
-        horizontal_line = "─",
-        vertical_line = "│",
-        left_top = "┌",
-        left_bottom = "└",
-        right_arrow = "─",
-      },
-      style = "#888888",
-      enable = true
-    },
-    indent = {
-      enable = true,
-      chars = {
-        " ",
-      },
-    }
-})
-require'nvim-web-devicons'.get_icons()
-
 -- クリップボードをunnamedplusに設定してシステムのクリップボードと連携
 vim.opt.clipboard:append({ "unnamedplus" })
 -- コマンドラインの補完機能を有効にする
@@ -44,19 +22,15 @@ vim.opt.wildmenu = true
 vim.opt.laststatus = 2
 -- statuslineを下に固定
 vim.opt.laststatus = 3
-
 -- 検索時にハイライト表示、インクリメンタル検索を有効にする
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
-
 -- マッチした検索項目を強調表示する時間を設定
 vim.opt.matchtime = 1
-
 -- telescopeの選択項目のハイライト色を設定
 vim.cmd [[
   highlight TelescopeSelection guibg=#cccccc
 ]]
-
 -- インデントに関する設定：スペース4つ分を使用
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
@@ -66,37 +40,30 @@ vim.opt.expandtab = true
 vim.opt.autoindent = true
 -- スマートインデントを有効にする
 vim.opt.smartindent = true
-
 -- 行番号の表示、折り返しを無効にする、マッチした括弧を表示
 vim.opt.number = true
 vim.opt.wrap = false
 vim.opt.showmatch = true
-
 -- 文字の太さ
 vim.opt.guifont = "Fira Code:h1:b"
-
 -- サインカラムを常に表示
 vim.opt.signcolumn = "yes"
-
 -- yoinkプラグインの設定
 vim.g.yoinkAutoFormat = 1
 -- vim.g.yoinkIncludeDeleteOperations = 1
 vim.g.yoinkMaxItems = 10
-
 -- アンビグ幅をsingleに設定
--- 透過度
 vim.opt.ambiwidth = "single"
+-- 透過度
 vim.opt.winblend = 0
 vim.opt.pumblend = 0
-
 -- GUIカラーを使用
 vim.opt.termguicolors = true
 vim.opt.background = 'dark'
-
 -- colorscheme
---vim.cmd[[ colorscheme solarized ]]
+-- vim.cmd[[ colorscheme solarized ]]
 -- vim.cmd[[ colorscheme tokyonight ]]
---vim.cmd[[ colorscheme vim-winteriscoming ]]
+-- vim.cmd[[ colorscheme vim-winteriscoming ]]
 vim.cmd[[ colorscheme orbital ]]
 
 -- ノーマルモードのバッファ背景を透明に設定

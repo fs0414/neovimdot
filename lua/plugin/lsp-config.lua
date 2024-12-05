@@ -129,7 +129,7 @@ local servers = {
 }
 
 lspconfig.eslint.setup({
-  on_attach = function(client, bufnr)
+  on_attach = function(client)
     client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.documentRangeFormattingProvider = false
   end,
@@ -215,3 +215,12 @@ cmp.setup({
       { name = 'buffer' },
     },
 })
+
+local map = vim.api.nvim_set_keymap
+-- dap-ui key map
+map("n", "<leader>d", ":lua require'dapui'.toggle()<CR>", { silent = true})
+map("n", "<leader><leader>df", ":lua require'dapui'.eval()<CR>", { silent = true})
+
+-- dap-go key map
+map("n", "<leader>td", ":lua require'dap-go'.debug_test()<CR>", { silent = true })
+

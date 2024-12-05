@@ -11,3 +11,6 @@ require("toggleterm").setup{
   direction = 'float',
   close_on_exit = true,
 }
+
+local map = vim.api.nvim_set_keymap
+map("t", "<ESC>", [[<C-\><C-n>]], { silent = true })
