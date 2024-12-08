@@ -1,36 +1,36 @@
 ## Setup
-- neovim install
+1. neovim install
 ```bash
 brew install neovim
 ```
 
-- cd
+2. cd
 ```bash
 cd ~/.config/nvim
 ```
 
-- clone
+3. clone
 ```bash
 git clone https://github.com/fs0414/neovimdot.git
 ```
 
-- dir rename
+4. dir rename
 ```bash
 mv neovimdot nvim
 ```
 
-- dependence install
+5. dependence install
 ```bash
 brew install lazygit fzf
 ```
 
-- packer install
+6. packer install
 ```bash
 git clone https://github.com/wbthomason/packer.nvim \
   ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
 ```
 
-- nvim
+7. nvim
 ```bash
 nvim lua/plugins.lua
 
