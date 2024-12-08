@@ -14,6 +14,11 @@ cd ~/.config/nvim
 git clone https://github.com/fs0414/neovimdot.git
 ```
 
+- dir rename
+```bash
+mv neovimdot nvim
+```
+
 - dependence install
 ```bash
 brew install lazygit fzf
