@@ -1,11 +1,7 @@
 ## Setup
 1. neovim install
 ```bash
-# mac
 brew install neovim
-
-# windows
-apt install neovim
 ```
 
 2. cd
@@ -62,4 +58,14 @@ nvim lua/plugins.lua
 :PackerInstall
 ```
 
-## Hello NeoVim!
+*Hello NeoVim!*
+
+## Note
+windows
+```bash
+apt install neovim
+```
+
+```sh
+git clone https://github.com/wbthomason/packer.nvim "$env:LOCALAPPDATA\nvim-data\site\pack\packer\start\packer.nvim"
+```
