@@ -6,7 +6,7 @@ brew install neovim
 
 2. cd
 ```bash
-cd ~/.config/nvim
+cd ~/.config/
 ```
 
 3. clone
@@ -33,6 +33,13 @@ git clone https://github.com/wbthomason/packer.nvim \
 7. nvim
 ```bash
 nvim lua/plugins.lua
+```
 
+8. PackerSync
+```vim
 :PackerInstall
 ```
+
+Note
+- fzfが行けなかった
+  - zsh定義が足りない？
