@@ -1,3 +1,9 @@
+## 環境
+- M2 Mac
+- brew
+- zsh
+- iterm2
+
 ## Setup
 1. neovim install
 ```bash
