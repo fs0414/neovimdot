@@ -43,12 +43,17 @@ brew install --cask font-hack-nerd-font
   - Use a different font for non-ASCII text to ☑️
   - Non-ASCII Font select `Hack Nerd Font Mono`
 
-8. nvim
+8 cd
+```bash
+cd nvim
+```
+
+9. nvim
 ```bash
 nvim lua/plugins.lua
 ```
 
-9. PackerSync
+10. PackerSync
 ```vim
 :PackerInstall
 ```
