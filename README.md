@@ -1,7 +1,11 @@
 ## Setup
 1. neovim install
 ```bash
+# mac
 brew install neovim
+
+# windows
+apt install neovim
 ```
 
 2. cd
