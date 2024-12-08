@@ -30,15 +30,27 @@ git clone https://github.com/wbthomason/packer.nvim \
   ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
 ```
 
-7. nvim
+7. set need font
+```bash
+brew install --cask font-monaspace
+```
+
+```bash
+brew install --cask font-hack-nerd-font
+```
+
+- Iterm2 > Setting > Profile > Text
+  - Use a different font for non-ASCII text to ☑️
+  - Non-ASCII Font select `Hack Nerd Font Mono`
+
+8. nvim
 ```bash
 nvim lua/plugins.lua
 ```
 
-8. PackerSync
+9. PackerSync
 ```vim
 :PackerInstall
 ```
 
-Note
-- icon
+## Hello NeoVim!
