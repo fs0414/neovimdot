@@ -41,5 +41,4 @@ nvim lua/plugins.lua
 ```
 
 Note
-- fzfが行けなかった
-  - zsh定義が足りない？
+- icon
