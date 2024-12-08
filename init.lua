@@ -1,21 +1,5 @@
-vim.g["fern#default_hidden"] = 1
-vim.g["fern#show_hidden"] = 1
-
-vim.opt.runtimepath:append("~/lua/extension/ts-trycatch-encoder/main.ts")
-
--- vim.api.nvim_create_autocmd("VimEnter", {
---   pattern = "*",
---   callback = function()
---     vim.cmd("TSEnable highlight")
---   end,
--- })
-
--- require'nvim-treesitter.configs'.setup {
---   ensure_installed = "maintained",
---   highlight = {
---     enable = true,
---   },
--- }
+-- vim.g["fern#default_hidden"] = 1
+-- vim.g["fern#show_hidden"] = 1
 
 require('plugin')
 require('base')

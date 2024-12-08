@@ -2,14 +2,8 @@ require('packer').startup(function(use)
   use {
     'wbthomason/packer.nvim',
 
-    -- "~/.config/nvim/lua/extension/hello.nvim",
-    "fs0414/hello.nvim",
-    -- run = function()
-    --   vim.cmd [[
-    --   cd ~/.local/share/nvim/site/pack/packer/start/hello.nvim
-    --   go build -o lua/hello.so -buildmode=plugin
-    --   ]]
-    -- end,
+    -- local
+    "~/.config/nvim/lua/extension/hello.nvim",
 
     -- colorSchema
     'folke/tokyonight.nvim',

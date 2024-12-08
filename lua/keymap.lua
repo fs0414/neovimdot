@@ -20,14 +20,14 @@ map('t', '<A-Esc>', '<C-\\><C-n>', opts)
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
 -- split and goto definition
-function split_and_goto_definition(split_cmd)
+function SplitAndGotoDefinition(split_cmd)
   vim.cmd(split_cmd)
   vim.lsp.buf.definition()
 end
-map('n', '<C-h>gd', '<cmd>lua split_and_goto_definition("leftabove vsplit")<CR>', opts)
-map('n', '<C-j>gd', '<cmd>lua split_and_goto_definition("belowright split")<CR>', opts)
-map('n', '<C-k>gd', '<cmd>lua split_and_goto_definition("aboveleft split")<CR>', opts)
-map('n', '<C-l>gd', '<cmd>lua split_and_goto_definition("rightbelow vsplit")<CR>', opts)
+map('n', '<C-h>gd', '<cmd>lua SplitAndGotoDefinition("leftabove vsplit")<CR>', opts)
+map('n', '<C-j>gd', '<cmd>lua SplitAndGotoDefinition("belowright split")<CR>', opts)
+map('n', '<C-k>gd', '<cmd>lua SplitAndGotoDefinition("aboveleft split")<CR>', opts)
+map('n', '<C-l>gd', '<cmd>lua SplitAndGotoDefinition("rightbelow vsplit")<CR>', opts)
 
 -- reload
 map('n', '<leader>s', ':source %<CR>', opts)
