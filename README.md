@@ -56,12 +56,12 @@ cd nvim
 
 9. nvim
 ```bash
-nvim lua/plugins.lua
+nvim lua/plugin.lua
 ```
 
 10. PackerSync
 ```vim
-:PackerInstall
+:PackerSync
 ```
 
 *Hello NeoVim!*
