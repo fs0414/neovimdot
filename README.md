@@ -11,6 +11,7 @@ brew install neovim
 ```
 
 2. cd
+.configがなければmkdir
 ```bash
 cd ~/.config/
 ```
