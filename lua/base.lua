@@ -31,6 +31,8 @@ vim.opt.matchtime = 1
 vim.cmd [[
   highlight TelescopeSelection guibg=#cccccc
 ]]
+
+vim.keymap.set("n", "<CR>", "<C-w>w")
 -- インデントに関する設定：スペース4つ分を使用
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
@@ -44,6 +46,12 @@ vim.opt.smartindent = true
 vim.opt.number = true
 vim.opt.wrap = false
 vim.opt.showmatch = true
+-- 行番号を相対表示にする
+vim.opt.relativenumber = true
+-- 現在行は絶対行番号で表示
+vim.opt.number = true
+-- アンハイライト
+vim.keymap.set('n', '<leader>/', ':nohlsearch<CR>', { noremap = true, silent = true, desc = 'Clear search highlight' })
 -- 文字の太さ
 vim.opt.guifont = "Fira Code:h1:b"
 -- サインカラムを常に表示
