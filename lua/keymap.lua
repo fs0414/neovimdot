@@ -17,7 +17,7 @@ map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 map('t', '<A-Esc>', '<C-\\><C-n>', opts)
 
 -- definition jump
-map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+-- map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
 -- split and goto definition
 function SplitAndGotoDefinition(split_cmd)

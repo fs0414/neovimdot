@@ -1,0 +1,17 @@
+-- require('blink.cmp').setup({})
+--
+-- local vim = vim
+--
+-- vim.api.nvim_create_autocmd("ColorScheme", {
+--   pattern = "*",
+--   callback = function()
+--     -- 補完メニューの背景を透過
+--     vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
+--     vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
+--     vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = "NONE" })
+--     vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { bg = "NONE" })
+--
+--     -- 選択項目のハイライト（お好みで調整）
+--     vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { bg = "#3e4451", blend = 30 })
+--   end,
+-- })

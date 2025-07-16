@@ -40,6 +40,9 @@ require('packer').startup(function(use)
     'L3MON4D3/LuaSnip',
     'rafamadriz/friendly-snippets',
 
+    'saghen/blink.cmp',
+    build = 'cargo build --release',
+
     --dap
     "microsoft/vscode-js-debug",
     opt = false,
@@ -165,6 +168,9 @@ require('packer').startup(function(use)
     'lambdalisue/nerdfont.vim',
     'lambdalisue/fern-renderer-nerdfont.vim',
     "stevearc/oil.nvim",
+
+    -- formatter
+    "stevearc/conform.nvim",
 
     -- snippy 
     'dcampos/nvim-snippy',
