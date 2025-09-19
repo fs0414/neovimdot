@@ -68,11 +68,14 @@ vim.opt.pumblend = 0
 -- GUIカラーを使用
 vim.opt.termguicolors = true
 vim.opt.background = 'dark'
--- colorscheme
--- vim.cmd[[ colorscheme solarized ]]
--- vim.cmd[[ colorscheme tokyonight ]]
--- vim.cmd[[ colorscheme vim-winteriscoming ]]
-vim.cmd[[ colorscheme orbital ]]
+-- colorscheme with safe loading
+local colorscheme = "orbital"
+local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
+if not status_ok then
+  vim.notify("colorscheme " .. colorscheme .. " not found!")
+  -- fallback to default colorscheme
+  vim.cmd[[ colorscheme default ]]
+end
 
 -- ノーマルモードのバッファ背景を透明に設定
 vim.cmd[[ hi Normal guibg=NONE ctermbg=NONE ]]

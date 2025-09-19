@@ -1,0 +1,54 @@
+# Neovim temporary files
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Plugin directories
+pack/
+plugin/packer_compiled.lua
+lazy-lock.json
+
+# LSP and DAP
+.lsp/
+.dap/
+
+# IDE files
+.idea/
+.vscode/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Ruby/Gem files
+.ruby-lsp/
+*.gem
+*.rbc
+.bundle/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node modules (for language servers)
+node_modules/
+
+# Logs
+*.log
+
+# Session files
+Session.vim
+
+# Tags
+tags
+.tags
+
+# Backup files
+*.backup
+*.bak
+
+# Local configuration overrides
+local-config.lua

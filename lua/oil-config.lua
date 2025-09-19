@@ -3,6 +3,7 @@ require("oil").setup({
     show_hidden = true,
   },
   keymaps = {
+    ["<C-p>"] = false,
     ["<C-t>"] = false,
     ["<Del>"] = false
   },

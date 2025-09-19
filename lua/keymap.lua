@@ -1,5 +1,6 @@
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
+local vim = vim
 -- fern
 map('n', '<Leader>u', ':Fern %:p:h -drawer -reveal=% -width=40<CR>', opts)
 -- map('n', '<c-e>', ':Fern %:p:h -reveal=s<CR>', opts)
@@ -53,3 +54,37 @@ end, {
 nargs = '*',
 complete = 'file'
 })
+
+local function get_range_str(opts)
+  if opts.range ~= 2 then
+    return ''
+  end
+  if opts.line1 == opts.line2 then
+    return '#L' .. opts.line1
+  end
+  return '#L' .. opts.line1 .. '-L' .. opts.line2
+end
+local function copy_path(opts, target)
+  local expr = '%'
+  if target == 'full path' then
+    expr = '%:p'
+  elseif target == 'file name' then
+    expr = '%:t'
+  end
+
+  local path = vim.fn.expand(expr) .. get_range_str(opts)
+  vim.fn.setreg('*', path)
+  vim.notify('Copied ' .. target .. ': ' .. path)
+end
+
+vim.api.nvim_create_user_command('Cfp', function(opts)
+  copy_path(opts, 'full path')
+end, { range = true, desc = 'Copy the full path of the current file to the clipboard' })
+
+vim.api.nvim_create_user_command('Crp', function(opts)
+  copy_path(opts, 'relative path')
+end, { range = true, desc = 'Copy the relative path of the current file to the clipboard' })
+
+vim.api.nvim_create_user_command('Cfn', function(opts)
+  copy_path(opts, 'file name')
+end, { range = true, desc = 'Copy the file name of the current file to the clipboard' })
