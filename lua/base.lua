@@ -1,5 +1,4 @@
 local vim = vim
-require'nvim-web-devicons'.get_icons()
 --n ファイルのエンコーディングをUTF-8に設定
 vim.opt.fileencoding = "utf-8"
 -- スワップファイルを使用しない

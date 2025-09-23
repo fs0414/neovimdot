@@ -22,11 +22,7 @@ require("lazy").setup({
   -- colorSchema
   "folke/tokyonight.nvim",
   "davidcelis/vim-ariake-dark",
-  {
-    "fcpg/vim-orbital",
-    lazy = false,
-    priority = 1000, -- Load this before other plugins
-  },
+  "fcpg/vim-orbital",
   "shaunsingh/moonlight.nvim",
   "tjdevries/colorbuddy.nvim",
   "ishan9299/nvim-solarized-lua",
@@ -34,10 +30,8 @@ require("lazy").setup({
   "scottmckendry/cyberdream.nvim",
   "neovim/nvim-lsp",
   "atmosuwiryo/vim-winteriscoming",
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-  },
+
+  "nvim-treesitter/nvim-treesitter",
 
   -- lsp
   "williamboman/mason.nvim",
@@ -48,19 +42,23 @@ require("lazy").setup({
   -- nvim-ruby-lsp
   "mihyaeru21/nvim-ruby-lsp",
 
-  -- cmp
-  "hrsh7th/nvim-cmp",
-  "hrsh7th/cmp-nvim-lsp",
-  "hrsh7th/cmp-buffer",
-  "hrsh7th/cmp-path",
-  "hrsh7th/cmp-cmdline",
-  "hrsh7th/cmp-nvim-lua",
-  "saadparwaiz1/cmp_luasnip",
-  "L3MON4D3/LuaSnip",
-  "rafamadriz/friendly-snippets",
+  -- cmp (disabled - using blink.cmp instead)
+  -- "hrsh7th/nvim-cmp",
+  -- "hrsh7th/cmp-nvim-lsp",
+  -- "hrsh7th/cmp-buffer",
+  -- "hrsh7th/cmp-path",
+  -- "hrsh7th/cmp-cmdline",
+  -- "hrsh7th/cmp-nvim-lua",
+  -- "saadparwaiz1/cmp_luasnip",
+  -- "L3MON4D3/LuaSnip",
+  "rafamadriz/friendly-snippets", -- Still needed for blink.cmp
 
   -- snacks
   "folke/snacks.nvim",
+
+  -- mini
+  "echasnovski/mini.icons",
+  "nvim-mini/mini.test",
 
   -- blink
   {
@@ -87,20 +85,6 @@ require("lazy").setup({
 
   -- lualine
   "nvim-lualine/lualine.nvim",
-
-  -- icon
-  {
-    "nvim-tree/nvim-web-devicons",
-    config = function()
-      require("nvim-web-devicons").setup({})
-    end,
-  },
-  {
-    "echasnovski/mini.icons",
-    config = function()
-      require("mini.icons").setup({})
-    end,
-  },
 
   -- autosave
   {
@@ -174,16 +158,12 @@ require("lazy").setup({
   "dcampos/nvim-snippy",
 
   -- neotest
-  {
-    "nvim-neotest/neotest",
-    dependencies = {
-      "nvim-neotest/nvim-nio",
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "antoinemadec/FixCursorHold.nvim",
-      "marilari88/neotest-vitest",
-    },
-  },
+  "nvim-neotest/neotest",
+  "nvim-neotest/nvim-nio",
+  "nvim-lua/plenary.nvim",
+  "nvim-treesitter/nvim-treesitter",
+  "antoinemadec/FixCursorHold.nvim",
+  "marilari88/neotest-vitest",
 
   -- autopairs
   "windwp/nvim-autopairs",

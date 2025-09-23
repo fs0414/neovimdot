@@ -64,12 +64,22 @@ local function get_range_str(opts)
   end
   return '#L' .. opts.line1 .. '-L' .. opts.line2
 end
+
 local function copy_path(opts, target)
   local expr = '%'
   if target == 'full path' then
     expr = '%:p'
   elseif target == 'file name' then
     expr = '%:t'
+  elseif target == 'relative path' then
+    -- Get path relative to the directory where nvim was started
+    local current_file = vim.fn.expand('%:p')
+    local nvim_start_dir = vim.fn.getcwd()
+    local relative_path = vim.fn.fnamemodify(current_file, ':s?' .. vim.fn.escape(nvim_start_dir, '\\') .. '/??')
+    local path = relative_path .. get_range_str(opts)
+    vim.fn.setreg('*', path)
+    vim.notify('Copied ' .. target .. ': ' .. path)
+    return
   end
 
   local path = vim.fn.expand(expr) .. get_range_str(opts)

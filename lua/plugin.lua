@@ -45,6 +45,10 @@ require("packer").startup(function(use)
     -- snacks
     "folke/snacks.nvim",
 
+    -- mini
+    "echasnovski/mini.icons",
+    "nvim-mini/mini.test",
+
 		"saghen/blink.cmp", -- nvim-cmpを使用するためコメントアウト
 		build = "cargo build --release",
 
@@ -91,17 +95,6 @@ require("packer").startup(function(use)
 		--     }
 		--   }
 		-- end,
-
-		-- icon
-		'nvim-tree/nvim-web-devicons',
-		config = function ()
-		  require('nvim-web-devicons').setup{}
-		end,
-
-		"echasnovski/mini.icons",
-		config = function()
-			require("mini.icons").setup({})
-		end,
 
 		-- noice
 		"folke/noice.nvim",

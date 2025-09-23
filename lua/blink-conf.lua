@@ -1,6 +1,6 @@
 local vim = vim
-
-require('blink.cmp').setup({
+local blink = require('blink')
+blink.setup({
   -- LSP capabilities for textDocument/definition and textDocument/hover
   sources = {
     default = { 'lsp', 'path', 'snippets', 'buffer' },
@@ -159,3 +159,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end
 })
 
+return {
+  capabilities = blink.get_lsp_capabilities(),
+}

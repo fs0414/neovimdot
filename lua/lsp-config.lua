@@ -1,9 +1,5 @@
 local lspconfig = require('lspconfig')
-local cmp = require('cmp')
-local luasnip = require('luasnip')
 require('nvim-autopairs').setup{}
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 local vim = vim
 
 -- local custom_on_publish_diagnostics = function(_, result, ctx, config)
@@ -94,7 +90,9 @@ require("hover").setup {
 }
 
 -- cmp_nvim_lspのcapabilitiesを使用してLSP機能を有効化
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+local opts = {}
+local blink_conf = require('blink-conf')
+local capabilities = blink_conf.capabilities
 local mason_lspconfig = require("mason-lspconfig")
 
 -- lsp-optimizeモジュールを読み込み
@@ -106,7 +104,7 @@ local is_large_repo = lsp_optimize.is_large_repo()
 -- 大規模リポジトリの場合、ワークスペース設定を追加
 if is_large_repo then
   local workspace_config = lsp_optimize.get_large_repo_workspace_config()
-  capabilities.workspace = vim.tbl_deep_extend("force", capabilities.workspace or {}, workspace_config)
+  --capabilities.workspace = vim.tbl_deep_extend("force", capabilities.workspace or {}, workspace_config)
 end
 
 -- vim.api.nvim_create_autocmd("LspAttach", {
@@ -137,6 +135,25 @@ end
 
 
 local servers = {
+  lua_ls = {
+    settings = {
+      Lua = {
+        runtime = {
+          version = 'LuaJIT',
+        },
+        diagnostics = {
+          globals = { 'vim' },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false,
+        },
+        telemetry = {
+          enable = false,
+        },
+      },
+    },
+  },
   graphql = {
     filetypes = { "graphql" },
   },
@@ -270,62 +287,6 @@ vim.keymap.set("n", "K", require("hover").hover, {desc = "hover.nvim"})
 
 vim.o.mousemoveevent = true
 
---cmp
--- require('luasnip.loaders.from_vscode').lazy_load()
---
--- cmp.setup({
---     snippet = {
---       expand = function(args)
---         luasnip.lsp_expand(args.body)
---       end,
---     },
---     window = {
---       completion = cmp.config.window.bordered({
---         order = 'single'
---       }),
---       documentation = cmp.config.window.bordered({
---         border = 'single'
---       }),
---     },
---     mapping = cmp.mapping.preset.insert({
---       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
---       ['<C-f>'] = cmp.mapping.scroll_docs(4),
---       ['<C-Space>'] = cmp.mapping.complete(),
---       ['<C-e>'] = cmp.mapping.abort(),
---       ['<CR>'] = cmp.mapping.confirm({ select = true }),
---     }),
---     sources = cmp.config.sources({
---       { name = 'nvim_lsp' },
---       { name = 'vsnip' },
---     }, {
---       { name = 'buffer' },
---     })
---   })
---
---   cmp.setup.filetype('gitcommit', {
---     sources = cmp.config.sources({
---       { name = 'git' },
---     }, {
---       { name = 'buffer' },
---     })
---   })
---
---   cmp.setup.cmdline({ '/', '?' }, {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = {
---       { name = 'buffer' }
---     }
---   })
---
---   cmp.setup.cmdline(':', {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = {
---       { name = 'nvim_lsp' },
---       { name = 'luasnip' },
---       { name = 'buffer' },
---     },
--- })
-
 local map = vim.api.nvim_set_keymap
 -- dap-ui key map
 map("n", "<leader>d", ":lua require'dapui'.toggle()<CR>", { silent = true})
@@ -333,4 +294,3 @@ map("n", "<leader><leader>df", ":lua require'dapui'.eval()<CR>", { silent = true
 
 -- dap-go key map
 map("n", "<leader>td", ":lua require'dap-go'.debug_test()<CR>", { silent = true })
-
