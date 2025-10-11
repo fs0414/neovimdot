@@ -17,9 +17,6 @@ map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 -- term mode change
 map('t', '<A-Esc>', '<C-\\><C-n>', opts)
 
--- definition jump
--- map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-
 -- split and goto definition
 function SplitAndGotoDefinition(split_cmd)
   vim.cmd(split_cmd)
@@ -98,3 +95,11 @@ end, { range = true, desc = 'Copy the relative path of the current file to the c
 vim.api.nvim_create_user_command('Cfn', function(opts)
   copy_path(opts, 'file name')
 end, { range = true, desc = 'Copy the file name of the current file to the clipboard' })
+
+vim.api.nvim_create_user_command('Nonts', function()
+  vim.lsp.stop_client(vim.lsp.get_clients({name = "ts_ls"}))
+end, { desc = 'Stop TypeScript LSP server' })
+
+vim.api.nvim_create_user_command('Nondeno', function()
+  vim.lsp.stop_client(vim.lsp.get_clients({name = "denols"}))
+end, { desc = 'Stop Deno LSP server' })

@@ -32,13 +32,13 @@ fzf.setup({
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
-map("n", "<C-p>", "<cmd>lua require('fzf-lua').files()<CR>", opts)
-map("n", "<C-g>", "<cmd>lua require('fzf-lua').grep()<CR>", opts)
-map("n", "<C-f>", "<cmd>lua require('fzf-lua').blines()<CR>", opts)
-map("n", "<C-r>", "<cmd>lua require('fzf-lua').lsp_references()<CR>", opts)
-map("n", "gd", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", opts)
-map("n", "<C-c>", "<cmd>lua require('fzf-lua').lsp_declarations()<CR>", opts)
--- map('n', '<C-i>', "<cmd>lua require('fzf-lua').lsp_implementations()<CR>", opts)
-map("n", "<C->", "<cmd>lua require('fzf-lua').lsp_document_symbols()<CR>", opts)
-map("n", "<C-t>", "<cmd>lua require('fzf-lua').lsp_typedefs()<CR>", opts)
-map("n", "<C-l>", "<cmd>lua require('fzf-lua').diagnostics_document()<CR>", opts)
+-- map("n", "<C-p>", "<cmd>lua require('fzf-lua').files()<CR>", opts)
+-- map("n", "<C-g>", "<cmd>lua require('fzf-lua').grep()<CR>", opts)
+-- map("n", "<C-f>", "<cmd>lua require('fzf-lua').blines()<CR>", opts)
+-- map("n", "<C-r>", "<cmd>lua require('fzf-lua').lsp_references()<CR>", opts)
+-- map("n", "gd", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", opts)
+-- map("n", "<C-c>", "<cmd>lua require('fzf-lua').lsp_declarations()<CR>", opts)
+-- -- map('n', '<C-i>', "<cmd>lua require('fzf-lua').lsp_implementations()<CR>", opts)
+-- map("n", "<C->", "<cmd>lua require('fzf-lua').lsp_document_symbols()<CR>", opts)
+-- map("n", "<C-t>", "<cmd>lua require('fzf-lua').lsp_typedefs()<CR>", opts)
+-- map("n", "<C-l>", "<cmd>lua require('fzf-lua').diagnostics_document()<CR>", opts)

@@ -74,6 +74,7 @@ function ShowDiagnostics()
   })
 end
 
+vim.o.winborder = 'rounded'
 require("hover").setup {
   init = function()
       require("hover.providers.lsp")
@@ -160,9 +161,33 @@ local servers = {
   prismals = {
     filetypes = { "prisma" },
   },
-  -- denols = {
-  --   filetypes = { "deno" },
-  -- },
+  -- TypeScript Language Server (Node.js projects only, disabled for Deno)
+  ts_ls = {
+    root_dir = function(fname)
+      local util = require('lspconfig.util')
+      -- 最初にDenoプロジェクトかどうかをチェック
+      local deno_root = util.root_pattern("deno.json", "deno.jsonc", "deno.lock")(fname)
+      if deno_root then
+        return nil -- Denoプロジェクトの場合は起動しない
+      end
+      -- Denoプロジェクトでない場合のみNode.jsプロジェクトのマーカーを探す
+      return util.root_pattern("package.json", "tsconfig.json", "jsconfig.json")(fname)
+    end,
+    single_file_support = false,
+  },
+  -- Deno Language Server (Deno projects only)
+  denols = {
+    init_options = {
+      lint = true,
+      unstable = true,
+    },
+    root_dir = function(fname)
+      local util = require('lspconfig.util')
+      -- Denoプロジェクトのマーカーを探す
+      return util.root_pattern("deno.json", "deno.jsonc", "deno.lock")(fname)
+    end,
+    single_file_support = false,
+  },
 }
 
 -- lspconfig.eslint.setup({
@@ -183,18 +208,24 @@ local servers = {
 -- })
 
 -- tsserverの設定（Denoプロジェクトでは起動しない）
-lspconfig.ts_ls.setup({
-  capabilities = capabilities,
-  -- root_dir = lspconfig.util.root_pattern("package.json"),
-  single_file_support = false,
-  -- on_new_config = function(new_config, new_root_dir)
-  --   -- Denoプロジェクトの場合は起動をキャンセル
-  --   if lspconfig.util.path.exists(lspconfig.util.path.join(new_root_dir, "deno.json"))
-  --     or lspconfig.util.path.exists(lspconfig.util.path.join(new_root_dir, "deno.jsonc")) then
-  --     new_config.enabled = false
-  --   end
-  -- end,
-})
+-- lspconfig.ts_ls.setup({
+--   capabilities = capabilities,
+--   root_dir = function(fname)
+--     local util = require('lspconfig.util')
+--     -- まずNode.jsプロジェクトのマーカーを探す
+--     local node_root = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")(fname)
+--     if not node_root then
+--       return nil
+--     end
+--     -- Denoプロジェクトの場合は起動しない
+--     if util.path.exists(util.path.join(node_root, "deno.json"))
+--       or util.path.exists(util.path.join(node_root, "deno.jsonc")) then
+--       return nil
+--     end
+--     return node_root
+--   end,
+--   single_file_support = false,
+-- })
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
@@ -215,8 +246,11 @@ mason_lspconfig.setup {
       -- 基本設定を取得
       local server_config = {
         capabilities = capabilities,
-        settings = servers[server_name],
+        settings = servers[server_name] and servers[server_name].settings,
         filetypes = (servers[server_name] or {}).filetypes,
+        init_options = (servers[server_name] or {}).init_options,
+        root_dir = (servers[server_name] or {}).root_dir,
+        single_file_support = (servers[server_name] or {}).single_file_support,
         handlers = {
           ["textDocument/publishDiagnostics"] = custom_on_publish_diagnostics,
         },
@@ -231,8 +265,8 @@ mason_lspconfig.setup {
         local ts_settings = lsp_optimize.get_ts_optimized_settings()
         server_config.settings = vim.tbl_deep_extend("force", server_config.settings or {}, ts_settings)
         
-        -- 大規模リポジトリ用のroot_dir最適化
-        if is_large_repo then
+        -- 大規模リポジトリ用のroot_dir最適化（カスタムroot_dirがない場合のみ）
+        if is_large_repo and not (servers[server_name] or {}).root_dir then
           server_config.root_dir = lsp_optimize.get_optimized_root_dir({"package.json", "tsconfig.json", "deno.json", "deno.jsonc"})
         end
       end
@@ -249,26 +283,38 @@ require "lsp_signature".setup({
   }
 })
 
--- Denolsの設定（プロジェクトタイプに応じて起動）
+-- Denolsの設定（Denoプロジェクトのみで起動）
 -- 大規模リポジトリの場合は最適化設定を適用
-local denols_config = {
-  capabilities = capabilities,
-  init_options = {
-    lint = true,
-    unstable = true,
-  },
-  root_dir = require'lspconfig'.util.root_pattern("deno.json", "deno.jsonc"),
-  single_file_support = false,
-}
+-- local denols_config = {
+--   capabilities = capabilities,
+--   init_options = {
+--     lint = true,
+--     unstable = true,
+--   },
+--   root_dir = function(fname)
+--     local util = require('lspconfig.util')
+--     -- Denoプロジェクトのマーカーを探す
+--     local deno_root = util.root_pattern("deno.json", "deno.jsonc", "deno.lock")(fname)
+--     if not deno_root then
+--       return nil
+--     end
+--     -- Node.jsプロジェクトのマーカーがある場合は起動しない（混在プロジェクト対策）
+--     if util.path.exists(util.path.join(deno_root, "package.json")) then
+--       -- package.jsonがある場合でもdeno.jsonがあればDenoを優先
+--       return deno_root
+--     end
+--     return deno_root
+--   end,
+--   single_file_support = false,
+-- }
 
 -- 大規模リポジトリ向けの追加設定
-if is_large_repo then
-  local optimized_config = lsp_optimize.get_optimized_client_config(is_large_repo)
-  denols_config = vim.tbl_deep_extend("force", denols_config, optimized_config)
-  denols_config.root_dir = lsp_optimize.get_optimized_root_dir({"deno.json", "deno.jsonc"})
-end
-
-lspconfig.denols.setup(denols_config)
+-- if is_large_repo then
+--   local optimized_config = lsp_optimize.get_optimized_client_config(is_large_repo)
+--   denols_config = vim.tbl_deep_extend("force", denols_config, optimized_config)
+-- end
+--
+-- lspconfig.denols.setup()
 
 function PrintDiagnosticConfig()
     local config = vim.diagnostic.config()

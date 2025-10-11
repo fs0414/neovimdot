@@ -1,5 +1,5 @@
 local vim = vim
-local blink = require('blink')
+local blink = require('blink.cmp')
 blink.setup({
   -- LSP capabilities for textDocument/definition and textDocument/hover
   sources = {
@@ -91,7 +91,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     -- 補完メニューの背景を透明に（ターミナルの背景と同じになる）
     vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
     vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { fg = "#808080", bg = "NONE" })
-    vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "BlinkCmpDoc", { fg = "#ffffff", bg = "NONE" })
     vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { fg = "#808080", bg = "NONE" })
     vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelp", { bg = "NONE" })
     vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelpBorder", { fg = "#808080", bg = "NONE" })
@@ -123,7 +123,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 -- 補完メニューの背景を透明に（ターミナルの背景と同じになる）
 vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { fg = "#808080", bg = "NONE" })
-vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = "NONE" })
+vim.api.nvim_set_hl(0, "BlinkCmpDoc", { fg = "#ffffff", bg = "NONE" })
 vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { fg = "#808080", bg = "NONE" })
 vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelp", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelpBorder", { fg = "#808080", bg = "NONE" })
@@ -149,7 +149,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
       -- Add specific mappings for definition and hover
       local opts = { buffer = args.buf, noremap = true, silent = true }
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
       vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
       vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
@@ -158,6 +157,28 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
   end
 })
+
+-- Keymap configuration for blink.cmp
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+-- Insert mode mappings for completion
+map('i', '<C-Space>', '<cmd>lua require("blink.cmp").show()<CR>', opts)
+map('i', '<C-e>', '<cmd>lua require("blink.cmp").cancel()<CR>', opts)
+map('i', '<C-y>', '<cmd>lua require("blink.cmp").accept()<CR>', opts)
+map('i', '<C-n>', '<cmd>lua require("blink.cmp").select_next()<CR>', opts)
+map('i', '<C-p>', '<cmd>lua require("blink.cmp").select_prev()<CR>', opts)
+map('i', '<C-u>', '<cmd>lua require("blink.cmp").scroll_documentation_up()<CR>', opts)
+map('i', '<C-d>', '<cmd>lua require("blink.cmp").scroll_documentation_down()<CR>', opts)
+
+-- Command-line mode mappings
+map('c', '<C-Space>', '<cmd>lua require("blink.cmp").show()<CR>', opts)
+map('c', '<Tab>', '<cmd>lua require("blink.cmp").select_next()<CR>', opts)
+map('c', '<S-Tab>', '<cmd>lua require("blink.cmp").select_prev()<CR>', opts)
+
+-- Snippet navigation
+map('i', '<Tab>', '<cmd>lua require("blink.cmp").snippet_forward()<CR>', opts)
+map('i', '<S-Tab>', '<cmd>lua require("blink.cmp").snippet_backward()<CR>', opts)
 
 return {
   capabilities = blink.get_lsp_capabilities(),

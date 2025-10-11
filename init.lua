@@ -23,7 +23,7 @@ require("config.lazy")
 -- require('plugin')
 require('base')
 require('keymap')
-require('lsp')
+-- require('lsp')  -- lsp-configと重複するためコメントアウト
 require('lsp-config')
 require('lsp-optimize').setup() -- LSP最適化設定を追加
 require('statusline')

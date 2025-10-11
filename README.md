@@ -1,79 +1,120 @@
+# Neovim Configuration
+
 ## 環境
-- M2 Mac
-- brew
-- zsh
-- iterm2
+- macOS (M1/M2/Intel)
+- Homebrew
+- zsh/bash
 
-## Setup
-1. neovim install
+## セットアップ
+
+### 1. 必要なツールのインストール
+
 ```bash
-brew install neovim
+# Neovimと依存関係をインストール
+brew install neovim node npm python3 ripgrep fd fzf lazygit
 ```
 
-2. cd
+### 2. 設定ファイルのクローン
 
-.configがなければmkdir
 ```bash
-cd ~/.config/
+# .configディレクトリがなければ作成
+mkdir -p ~/.config
+
+# リポジトリをクローン
+git clone https://github.com/fs0414/neovimdot.git ~/.config/nvim
 ```
 
-3. clone
-```bash
-git clone https://github.com/fs0414/neovimdot.git
-```
+### 3. Nerd Fontsのインストール
 
-4. dir rename
-```bash
-mv neovimdot nvim
-```
-
-5. dependence install
-```bash
-brew install lazygit fzf
-```
-
-6. packer install
-```bash
-git clone https://github.com/wbthomason/packer.nvim \
-  ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
-```
-
-7. set need font
-```bash
-brew install --cask font-monaspace
-```
+アイコン表示のためNerd Fontが必要です：
 
 ```bash
+brew tap homebrew/cask-fonts
 brew install --cask font-hack-nerd-font
 ```
 
-- Iterm2 > Setting > Profile > Text
-  - Use a different font for non-ASCII text to ☑️
-  - Non-ASCII Font select `Hack Nerd Font Mono`
+### 4. 初回起動
 
-8 cd
 ```bash
-cd nvim
+# Neovimを起動（Lazy.nvimが自動でプラグインをインストール）
+nvim
+
+# インストール完了後、一度終了して再起動
+:q
+nvim
+
+# 動作確認
+:checkhealth
 ```
 
-9. nvim
-```bash
-nvim lua/plugin.lua
-```
+### 5. 言語サーバーのセットアップ
 
-10. PackerSync
+Neovim内でMasonを使って必要な言語サーバーをインストール：
+
 ```vim
-:PackerSync
+:Mason
 ```
 
-*Hello NeoVim!*
+よく使う言語の追加セットアップ：
 
-## Note
-windows
 ```bash
-apt install neovim
+# TypeScript/JavaScript
+npm install -g typescript typescript-language-server @fsouza/prettierd eslint_d
+
+# Python
+pip3 install --user pynvim black flake8
+
+# Go
+go install golang.org/x/tools/gopls@latest
+
+# Rust
+rustup component add rust-analyzer
 ```
 
-```sh
-git clone https://github.com/wbthomason/packer.nvim "$env:LOCALAPPDATA\nvim-data\site\pack\packer\start\packer.nvim"
+## 主な設定ファイル
+
+| ファイル | 説明 |
+|---------|------|
+| `init.lua` | メインエントリーポイント |
+| `lua/config/lazy.lua` | プラグイン管理（Lazy.nvim） |
+| `lua/base.lua` | 基本設定 |
+| `lua/keymap.lua` | キーマッピング |
+| `lua/lsp-config.lua` | LSP設定 |
+| `lua/blink-conf.lua` | 補完エンジン設定 |
+
+## 主要なキーバインド
+
+### 補完（Blink.cmp）
+- `Tab`/`Shift-Tab`: 候補の選択
+- `Ctrl-Space`: 補完メニュー表示
+- `Enter`: 確定
+- `Ctrl-e`: キャンセル
+
+### LSP
+- `K`: ホバー情報
+- `gr`: 参照検索
+- `gi`: 実装へジャンプ
+- `gD`: 宣言へジャンプ
+
+## プラグイン更新
+
+```bash
+# プラグインを更新
+:Lazy sync
+
+# LSPサーバーを更新
+:MasonUpdate
+```
+
+## トラブルシューティング
+
+```vim
+# 全体の状態確認
+:checkhealth
+
+# LSP状態確認
+:LspInfo
+
+# プラグイン状態確認
+:Lazy health
 ```
