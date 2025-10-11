@@ -1,120 +1,126 @@
 # Neovim Configuration
 
-## 環境
+## Environment
 - macOS (M1/M2/Intel)
 - Homebrew
 - zsh/bash
 
-## セットアップ
+## Setup
 
-### 1. 必要なツールのインストール
+### 1. Install Dependencies
 
 ```bash
-# Neovimと依存関係をインストール
-brew install neovim node npm python3 ripgrep fd fzf lazygit
+# Install Neovim and core tools
+brew install neovim node npm ripgrep fd fzf lazygit
 ```
 
-### 2. 設定ファイルのクローン
+### 2. Clone Configuration
 
 ```bash
-# .configディレクトリがなければ作成
+# Create config directory if needed
 mkdir -p ~/.config
 
-# リポジトリをクローン
+# Clone this repository
 git clone https://github.com/fs0414/neovimdot.git ~/.config/nvim
 ```
 
-### 3. Nerd Fontsのインストール
+### 3. Install Nerd Fonts
 
-アイコン表示のためNerd Fontが必要です：
+Required for icons display:
 
 ```bash
 brew tap homebrew/cask-fonts
 brew install --cask font-hack-nerd-font
 ```
 
-### 4. 初回起動
+### 4. Initial Launch
 
 ```bash
-# Neovimを起動（Lazy.nvimが自動でプラグインをインストール）
+# Launch Neovim (Lazy.nvim will auto-install plugins)
 nvim
 
-# インストール完了後、一度終了して再起動
+# After installation completes, quit and restart
 :q
 nvim
 
-# 動作確認
+# Verify installation
 :checkhealth
 ```
 
-### 5. 言語サーバーのセットアップ
+### 5. Language Server Setup
 
-Neovim内でMasonを使って必要な言語サーバーをインストール：
+Install language servers via Mason within Neovim:
 
 ```vim
 :Mason
 ```
 
-よく使う言語の追加セットアップ：
+Additional language-specific setup:
 
 ```bash
 # TypeScript/JavaScript
 npm install -g typescript typescript-language-server @fsouza/prettierd eslint_d
 
-# Python
-pip3 install --user pynvim black flake8
+# Ruby
+gem install ruby-lsp rubocop
 
 # Go
 go install golang.org/x/tools/gopls@latest
 
 # Rust
 rustup component add rust-analyzer
+
+# Python (using uv)
+uv tool install ruff
+uv tool install black
+uv tool install mypy
+uv pip install pynvim
 ```
 
-## 主な設定ファイル
+## Configuration Files
 
-| ファイル | 説明 |
-|---------|------|
-| `init.lua` | メインエントリーポイント |
-| `lua/config/lazy.lua` | プラグイン管理（Lazy.nvim） |
-| `lua/base.lua` | 基本設定 |
-| `lua/keymap.lua` | キーマッピング |
-| `lua/lsp-config.lua` | LSP設定 |
-| `lua/blink-conf.lua` | 補完エンジン設定 |
+| File | Description |
+|------|-------------|
+| `init.lua` | Main entry point |
+| `lua/config/lazy.lua` | Plugin management (Lazy.nvim) |
+| `lua/base.lua` | Base settings |
+| `lua/keymap.lua` | Key mappings |
+| `lua/lsp-config.lua` | LSP configuration |
+| `lua/blink-conf.lua` | Completion engine config |
 
-## 主要なキーバインド
+## Key Bindings
 
-### 補完（Blink.cmp）
-- `Tab`/`Shift-Tab`: 候補の選択
-- `Ctrl-Space`: 補完メニュー表示
-- `Enter`: 確定
-- `Ctrl-e`: キャンセル
+### Completion (Blink.cmp)
+- `Tab`/`Shift-Tab`: Navigate candidates
+- `Ctrl-Space`: Show completion menu
+- `Enter`: Confirm
+- `Ctrl-e`: Cancel
 
 ### LSP
-- `K`: ホバー情報
-- `gr`: 参照検索
-- `gi`: 実装へジャンプ
-- `gD`: 宣言へジャンプ
+- `K`: Hover documentation
+- `gr`: Find references
+- `gi`: Go to implementation
+- `gD`: Go to declaration
 
-## プラグイン更新
+## Updates
 
 ```bash
-# プラグインを更新
+# Update plugins
 :Lazy sync
 
-# LSPサーバーを更新
+# Update LSP servers
 :MasonUpdate
 ```
 
-## トラブルシューティング
+## Troubleshooting
 
 ```vim
-# 全体の状態確認
+# Check overall health
 :checkhealth
 
-# LSP状態確認
+# Check LSP status
 :LspInfo
 
-# プラグイン状態確認
+# Check plugin status
 :Lazy health
 ```
