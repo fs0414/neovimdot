@@ -1,7 +1,7 @@
 # Neovim Configuration
 
 ## Environment
-- macOS (M1/M2/Intel)
+- macOS 
 - Homebrew
 - zsh/bash
 
