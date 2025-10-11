@@ -7,47 +7,93 @@
 
 ## Setup
 
-### 1. Install Dependencies
+### 1. Prerequisites Check
 
 ```bash
-# Install Neovim and core tools
-brew install neovim node npm ripgrep fd fzf lazygit
+# Check if Homebrew is installed
+which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Verify git is available
+git --version || brew install git
 ```
 
-### 2. Clone Configuration
+### 2. Install Core Dependencies
 
 ```bash
-# Create config directory if needed
+# Install Neovim (latest stable)
+brew install neovim
+
+# Install essential tools for LSP and searching
+brew install node npm ripgrep fd fzf lazygit
+
+# Install Python version manager (uv)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Verify installations
+nvim --version  # Should be 0.9.0 or higher
+node --version  # Should be 18.0 or higher
+rg --version    # ripgrep for fast searching
+```
+
+### 3. Clone Configuration
+
+```bash
+# Backup existing config if present
+[ -d ~/.config/nvim ] && mv ~/.config/nvim ~/.config/nvim.backup
+
+# Create config directory
 mkdir -p ~/.config
 
 # Clone this repository
 git clone https://github.com/fs0414/neovimdot.git ~/.config/nvim
+
+# Verify clone was successful
+ls -la ~/.config/nvim/init.lua
 ```
 
-### 3. Install Nerd Fonts
+### 4. Install Nerd Fonts
 
-Required for icons display:
+Nerd Fonts are required for proper icon display in the UI:
 
 ```bash
+# Add fonts tap
 brew tap homebrew/cask-fonts
+
+# Install recommended font
 brew install --cask font-hack-nerd-font
+
+# Alternative fonts (choose one)
+brew install --cask font-jetbrains-mono-nerd-font
+brew install --cask font-meslo-lg-nerd-font
+
+# Set your terminal to use the installed Nerd Font
 ```
 
-### 4. Initial Launch
+### 5. First Launch & Plugin Installation
 
 ```bash
-# Launch Neovim (Lazy.nvim will auto-install plugins)
+# Launch Neovim - plugins will auto-install on first run
 nvim
 
-# After installation completes, quit and restart
+# Wait for Lazy.nvim to complete installation (bottom of screen)
+# You'll see "Plugins installed" when complete
+
+# Once done, quit Neovim
 :q
+
+# Restart to ensure all plugins are loaded
 nvim
 
-# Verify installation
+# Check installation health
 :checkhealth
+
+# Common issues to look for:
+# - Node.js provider: Should show OK
+# - Python provider: Should show OK (if using Python)
+# - Clipboard: Should show OK
 ```
 
-### 5. Language Server Setup
+### 6. Language Server Setup
 
 Install language servers via Mason within Neovim:
 
