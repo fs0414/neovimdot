@@ -103,3 +103,23 @@ end, { desc = 'Stop TypeScript LSP server' })
 vim.api.nvim_create_user_command('Nondeno', function()
   vim.lsp.stop_client(vim.lsp.get_clients({name = "denols"}))
 end, { desc = 'Stop Deno LSP server' })
+vim.api.nvim_create_user_command('Ghcd', function()
+  vim.cmd('Copilot disable')
+  vim.notify('Copilot disabled')
+end, { desc = 'Disable GitHub Copilot' })
+
+vim.api.nvim_create_user_command('Ghcn', function()
+  vim.cmd('Copilot enable')
+  vim.notify('Copilot enabled')
+end, { desc = 'Enable GitHub Copilot' })
+
+vim.api.nvim_create_user_command('CopilotToggle', function()
+  local copilot_status = vim.fn['copilot#Enabled']()
+  if copilot_status == 1 then
+    vim.cmd('Copilot disable')
+    vim.notify('Copilot disabled')
+  else
+    vim.cmd('Copilot enable')
+    vim.notify('Copilot enabled')
+  end
+end, { desc = 'Toggle GitHub Copilot' })
