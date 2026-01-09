@@ -1,15 +1,10 @@
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 local vim = vim
--- fern
-map('n', '<Leader>u', ':Fern %:p:h -drawer -reveal=% -width=40<CR>', opts)
--- map('n', '<c-e>', ':Fern %:p:h -reveal=s<CR>', opts)
 
--- window move
-map('n', 'sl', '<C-w>l', opts)
-map('n', 'sh', '<C-w>h', opts)
-map('n', 'sj', '<C-w>j', opts)
-map('n', 'sk', '<C-w>k', opts)
+-- Ctl-jでノーマルモードに移動
+map('i', '<C-j>', '<Esc>', opts)
+map('v', '<C-j>', '<Esc>', opts)
 
 -- rename
 map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
@@ -23,7 +18,7 @@ function SplitAndGotoDefinition(split_cmd)
   vim.lsp.buf.definition()
 end
 map('n', '<C-h>gd', '<cmd>lua SplitAndGotoDefinition("leftabove vsplit")<CR>', opts)
-map('n', '<C-j>gd', '<cmd>lua SplitAndGotoDefinition("belowright split")<CR>', opts)
+-- map('n', '<C-j>gd', '<cmd>lua SplitAndGotoDefinition("belowright split")<CR>', opts)
 map('n', '<C-k>gd', '<cmd>lua SplitAndGotoDefinition("aboveleft split")<CR>', opts)
 map('n', '<C-l>gd', '<cmd>lua SplitAndGotoDefinition("rightbelow vsplit")<CR>', opts)
 
@@ -71,6 +66,12 @@ local function copy_path(opts, target)
   elseif target == 'relative path' then
     -- Get path relative to the directory where nvim was started
     local current_file = vim.fn.expand('%:p')
+
+    -- Remove any URI scheme (e.g., oil://, neo-tree://, etc.)
+    if current_file:match('^%w+://') then
+      current_file = current_file:gsub('^%w+://', '')
+    end
+
     local nvim_start_dir = vim.fn.getcwd()
     local relative_path = vim.fn.fnamemodify(current_file, ':s?' .. vim.fn.escape(nvim_start_dir, '\\') .. '/??')
     local path = relative_path .. get_range_str(opts)
@@ -79,7 +80,14 @@ local function copy_path(opts, target)
     return
   end
 
-  local path = vim.fn.expand(expr) .. get_range_str(opts)
+  local path = vim.fn.expand(expr)
+
+  -- Remove any URI scheme (e.g., oil://, neo-tree://, etc.)
+  if path:match('^%w+://') then
+    path = path:gsub('^%w+://', '')
+  end
+
+  path = path .. get_range_str(opts)
   vim.fn.setreg('*', path)
   vim.notify('Copied ' .. target .. ': ' .. path)
 end
@@ -103,6 +111,7 @@ end, { desc = 'Stop TypeScript LSP server' })
 vim.api.nvim_create_user_command('Nondeno', function()
   vim.lsp.stop_client(vim.lsp.get_clients({name = "denols"}))
 end, { desc = 'Stop Deno LSP server' })
+
 vim.api.nvim_create_user_command('Ghcd', function()
   vim.cmd('Copilot disable')
   vim.notify('Copilot disabled')

@@ -16,51 +16,26 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  -- local
-  { dir = "~/.config/nvim/lua/extension/hello.nvim" },
+  -- colorSchema (即時読み込み)
+  { "fcpg/vim-orbital", lazy = false },
 
-  -- colorSchema
-  "folke/tokyonight.nvim",
-  "davidcelis/vim-ariake-dark",
-  "fcpg/vim-orbital",
-  "shaunsingh/moonlight.nvim",
-  "tjdevries/colorbuddy.nvim",
-  "ishan9299/nvim-solarized-lua",
-  "oxfist/night-owl.nvim",
-  "scottmckendry/cyberdream.nvim",
-  "neovim/nvim-lsp",
-  "atmosuwiryo/vim-winteriscoming",
+  -- treesitter (即時読み込み)
+  { "nvim-treesitter/nvim-treesitter", lazy = false },
 
-  "nvim-treesitter/nvim-treesitter",
+  -- markview (マークダウン時のみ)
+  { "OXY2DEV/markview.nvim", ft = { "markdown", "md" } },
 
-  -- lsp
-  "williamboman/mason.nvim",
-  "williamboman/mason-lspconfig.nvim",
-  "neovim/nvim-lspconfig",
-  "lewis6991/hover.nvim",
+  -- snippets
+  "rafamadriz/friendly-snippets",
 
-  -- nvim-ruby-lsp
-  "mihyaeru21/nvim-ruby-lsp",
-
-  -- cmp (disabled - using blink.cmp instead)
-  -- "hrsh7th/nvim-cmp",
-  -- "hrsh7th/cmp-nvim-lsp",
-  -- "hrsh7th/cmp-buffer",
-  -- "hrsh7th/cmp-path",
-  -- "hrsh7th/cmp-cmdline",
-  -- "hrsh7th/cmp-nvim-lua",
-  -- "saadparwaiz1/cmp_luasnip",
-  -- "L3MON4D3/LuaSnip",
-  "rafamadriz/friendly-snippets", -- Still needed for blink.cmp
-
-  -- snacks
-  "folke/snacks.nvim",
+  -- snacks (即時読み込み)
+  { "folke/snacks.nvim", lazy = false },
 
   -- mini
-  "echasnovski/mini.icons",
-  "nvim-mini/mini.test",
+  { "echasnovski/mini.icons", lazy = false },
+  { "nvim-mini/mini.test", cmd = "MiniTest" },
 
-  -- blink
+  -- blink (補完: 即時読み込み)
   {
     "saghen/blink.cmp",
     lazy = false,
@@ -68,62 +43,64 @@ require("lazy").setup({
     version = '1.*',
   },
 
-  -- dap
-  "microsoft/vscode-js-debug",
-  lazy = false,
-  build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle",
-
-  "mfussenegger/nvim-dap",
-  "jay-babu/mason-nvim-dap.nvim",
-  "rcarriga/nvim-dap-ui",
-  "nvim-neotest/nvim-nio",
+  -- dap (デバッグ時のみ)
+  {
+    "microsoft/vscode-js-debug",
+    lazy = true,
+    build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle",
+  },
+  { "mfussenegger/nvim-dap", cmd = { "DapToggleBreakpoint", "DapContinue" } },
+  { "rcarriga/nvim-dap-ui", lazy = true },
+  { "nvim-neotest/nvim-nio", lazy = true },
   {
     "mxsdev/nvim-dap-vscode-js",
+    lazy = true,
     dependencies = { "mfussenegger/nvim-dap" },
   },
-  "leoluz/nvim-dap-go",
+  { "leoluz/nvim-dap-go", ft = "go" },
 
-  -- lualine
-  "nvim-lualine/lualine.nvim",
+  -- lualine (即時読み込み)
+  { "nvim-lualine/lualine.nvim", lazy = false },
 
-  -- autosave
+  -- autosave (即時読み込み)
   {
     "Pocco81/auto-save.nvim",
+    lazy = false,
     config = function()
       require("auto-save").setup({})
     end,
   },
 
-  "BurntSushi/ripgrep",
-  "duane9/nvim-rg",
+  -- search/replace
+  { "duane9/nvim-rg", cmd = "Rg" },
+  { "MagicDuck/grug-far.nvim", cmd = "GrugFar" },
 
   -- git
-  "lewis6991/gitsigns.nvim",
-  "dinhhuy258/git.nvim",
-  "kdheepak/lazygit.nvim",
-  "NeogitOrg/neogit",
-  "sindrets/diffview.nvim",
-  "Morozzzko/git_browse.nvim",
-  "lambdalisue/vim-gin",
-  "FabijanZulj/blame.nvim",
+  { "lewis6991/gitsigns.nvim", event = "BufReadPre" },
+  { "dinhhuy258/git.nvim", cmd = { "Git", "GitBlame" } },
+  { "kdheepak/lazygit.nvim", cmd = "LazyGit" },
+  { "NeogitOrg/neogit", cmd = "Neogit" },
+  { "sindrets/diffview.nvim", cmd = { "DiffviewOpen", "DiffviewFileHistory" } },
+  { "Morozzzko/git_browse.nvim", cmd = "GitBrowse" },
+  { "lambdalisue/vim-gin", cmd = { "Gin", "GinStatus", "GinDiff" } },
+  { "FabijanZulj/blame.nvim", cmd = "BlameToggle" },
 
-  -- comment
+  -- comment (即時読み込み)
   {
     "numToStr/Comment.nvim",
+    lazy = false,
     config = function()
       require("Comment").setup({})
     end,
   },
 
-  -- hlchunk
-  "shellRaining/hlchunk.nvim",
+  -- hlchunk (バッファ読み込み時)
+  { "shellRaining/hlchunk.nvim", event = "BufReadPre" },
 
-  -- fm
-  "is0n/fm-nvim",
-
-  -- atac
+  -- atac (コマンド時のみ)
   {
     "NachoNievaG/atac.nvim",
+    cmd = "Atac",
     config = function()
       require("atac").setup({
         dir = "~/my/work/directory",
@@ -132,66 +109,50 @@ require("lazy").setup({
   },
 
   -- denops
-  "vim-denops/denops.vim",
-  "vim-denops/denops-helloworld.vim",
+  { "vim-denops/denops.vim", lazy = false },
 
-  -- lsp_signature
-  "ray-x/lsp_signature.nvim",
 
-  -- rayso
-  "ryoppippi/ray-so.vim",
+  -- rayso (コマンド時のみ)
+  { "ryoppippi/ray-so.vim", cmd = "RaySo" },
 
   -- filer
-  "lambdalisue/nerdfont.vim",
-  "stevearc/oil.nvim",
+  { "lambdalisue/nerdfont.vim", lazy = false },
+  { "stevearc/oil.nvim", lazy = false },
   {
     "A7Lavinraj/fyler.nvim",
+    cmd = "Fyler",
     config = function()
       require("fyler").setup({})
     end,
   },
 
-  -- formatter
-  "stevearc/conform.nvim",
+  -- formatter (即時読み込み)
+  { "stevearc/conform.nvim", lazy = false },
 
   -- snippy
-  "dcampos/nvim-snippy",
+  { "dcampos/nvim-snippy", event = "InsertEnter" },
 
-  -- neotest
-  "nvim-neotest/neotest",
-  "nvim-neotest/nvim-nio",
-  "nvim-lua/plenary.nvim",
-  "nvim-treesitter/nvim-treesitter",
-  "antoinemadec/FixCursorHold.nvim",
-  "marilari88/neotest-vitest",
+  -- neotest (コマンド時のみ)
+  { "nvim-neotest/neotest", cmd = "Neotest" },
+  { "nvim-lua/plenary.nvim", lazy = true },
+  { "antoinemadec/FixCursorHold.nvim", lazy = true },
+  { "marilari88/neotest-vitest", lazy = true },
 
-  -- autopairs
-  "windwp/nvim-autopairs",
-
-  -- nvim-tree
-  "nvim-tree/nvim-tree.lua",
+  -- autopairs (入力時)
+  { "windwp/nvim-autopairs", event = "InsertEnter" },
 
   -- yank
-  "svermeulen/vim-yoink",
+  { "svermeulen/vim-yoink", lazy = false },
 
-  -- toggleterm
-  "akinsho/toggleterm.nvim",
+  -- toggleterm (コマンド時のみ)
+  { "akinsho/toggleterm.nvim", cmd = { "ToggleTerm", "TermExec" } },
 
-  -- colorbuddy
-  "tjdevries/colorbuddy.vim",
-
-  -- ale
-  "w0rp/ale",
-
-  -- copilot
-  "github/copilot.vim",
-
-  -- pum
-  "Shougo/pum.vim",
+  -- copilot (入力時)
+  { "github/copilot.vim", event = "InsertEnter" },
 }, {
   -- Lazy.nvim configuration options
   defaults = {
-    lazy = false, -- Load plugins immediately by default
+    lazy = true, -- デフォルトで遅延読み込み
   },
   ui = {
     border = "rounded",

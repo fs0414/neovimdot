@@ -25,4 +25,3 @@ map("n", "<C->", '<cmd>lua require("snacks.picker").lsp_document_symbols()<CR>',
 require("snacks.terminal")
 require("mini.icons").setup({})
 
-
