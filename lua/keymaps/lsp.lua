@@ -1,36 +1,64 @@
 -- LSP関連キーマップ
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
-
--- rename
-map("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-
--- diagnostic
-map("n", "<leader>n", "<cmd>lua vim.diagnostic.config{virtual_text=false}<CR>", opts)
 
 -- split and goto definition
-function SplitAndGotoDefinition(split_cmd)
+local function split_and_goto_definition(split_cmd)
 	vim.cmd(split_cmd)
 	vim.lsp.buf.definition()
 end
 
-map("n", "<C-h>gd", '<cmd>lua SplitAndGotoDefinition("leftabove vsplit")<CR>', opts)
-map("n", "<C-k>gd", '<cmd>lua SplitAndGotoDefinition("aboveleft split")<CR>', opts)
-map("n", "<C-l>gd", '<cmd>lua SplitAndGotoDefinition("rightbelow vsplit")<CR>', opts)
+vim.keymap.set("n", "<C-h>gd", function()
+	split_and_goto_definition("leftabove vsplit")
+end, { desc = "Definition in left split" })
+vim.keymap.set("n", "<C-k>gd", function()
+	split_and_goto_definition("aboveleft split")
+end, { desc = "Definition in top split" })
+vim.keymap.set("n", "<C-l>gd", function()
+	split_and_goto_definition("rightbelow vsplit")
+end, { desc = "Definition in right split" })
+
+-- rename
+vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { desc = "LSP rename" })
+
+-- diagnostic設定
+vim.keymap.set("n", "<leader>n", function()
+	vim.diagnostic.config({ virtual_text = false })
+end, { desc = "Disable virtual text" })
 
 -- LspAttach時のキーマップ
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		local buf_opts = { buffer = args.buf }
+		local opts = { buffer = args.buf }
+
+		-- hover/signature
 		vim.keymap.set("n", "K", function()
 			vim.lsp.buf.hover({ border = "rounded" })
-		end, buf_opts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, buf_opts)
+		end, vim.tbl_extend("force", opts, { desc = "Hover documentation" }))
+
 		vim.keymap.set("n", "<C-k>", function()
 			vim.lsp.buf.signature_help({ border = "rounded" })
-		end, buf_opts)
+		end, vim.tbl_extend("force", opts, { desc = "Signature help" }))
+
+		-- diagnostic float
 		vim.keymap.set("n", "<leader>dd", function()
 			vim.diagnostic.open_float({ border = "rounded" })
-		end, buf_opts)
+		end, vim.tbl_extend("force", opts, { desc = "Diagnostic float" }))
+
+		-- diagnostic navigation
+		vim.keymap.set("n", "[d", function()
+			vim.diagnostic.goto_prev({ float = { border = "rounded" } })
+		end, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
+
+		vim.keymap.set("n", "]d", function()
+			vim.diagnostic.goto_next({ float = { border = "rounded" } })
+		end, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+
+		vim.keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, vim.tbl_extend("force", opts, { desc = "Diagnostic list" }))
+
+		-- code action
+		vim.keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
+
+		-- implementation / type definition (picker未対応のためnative使用)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
+		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, vim.tbl_extend("force", opts, { desc = "Go to type definition" }))
 	end,
 })

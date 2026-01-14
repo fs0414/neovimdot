@@ -1,15 +1,13 @@
 -- Git関連キーマップ
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
 
 -- lazygit (terminal)
-map("n", "<leader>gl", "<cmd>terminal lazygit<CR><cmd>startinsert<CR>", opts)
+vim.keymap.set("n", "<leader>gl", "<cmd>terminal lazygit<CR><cmd>startinsert<CR>", { desc = "LazyGit (terminal)" })
 
 -- Neogit
-map("n", "<leader>gg", ":Neogit<CR>", opts)
+vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<CR>", { desc = "Neogit" })
 
 -- Diffview
-map("n", "<leader>gd", ":DiffviewOpen<CR>", opts)
+vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<CR>", { desc = "Diffview open" })
 
 -- NotePush
-map("n", "<leader>np", ":NotePush<CR>", opts)
+vim.keymap.set("n", "<leader>np", "<cmd>NotePush<CR>", { desc = "Note push (git add/commit/push)" })

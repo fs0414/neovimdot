@@ -20,7 +20,12 @@ Neovim設定リポジトリ (macOS環境向け)。Lazy.nvimでプラグイン管
 :checkhealth
 
 # LSP情報
-:LspInfo            # アタッチ中のLSPクライアント表示
+:LspInfo            # アタッチ中のLSPクライアント詳細表示
+:LspRestart [name]  # LSP再起動 (name省略で全て)
+:LspStop [name]     # LSP停止
+
+# 起動時間計測
+nvim --startuptime /tmp/startup.log && tail -30 /tmp/startup.log
 ```
 
 ## Architecture
@@ -34,8 +39,8 @@ init.lua                    # エントリーポイント
 │   └── commands.lua        # カスタムコマンド (Sed, Cfp, Crp, Fmt等)
 ├── lua/keymaps/
 │   ├── init.lua            # 基本キーマップ＋サブモジュール読み込み
-│   ├── lsp.lua             # LSP関連キーマップ
-│   ├── picker.lua          # ファイル検索系
+│   ├── lsp.lua             # LSP関連キーマップ ([d, ]d, gi, gt, <leader>a等)
+│   ├── picker.lua          # snacks.picker (gd, gr, <C-p>, <C-g>等)
 │   ├── git.lua             # Git操作
 │   ├── file-explorer.lua   # Oil.nvim
 │   ├── terminal.lua        # ToggleTerm
@@ -69,14 +74,48 @@ return {
 }
 ```
 
-有効なサーバー: lua_ls, ts_ls, denols, biome, oxlint, rust_analyzer, ruby_lsp, gopls
+有効なサーバー: lua_ls, ts_ls, denols, biome, rust_analyzer, ruby_lsp, gopls
+
+**Note:** denolsは`deno.json`存在時のみ起動 (root_markers設定)
 
 ## Lazy Loading Strategy
 
-- 即時読み込み: colorscheme, treesitter, snacks, blink.cmp, lualine, oil
-- イベント: gitsigns (BufReadPre), hlchunk (BufReadPre), autopairs (InsertEnter)
-- コマンド: DAP, Neotest, LazyGit, GrugFar等
+- **即時読み込み**: colorscheme, treesitter, snacks, blink.cmp, lualine, mini.icons
+- **VeryLazy**: denops, nerdfont
+- **BufReadPost**: auto-save
+- **BufReadPre**: gitsigns, hlchunk
+- **InsertEnter**: autopairs, snippy, copilot
+- **TextYankPost**: vim-yoink
+- **キー入力**: Comment.nvim (`gc`), Oil (`<S-e>`)
+- **コマンド**: DAP, Neotest, LazyGit, GrugFar等
 - DAP/Neotestは`:DapLoad`/`:NeotestLoad`コマンドで手動読み込み
+
+## Key Bindings
+
+### LSP
+| キー | 説明 |
+|------|------|
+| `gd` | 定義へジャンプ (picker) |
+| `gr` | 参照一覧 (picker) |
+| `gi` | 実装へジャンプ |
+| `gt` | 型定義へジャンプ |
+| `K` | ホバードキュメント |
+| `<leader>a` | コードアクション |
+| `[d` / `]d` | 前/次の診断 |
+| `<leader>dd` | 診断フロート表示 |
+| `<leader>dl` | 診断一覧 |
+
+### Picker (snacks.picker)
+| キー | 説明 |
+|------|------|
+| `<C-p>` | ファイル検索 |
+| `<C-g>` | Grep |
+| `<C-f>` | バッファ内行検索 |
+| `<C-b>` | バッファ一覧 |
+| `<C-l>` | 最近開いたファイル |
+| `<leader>sw` | カーソル下の単語でGrep |
+| `<leader>ds` | ドキュメントシンボル |
+| `<leader>ws` | ワークスペースシンボル |
 
 ## Custom Commands
 
@@ -87,6 +126,6 @@ return {
 | `:Crp` | 相対パスをコピー (行番号付き可) |
 | `:Cfn` | ファイル名をコピー |
 | `:Fmt` | conform.nvimでフォーマット |
-| `:Nonts` | ts_ls停止 |
-| `:Nondeno` | denols停止 |
+| `:LspRestart [name]` | LSP再起動 |
+| `:LspStop [name]` | LSP停止 |
 | `:NotePush` | git add/commit/push一括実行 |

@@ -1,33 +1,26 @@
 -- 基本キーマップ設定
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
 
 -- モード切替
-map("i", "<C-j>", "<Esc>", opts)
-map("v", "<C-j>", "<Esc>", opts)
-map("t", "<A-Esc>", "<C-\\><C-n>", opts)
+vim.keymap.set("i", "<C-j>", "<Esc>", { desc = "Exit insert mode" })
+vim.keymap.set("v", "<C-j>", "<Esc>", { desc = "Exit visual mode" })
+vim.keymap.set("t", "<A-Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- ウィンドウ操作
-vim.keymap.set("n", "<CR>", "<C-w>w")
+vim.keymap.set("n", "<CR>", "<C-w>w", { desc = "Next window" })
 
 -- バッファ操作
-map("n", "<C-j>", "<Cmd>BufferPrevious<CR>", opts)
-map("n", "<C-k>", "<Cmd>BufferNext<CR>", opts)
-map("n", "<leader>e", "<Cmd>BufferClose<CR>", opts)
+vim.keymap.set("n", "<C-j>", "<Cmd>BufferPrevious<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<C-k>", "<Cmd>BufferNext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>e", "<Cmd>BufferClose<CR>", { desc = "Close buffer" })
 
 -- 検索
-vim.keymap.set("n", "<leader>/", ":nohlsearch<CR>", { noremap = true, silent = true, desc = "Clear search highlight" })
+vim.keymap.set("n", "<leader>/", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
 -- リロード
-map("n", "<leader>s", ":source %<CR>", opts)
+vim.keymap.set("n", "<leader>s", "<cmd>source %<CR>", { desc = "Source current file" })
 
--- try-catch wrap
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader>try",
-	[[:normal! Vito try {\r} catch (err) {\r    console.error(err);\r}<Esc>]],
-	{ noremap = true, silent = true }
-)
+-- try-catch wrap (TypeScript/JavaScript)
+vim.keymap.set("n", "<Leader>try", [[:normal! Vito try {\r} catch (err) {\r    console.error(err);\r}<Esc>]], { desc = "Wrap in try-catch" })
 
 -- サブモジュール読み込み
 require("keymaps.lsp")

@@ -62,10 +62,10 @@ require("lazy").setup({
   -- lualine (即時読み込み)
   { "nvim-lualine/lualine.nvim", lazy = false },
 
-  -- autosave (即時読み込み)
+  -- autosave (バッファ読み込み時)
   {
     "Pocco81/auto-save.nvim",
-    lazy = false,
+    event = "BufReadPost",
     config = function()
       require("auto-save").setup({})
     end,
@@ -85,10 +85,13 @@ require("lazy").setup({
   { "lambdalisue/vim-gin", cmd = { "Gin", "GinStatus", "GinDiff" } },
   { "FabijanZulj/blame.nvim", cmd = "BlameToggle" },
 
-  -- comment (即時読み込み)
+  -- comment (キー入力時)
   {
     "numToStr/Comment.nvim",
-    lazy = false,
+    keys = {
+      { "gc", mode = { "n", "v" }, desc = "Comment toggle" },
+      { "gb", mode = { "n", "v" }, desc = "Comment toggle block" },
+    },
     config = function()
       require("Comment").setup({})
     end,
@@ -108,16 +111,20 @@ require("lazy").setup({
     end,
   },
 
-  -- denops
-  { "vim-denops/denops.vim", lazy = false },
+  -- denops (必要時に読み込み)
+  { "vim-denops/denops.vim", event = "VeryLazy" },
 
 
   -- rayso (コマンド時のみ)
   { "ryoppippi/ray-so.vim", cmd = "RaySo" },
 
-  -- filer
-  { "lambdalisue/nerdfont.vim", lazy = false },
-  { "stevearc/oil.nvim", lazy = false },
+  -- filer (キー入力時)
+  { "lambdalisue/nerdfont.vim", event = "VeryLazy" },
+  {
+    "stevearc/oil.nvim",
+    keys = { { "<S-e>", "<cmd>Oil<CR>", desc = "Open Oil file explorer" } },
+    cmd = "Oil",
+  },
   {
     "A7Lavinraj/fyler.nvim",
     cmd = "Fyler",
@@ -147,8 +154,8 @@ require("lazy").setup({
     end,
   },
 
-  -- yank
-  { "svermeulen/vim-yoink", lazy = false },
+  -- yank (テキスト操作時)
+  { "svermeulen/vim-yoink", event = "TextYankPost" },
 
   -- toggleterm (コマンド時のみ)
   { "akinsho/toggleterm.nvim", cmd = { "ToggleTerm", "TermExec" } },
