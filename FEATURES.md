@@ -1,2 +1,0 @@
- - [] native lsp support use 
- - [] zeno.zsh
