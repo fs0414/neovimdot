@@ -78,7 +78,7 @@ require("lazy").setup({
   -- git
   { "lewis6991/gitsigns.nvim", event = "BufReadPre" },
   { "dinhhuy258/git.nvim", cmd = { "Git", "GitBlame" } },
-  { "kdheepak/lazygit.nvim", cmd = "LazyGit" },
+  { "kdheepak/lazygit.nvim", cmd = "LazyGit", keys = { { "<leader>g", "<cmd>LazyGit<CR>", desc = "LazyGit" } } },
   { "NeogitOrg/neogit", cmd = "Neogit" },
   { "sindrets/diffview.nvim", cmd = { "DiffviewOpen", "DiffviewFileHistory" } },
   { "Morozzzko/git_browse.nvim", cmd = "GitBrowse" },
@@ -139,7 +139,13 @@ require("lazy").setup({
   { "marilari88/neotest-vitest", lazy = true },
 
   -- autopairs (入力時)
-  { "windwp/nvim-autopairs", event = "InsertEnter" },
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup({})
+    end,
+  },
 
   -- yank
   { "svermeulen/vim-yoink", lazy = false },
