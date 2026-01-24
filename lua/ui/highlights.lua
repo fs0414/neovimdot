@@ -94,12 +94,36 @@ local function setup_picker_highlights()
 	vim.api.nvim_set_hl(0, "SnacksPickerVirtText", { fg = "Cyan" })
 end
 
+-- Diffview ハイライト（見やすい色に変更）
+local function setup_diffview_highlights()
+	-- 追加行（緑系）
+	vim.api.nvim_set_hl(0, "DiffAdd", { bg = "#1a3a1a", fg = "NONE" })
+	vim.api.nvim_set_hl(0, "DiffviewDiffAdd", { bg = "#1a3a1a", fg = "NONE" })
+	vim.api.nvim_set_hl(0, "DiffviewDiffAddText", { bg = "#2a5a2a", fg = "NONE" })
+
+	-- 削除行（赤系）
+	vim.api.nvim_set_hl(0, "DiffDelete", { bg = "#3a1a1a", fg = "#555555" })
+	vim.api.nvim_set_hl(0, "DiffviewDiffDelete", { bg = "#3a1a1a", fg = "#555555" })
+
+	-- 変更行（青系）
+	vim.api.nvim_set_hl(0, "DiffChange", { bg = "#1a2a3a", fg = "NONE" })
+	vim.api.nvim_set_hl(0, "DiffText", { bg = "#2a4a6a", fg = "NONE" })
+	vim.api.nvim_set_hl(0, "DiffviewDiffChange", { bg = "#1a2a3a", fg = "NONE" })
+	vim.api.nvim_set_hl(0, "DiffviewDiffText", { bg = "#2a4a6a", fg = "NONE" })
+
+	-- ファイルパネル
+	vim.api.nvim_set_hl(0, "DiffviewFilePanelTitle", { fg = "#66ccff", bold = true })
+	vim.api.nvim_set_hl(0, "DiffviewFilePanelFileName", { fg = "#ffffff" })
+	vim.api.nvim_set_hl(0, "DiffviewFilePanelPath", { fg = "#888888" })
+end
+
 -- 全ハイライトを適用
 function M.setup()
 	setup_global_highlights()
 	setup_lsp_highlights()
 	setup_completion_highlights()
 	setup_picker_highlights()
+	setup_diffview_highlights()
 end
 
 -- 初回適用

@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, vim.tbl_extend("force", opts, { desc = "Signature help" }))
 
 		-- diagnostic float
-		vim.keymap.set("n", "<leader>dd", function()
+		vim.keymap.set("n", "<leader>d", function()
 			vim.diagnostic.open_float({ border = "rounded" })
 		end, vim.tbl_extend("force", opts, { desc = "Diagnostic float" }))
 

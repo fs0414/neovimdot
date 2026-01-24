@@ -11,7 +11,7 @@ map("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
 map("n", "<leader>bc", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
 
 -- DAP UI
-map("n", "<leader>d", ":lua require'dapui'.toggle()<CR>", opts)
+map("n", "<leader>du", ":lua require'dapui'.toggle()<CR>", opts)
 map("n", "<leader><leader>dc", ":lua require'dapui'.close()<CR>", opts)
 map("n", "<leader><leader>dt", ":lua require'dap'.continue()<CR>", opts)
 map("n", "<leader><leader>df", ":lua require'dapui'.eval()<CR>", opts)

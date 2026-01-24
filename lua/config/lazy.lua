@@ -35,11 +35,22 @@ require("lazy").setup({
   { "echasnovski/mini.icons", lazy = false },
   { "nvim-mini/mini.test", cmd = "MiniTest" },
 
-  -- blink (補完: 即時読み込み)
+  -- lazydev (Lua開発支援)
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+
+  -- blink
   {
     "saghen/blink.cmp",
     lazy = false,
-    dependencies = { "rafamadriz/friendly-snippets" },
+    dependencies = { "rafamadriz/friendly-snippets", "folke/lazydev.nvim" },
     version = '1.*',
   },
 
@@ -67,38 +78,68 @@ require("lazy").setup({
     "Pocco81/auto-save.nvim",
     event = "BufReadPost",
     config = function()
-      require("auto-save").setup({})
+      require("auto-save").setup({
+        condition = function(buf)
+          -- バッファが有効かチェック
+          if not vim.api.nvim_buf_is_valid(buf) then
+            return false
+          end
+          
+          local fn = vim.fn
+          -- 除外するファイルタイプ
+          local excluded_filetypes = { "oil", "gitcommit", "gitrebase", "hgcommit", "snacks_input" }
+          local ok, filetype = pcall(fn.getbufvar, buf, "&filetype")
+          if not ok or vim.tbl_contains(excluded_filetypes, filetype) then
+            return false
+          end
+          -- 除外するバッファタイプ
+          local ok2, buftype = pcall(fn.getbufvar, buf, "&buftype")
+          if not ok2 or buftype ~= "" then
+            return false
+          end
+          -- 大きすぎるファイルは除外 (1MB以上)
+          if fn.getfsize(fn.expand("%")) > 1000000 then
+            return false
+          end
+          return true
+        end,
+      })
     end,
   },
 
   -- search/replace
   { "duane9/nvim-rg", cmd = "Rg" },
-  { "MagicDuck/grug-far.nvim", cmd = "GrugFar" },
 
   -- git
   { "lewis6991/gitsigns.nvim", event = "BufReadPre" },
   { "dinhhuy258/git.nvim", cmd = { "Git", "GitBlame" } },
-  { "kdheepak/lazygit.nvim", cmd = "LazyGit", keys = { { "<leader>g", "<cmd>LazyGit<CR>", desc = "LazyGit" } } },
-  { "NeogitOrg/neogit", cmd = "Neogit" },
+  { "kdheepak/lazygit.nvim", cmd = "LazyGit" },
+  {
+    "NeogitOrg/neogit",
+    dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+    cmd = "Neogit",
+    config = function()
+      require("neogit").setup({
+        integrations = {
+          diffview = true,
+        },
+      })
+    end,
+  },
   { "sindrets/diffview.nvim", cmd = { "DiffviewOpen", "DiffviewFileHistory" } },
-  { "Morozzzko/git_browse.nvim", cmd = "GitBrowse" },
-  { "lambdalisue/vim-gin", cmd = { "Gin", "GinStatus", "GinDiff" } },
   { "FabijanZulj/blame.nvim", cmd = "BlameToggle" },
 
-  -- comment (キー入力時)
+  -- comment (mini.comment)
   {
-    "numToStr/Comment.nvim",
+    "echasnovski/mini.comment",
     keys = {
       { "gc", mode = { "n", "v" }, desc = "Comment toggle" },
-      { "gb", mode = { "n", "v" }, desc = "Comment toggle block" },
     },
     config = function()
-      require("Comment").setup({})
+      require("mini.comment").setup({})
     end,
   },
 
-  -- hlchunk (バッファ読み込み時)
-  { "shellRaining/hlchunk.nvim", event = "BufReadPre" },
 
   -- atac (コマンド時のみ)
   {
@@ -133,11 +174,23 @@ require("lazy").setup({
     end,
   },
 
-  -- formatter (即時読み込み)
-  { "stevearc/conform.nvim", lazy = false },
+  -- formatter (保存時に読み込み)
+  { "stevearc/conform.nvim", event = "BufWritePre" },
 
-  -- snippy
-  { "dcampos/nvim-snippy", event = "InsertEnter" },
+  -- snippets (mini.snippets)
+  {
+    "echasnovski/mini.snippets",
+    event = "InsertEnter",
+    config = function()
+      require("mini.snippets").setup({
+        mappings = {
+          expand = '',  -- タブキーを無効化
+          jump_next = '<C-l>',
+          jump_prev = '<C-h>',
+        }
+      })
+    end,
+  },
 
   -- neotest (コマンド時のみ)
   { "nvim-neotest/neotest", cmd = "Neotest" },
@@ -145,23 +198,38 @@ require("lazy").setup({
   { "antoinemadec/FixCursorHold.nvim", lazy = true },
   { "marilari88/neotest-vitest", lazy = true },
 
-  -- autopairs (入力時)
+  -- autopairs (mini.pairs)
   {
-    "windwp/nvim-autopairs",
+    "echasnovski/mini.pairs",
     event = "InsertEnter",
     config = function()
-      require("nvim-autopairs").setup({})
+      require("mini.pairs").setup({})
     end,
   },
 
   -- yank (テキスト操作時)
   { "svermeulen/vim-yoink", event = "TextYankPost" },
 
-  -- toggleterm (コマンド時のみ)
-  { "akinsho/toggleterm.nvim", cmd = { "ToggleTerm", "TermExec" } },
 
   -- copilot (入力時)
   { "github/copilot.vim", event = "InsertEnter" },
+
+  -- path copy (denops依存)
+  {
+    "fs0414/path-yank.nvim",
+    dependencies = { "vim-denops/denops.vim" },
+    event = "VeryLazy",
+    config = function()
+      require("copy-path").setup({
+        register = "*",
+        notify = true,
+        lineFormat = {
+          single = "#L%d",
+          range = "#L%d-L%d",
+        },
+      })
+    end,
+  },
 }, {
   -- Lazy.nvim configuration options
   defaults = {

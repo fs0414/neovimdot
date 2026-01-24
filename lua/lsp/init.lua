@@ -1,10 +1,18 @@
 -- LSP設定 (Neovim 0.11+ 組み込み機能を使用)
 
--- masonのbinディレクトリをPATHに追加
-vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
-
--- Capabilities (blink.cmp連携)
+-- Capabilities (blink.cmp連携 + 拡張)
 local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+-- folding range
+capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
+
+-- code lens
+capabilities.textDocument.codeLens = {
+	dynamicRegistration = false,
+}
 
 -- グローバル設定
 vim.lsp.config("*", {

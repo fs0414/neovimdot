@@ -11,7 +11,3 @@ if status then
 	})
 end
 
-require("diffview").setup()
-
-local neogit = require("neogit")
-neogit.setup({})

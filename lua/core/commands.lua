@@ -14,63 +14,18 @@ end, {
 	complete = "file",
 })
 
--- パス取得用ヘルパー関数
-local function get_range_str(opts)
-	if opts.range ~= 2 then
-		return ""
-	end
-	if opts.line1 == opts.line2 then
-		return "#L" .. opts.line1
-	end
-	return "#L" .. opts.line1 .. "-L" .. opts.line2
-end
-
-local function copy_path(opts, target)
-	local expr = "%"
-	if target == "full path" then
-		expr = "%:p"
-	elseif target == "file name" then
-		expr = "%:t"
-	elseif target == "relative path" then
-		local current_file = vim.fn.expand("%:p")
-
-		-- Remove any URI scheme (e.g., oil://, neo-tree://, etc.)
-		if current_file:match("^%w+://") then
-			current_file = current_file:gsub("^%w+://", "")
-		end
-
-		local nvim_start_dir = vim.fn.getcwd()
-		local relative_path =
-			vim.fn.fnamemodify(current_file, ":s?" .. vim.fn.escape(nvim_start_dir, "\\") .. "/??")
-		local path = relative_path .. get_range_str(opts)
-		vim.fn.setreg("*", path)
-		vim.notify("Copied " .. target .. ": " .. path)
-		return
-	end
-
-	local path = vim.fn.expand(expr)
-
-	-- Remove any URI scheme (e.g., oil://, neo-tree://, etc.)
-	if path:match("^%w+://") then
-		path = path:gsub("^%w+://", "")
-	end
-
-	path = path .. get_range_str(opts)
-	vim.fn.setreg("*", path)
-	vim.notify("Copied " .. target .. ": " .. path)
-end
-
--- パスコピーコマンド
-vim.api.nvim_create_user_command("Cfp", function(opts)
-	copy_path(opts, "full path")
+-- パスコピーコマンド (path-yank.nvimへのエイリアス)
+-- 短縮コマンド用のエイリアス (denops初期化後に有効)
+vim.api.nvim_create_user_command("Cfp", function()
+	require("copy-path").copy_full_path()
 end, { range = true, desc = "Copy the full path of the current file to the clipboard" })
 
-vim.api.nvim_create_user_command("Crp", function(opts)
-	copy_path(opts, "relative path")
+vim.api.nvim_create_user_command("Crp", function()
+	require("copy-path").copy_relative_path()
 end, { range = true, desc = "Copy the relative path of the current file to the clipboard" })
 
-vim.api.nvim_create_user_command("Cfn", function(opts)
-	copy_path(opts, "file name")
+vim.api.nvim_create_user_command("Cfn", function()
+	require("copy-path").copy_file_name()
 end, { range = true, desc = "Copy the file name of the current file to the clipboard" })
 
 -- LSP制御コマンド
@@ -130,16 +85,49 @@ vim.api.nvim_create_user_command("NotePush", function()
 
 	Snacks.input({ prompt = "Type 'yes' to push: " }, function(value)
 		if value == "yes" then
+			-- auto-saveを一時的に無効化
+			local auto_save_enabled = vim.g.auto_save
+			vim.g.auto_save = 0
+			
 			local cmd = string.format(
 				"cd %s && git add . && git commit -m 'note update' && git push",
 				vim.fn.shellescape(git_root)
 			)
+			
+			local output = {}
 			vim.fn.jobstart(cmd, {
+				on_stdout = function(_, data)
+					if data then
+						for _, line in ipairs(data) do
+							if line ~= "" then
+								table.insert(output, line)
+							end
+						end
+					end
+				end,
+				on_stderr = function(_, data)
+					if data then
+						for _, line in ipairs(data) do
+							if line ~= "" then
+								table.insert(output, "ERROR: " .. line)
+							end
+						end
+					end
+				end,
 				on_exit = function(_, code)
+					-- auto-saveを元に戻す
+					vim.defer_fn(function()
+						vim.g.auto_save = auto_save_enabled
+					end, 100)
+					
 					if code == 0 then
 						vim.notify("Push complete: " .. git_root, vim.log.levels.INFO)
 					else
 						vim.notify("Push failed (code: " .. code .. ")", vim.log.levels.ERROR)
+						-- エラー出力を表示
+						if #output > 0 then
+							vim.notify(table.concat(output, "\n"), vim.log.levels.ERROR)
+						end
 					end
 				end,
 			})

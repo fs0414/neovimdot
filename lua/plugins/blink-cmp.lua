@@ -3,7 +3,7 @@ local blink = require("blink.cmp")
 
 blink.setup({
 	sources = {
-		default = { "lsp", "path", "snippets", "buffer" },
+		default = { "lazydev", "lsp", "path", "snippets", "buffer" },
 		providers = {
 			lsp = {
 				name = "LSP",

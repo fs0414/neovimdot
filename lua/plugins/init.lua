@@ -1,8 +1,6 @@
 -- プラグイン設定の読み込み
 require("plugins.statusline")
-require("plugins.toggleterm")
 require("plugins.git")
-require("plugins.hlchunk")
 require("plugins.oil")
 require("plugins.formatter")
 require("plugins.snacks")

@@ -9,15 +9,20 @@ vim.keymap.set("t", "<A-Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 vim.keymap.set("n", "<CR>", "<C-w>w", { desc = "Next window" })
 
 -- バッファ操作
-vim.keymap.set("n", "<C-j>", "<Cmd>BufferPrevious<CR>", { desc = "Previous buffer" })
-vim.keymap.set("n", "<C-k>", "<Cmd>BufferNext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>e", "<Cmd>BufferClose<CR>", { desc = "Close buffer" })
+vim.keymap.set("n", "<C-j>", "<Cmd>bprevious<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<C-n>", "<Cmd>bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>e", "<Cmd>bdelete<CR>", { desc = "Close buffer" })
 
 -- 検索
 vim.keymap.set("n", "<leader>/", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
 -- リロード
 vim.keymap.set("n", "<leader>s", "<cmd>source %<CR>", { desc = "Source current file" })
+
+-- キーマップヘルプ
+vim.keymap.set("n", "<leader>?", function()
+	require("snacks").picker.keymaps()
+end, { desc = "Show keymaps" })
 
 -- try-catch wrap (TypeScript/JavaScript)
 vim.keymap.set("n", "<Leader>try", [[:normal! Vito try {\r} catch (err) {\r    console.error(err);\r}<Esc>]], { desc = "Wrap in try-catch" })

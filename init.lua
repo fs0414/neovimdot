@@ -1,15 +1,5 @@
 -- Neovim Configuration Entry Point
 
--- Denops設定
-vim.opt.runtimepath:append("~/denops-getting-started")
-vim.g["denops#server#service#deno_args"] = {
-	"-q",
-	"--no-lock",
-	"-A",
-	"--unstable-ffi",
-}
-vim.g["denops_disable_version_check"] = 1
-
 -- Load lazy.nvim configuration (プラグイン読み込み)
 require("config.lazy")
 
@@ -40,3 +30,16 @@ vim.api.nvim_create_user_command("NeotestLoad", function()
 	require("plugins.neotest")
 	require("keymaps.test")
 end, { desc = "Load Neotest configuration" })
+
+-- Denops (遅延読み込み)
+vim.api.nvim_create_user_command("DenopsInit", function()
+	vim.opt.runtimepath:append("~/denops-getting-started")
+	vim.g["denops#server#service#deno_args"] = {
+		"-q",
+		"--no-lock",
+		"-A",
+		"--unstable-ffi",
+	}
+	vim.g["denops_disable_version_check"] = 1
+	vim.notify("Denops initialized")
+end, { desc = "Initialize Denops" })
