@@ -1,6 +1,7 @@
 -- 基本キーマップ設定
 
 -- モード切替
+vim.keymap.set("n", ";", ":", { desc = "Enter command mode" })
 vim.keymap.set("i", "<C-j>", "<Esc>", { desc = "Exit insert mode" })
 vim.keymap.set("v", "<C-j>", "<Esc>", { desc = "Exit visual mode" })
 vim.keymap.set("t", "<A-Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })

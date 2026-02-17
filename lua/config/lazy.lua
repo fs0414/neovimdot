@@ -20,7 +20,21 @@ require("lazy").setup({
   { "fcpg/vim-orbital", lazy = false },
 
   -- treesitter (即時読み込み)
-  { "nvim-treesitter/nvim-treesitter", lazy = false },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {
+          "lua", "javascript", "typescript", "tsx", "rust", "go", "ruby",
+          "html", "css", "json", "yaml", "toml", "markdown", "bash", "vim", "vimdoc",
+        },
+        auto_install = true,
+        highlight = { enable = true },
+      })
+    end,
+  },
 
   -- markview (マークダウン時のみ)
   { "OXY2DEV/markview.nvim", ft = { "markdown", "md" } },
@@ -129,6 +143,18 @@ require("lazy").setup({
   { "sindrets/diffview.nvim", cmd = { "DiffviewOpen", "DiffviewFileHistory" } },
   { "FabijanZulj/blame.nvim", cmd = "BlameToggle" },
 
+  -- flash (モーション強化)
+  {
+    "folke/flash.nvim",
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = "c", function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
+  },
+
   -- comment (mini.comment)
   {
     "echasnovski/mini.comment",
@@ -204,6 +230,15 @@ require("lazy").setup({
     event = "InsertEnter",
     config = function()
       require("mini.pairs").setup({})
+    end,
+  },
+
+  -- surround (mini.surround)
+  {
+    "nvim-mini/mini.surround",
+    event = "VeryLazy",
+    config = function()
+      require("mini.surround").setup({})
     end,
   },
 

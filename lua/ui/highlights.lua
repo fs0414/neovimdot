@@ -117,6 +117,13 @@ local function setup_diffview_highlights()
 	vim.api.nvim_set_hl(0, "DiffviewFilePanelPath", { fg = "#888888" })
 end
 
+-- Flash ハイライト
+local function setup_flash_highlights()
+	vim.api.nvim_set_hl(0, "FlashLabel", { fg = "#00FFFF", bg = "#003333", bold = true, italic = true })
+	vim.api.nvim_set_hl(0, "FlashMatch", { fg = "#88ccff", bg = "#333333" })
+	vim.api.nvim_set_hl(0, "FlashCurrent", { fg = "#ffffff", bg = "#555555" })
+end
+
 -- 全ハイライトを適用
 function M.setup()
 	setup_global_highlights()
@@ -124,6 +131,7 @@ function M.setup()
 	setup_completion_highlights()
 	setup_picker_highlights()
 	setup_diffview_highlights()
+	setup_flash_highlights()
 end
 
 -- 初回適用

@@ -38,6 +38,7 @@ vim.lsp.enable({
 	"rust_analyzer",
 	"ruby_lsp",
 	"gopls",
+	"ty",
 })
 
 -- LSP情報表示コマンド (詳細版)

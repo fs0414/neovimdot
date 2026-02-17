@@ -1,8 +1,9 @@
 # Neovim Configuration
 
 ## Environment
-- macOS 
+- macOS
 - Homebrew
+- Neovim 0.11+
 - zsh/bash
 
 ## Setup
@@ -17,25 +18,45 @@ which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homeb
 git --version || brew install git
 ```
 
-### 2. Install Core Dependencies
+### 2. Install Core Dependencies (Required)
 
 ```bash
-# Install Neovim (latest stable)
+# Install Neovim (latest stable, 0.11+ required)
 brew install neovim
 
-# Install essential tools for LSP and searching
-brew install node npm ripgrep fd fzf lazygit
-
-# Install Python version manager (uv)
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# Install search tools (snacks.picker uses these)
+brew install ripgrep fd
 
 # Verify installations
-nvim --version  # Should be 0.9.0 or higher
-node --version  # Should be 18.0 or higher
-rg --version    # ripgrep for fast searching
+nvim --version  # Should be 0.11.0 or higher
+rg --version
+fd --version
 ```
 
-### 3. Clone Configuration
+### 3. Install Optional Dependencies
+
+Install based on your language and workflow needs:
+
+```bash
+# Node.js (required for JS/TS development)
+brew install mise
+mise install node@22
+mise use --global node@22
+
+# pnpm (required for biome LSP)
+npm install -g pnpm
+
+# lazygit (Git TUI, used by :LazyGit)
+brew install lazygit
+
+# fzf (general-purpose fuzzy finder)
+brew install fzf
+
+# uv (required for Python development)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### 4. Clone Configuration
 
 ```bash
 # Backup existing config if present
@@ -51,14 +72,11 @@ git clone https://github.com/fs0414/neovimdot.git ~/.config/nvim
 ls -la ~/.config/nvim/init.lua
 ```
 
-### 4. Install Nerd Fonts
+### 5. Install Nerd Fonts
 
 Nerd Fonts are required for proper icon display in the UI:
 
 ```bash
-# Add fonts tap
-brew tap homebrew/cask-fonts
-
 # Install recommended font
 brew install --cask font-hack-nerd-font
 
@@ -69,7 +87,7 @@ brew install --cask font-meslo-lg-nerd-font
 # Set your terminal to use the installed Nerd Font
 ```
 
-### 5. First Launch & Plugin Installation
+### 6. First Launch & Plugin Installation
 
 ```bash
 # Launch Neovim - plugins will auto-install on first run
@@ -89,26 +107,26 @@ nvim
 
 # Common issues to look for:
 # - Node.js provider: Should show OK
-# - Python provider: Should show OK (if using Python)
 # - Clipboard: Should show OK
 ```
 
-### 6. Language Server Setup
+### 7. Language Server Setup
 
-Install language servers via Mason within Neovim:
-
-```vim
-:Mason
-```
-
-Additional language-specific setup:
+LSP servers are configured natively using Neovim 0.11+ `vim.lsp.config()` / `vim.lsp.enable()`.
+Server configs are in the `lsp/` directory. Install the servers manually:
 
 ```bash
 # TypeScript/JavaScript
-npm install -g typescript typescript-language-server @fsouza/prettierd eslint_d
+npm install -g typescript typescript-language-server
+
+# Biome (project-local, via pnpm)
+# Add biome to each project: pnpm add -D @biomejs/biome
+
+# Deno (only activates when deno.json exists in project)
+brew install deno
 
 # Ruby
-gem install ruby-lsp rubocop
+gem install ruby-lsp
 
 # Go
 go install golang.org/x/tools/gopls@latest
@@ -116,11 +134,11 @@ go install golang.org/x/tools/gopls@latest
 # Rust
 rustup component add rust-analyzer
 
-# Python (using uv)
-uv tool install ruff
-uv tool install black
-uv tool install mypy
-uv pip install pynvim
+# Python
+uv tool install ty
+
+# Lua
+brew install lua-language-server
 ```
 
 ## Configuration Files
@@ -129,33 +147,50 @@ uv pip install pynvim
 |------|-------------|
 | `init.lua` | Main entry point |
 | `lua/config/lazy.lua` | Plugin management (Lazy.nvim) |
-| `lua/base.lua` | Base settings |
-| `lua/keymap.lua` | Key mappings |
-| `lua/lsp-config.lua` | LSP configuration |
-| `lua/blink-conf.lua` | Completion engine config |
+| `lua/core/options.lua` | Base settings (leader=" ") |
+| `lua/core/autocmds.lua` | Auto commands |
+| `lua/core/commands.lua` | Custom commands (Sed, Cfp, Crp, Fmt etc.) |
+| `lua/keymaps/` | Key mappings (init, lsp, picker, git, terminal etc.) |
+| `lua/lsp/init.lua` | LSP configuration (vim.lsp.enable) |
+| `lua/plugins/` | Plugin-specific configs |
+| `lua/ui/highlights.lua` | Highlight settings |
+| `lsp/*.lua` | LSP server configs (vim.lsp.Config format) |
 
 ## Key Bindings
 
 ### Completion (Blink.cmp)
 - `Tab`/`Shift-Tab`: Navigate candidates
-- `Ctrl-Space`: Show completion menu
+- `Ctrl-Space`: Show completion menu / toggle documentation
 - `Enter`: Confirm
 - `Ctrl-e`: Cancel
 
 ### LSP
 - `K`: Hover documentation
-- `gr`: Find references
+- `gd`: Go to definition (picker)
+- `gr`: Find references (picker)
 - `gi`: Go to implementation
-- `gD`: Go to declaration
+- `gt`: Go to type definition
+- `<F2>`: Rename symbol
+- `<leader>a`: Code action
+- `[d` / `]d`: Previous / next diagnostic
+- `<leader>d`: Diagnostic float
+- `<leader>dl`: Diagnostic list
+
+### Picker (snacks.picker)
+- `<C-p>`: Find files
+- `<C-g>`: Grep
+- `<C-f>`: Lines in buffer
+- `<C-b>`: Buffers
+- `<C-l>`: Recent files
+- `<leader>sw`: Grep word under cursor
+- `<leader>ds`: Document symbols
+- `<leader>ws`: Workspace symbols
 
 ## Updates
 
 ```bash
 # Update plugins
 :Lazy sync
-
-# Update LSP servers
-:MasonUpdate
 ```
 
 ## Troubleshooting

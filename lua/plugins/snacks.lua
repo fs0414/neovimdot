@@ -15,6 +15,7 @@ Snacks.setup({
 		enabled = true,
 		win = {
 			style = "float",
+			border = "rounded",
 			width = 0.9,
 			height = 0.9,
 		},
