@@ -2,7 +2,6 @@ name: Docker Publish
 on:
   push:
     branches: [main]
-    paths-ignore: ['**.md']
 
 jobs:
   publish:
@@ -24,3 +23,14 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/nvim-config:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  update-description:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/nvim-config
+          readme-filepath: DOCKERHUB.md

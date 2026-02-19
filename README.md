@@ -186,6 +186,39 @@ brew install lua-language-server
 - `<leader>ds`: Document symbols
 - `<leader>ws`: Workspace symbols
 
+## Docker
+
+Run the same Neovim environment anywhere without local setup.
+
+```bash
+# Open current directory in Neovim
+docker run -it --rm -v "$(pwd)":/workspace sora041490/nvim-config
+
+# Open a specific file
+docker run -it --rm -v "$(pwd)":/workspace sora041490/nvim-config src/main.ts
+
+# With git config mounted
+docker run -it --rm \
+  -v "$(pwd)":/workspace \
+  -v "$HOME/.gitconfig":/root/.gitconfig:ro \
+  -v "$HOME/.ssh":/root/.ssh:ro \
+  sora041490/nvim-config
+```
+
+The image includes Neovim, Node.js 22, LSPs (typescript-language-server, lua-language-server, vscode-langservers-extracted), formatters (prettierd, stylua), and all plugins pre-installed. Supports `linux/amd64` and `linux/arm64`.
+
+With [go-task](https://taskfile.dev/) installed:
+
+```bash
+task build          # Build image locally
+task run            # Open current directory
+task run:git        # With git config mounted
+task shell          # Debug shell
+task version        # Check Neovim version
+```
+
+See [Docker Hub](https://hub.docker.com/r/sora041490/nvim-config) for more details.
+
 ## Updates
 
 ```bash
