@@ -1,0 +1,53 @@
+version: '3'
+
+vars:
+  IMAGE_NAME: '{{.DOCKERHUB_USER}}/nvim-config'
+  TAG: 'latest'
+
+tasks:
+  build:
+    desc: Docker imageをビルド
+    cmds:
+      - docker build -t {{.IMAGE_NAME}}:{{.TAG}} .
+    sources:
+      - Dockerfile
+      - '**/*.lua'
+
+  run:
+    desc: カレントディレクトリでNeovimを起動
+    cmds:
+      - docker run -it --rm -v "$(pwd)":/workspace {{.IMAGE_NAME}}:{{.TAG}} {{.CLI_ARGS}}
+
+  run:git:
+    desc: git設定をマウントして起動
+    cmds:
+      - >-
+        docker run -it --rm
+        -v "$(pwd)":/workspace
+        -v "$HOME/.gitconfig":/root/.gitconfig:ro
+        -v "$HOME/.ssh":/root/.ssh:ro
+        {{.IMAGE_NAME}}:{{.TAG}} {{.CLI_ARGS}}
+
+  push:
+    desc: Docker Hubにpush
+    cmds:
+      - docker push {{.IMAGE_NAME}}:{{.TAG}}
+
+  buildx:
+    desc: マルチプラットフォームビルド+push (amd64/arm64)
+    cmds:
+      - >-
+        docker buildx build
+        --platform linux/amd64,linux/arm64
+        -t {{.IMAGE_NAME}}:{{.TAG}}
+        --push .
+
+  shell:
+    desc: コンテナ内でbashを起動 (デバッグ用)
+    cmds:
+      - docker run -it --rm --entrypoint bash -v "$(pwd)":/workspace {{.IMAGE_NAME}}:{{.TAG}}
+
+  version:
+    desc: コンテナ内のNeovimバージョン確認
+    cmds:
+      - docker run --rm {{.IMAGE_NAME}}:{{.TAG}} --version
