@@ -1,0 +1,12 @@
+.git
+.DS_Store
+.claude/
+.serena/
+.github/
+docs/
+*.md
+!lazy-lock.json
+Dockerfile
+docker-compose.yml
+.dockerignore
+Taskfile.yml

@@ -1,0 +1,26 @@
+name: Docker Publish
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**.md']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/nvim-config:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/nvim-config:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
