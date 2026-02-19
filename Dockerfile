@@ -53,7 +53,7 @@ RUN apt-get update \
     && npm install -g --prefer-offline \
        typescript-language-server typescript \
        vscode-langservers-extracted \
-       prettierd prettier \
+       @fsouza/prettierd prettier \
        pnpm \
     # cleanup
     && apt-get purge -y software-properties-common \
