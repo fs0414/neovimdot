@@ -6,5 +6,6 @@ require("neotest").setup({
 				return name ~= "node_modules"
 			end,
 		}),
+		require("neotest-busted"),
 	},
 })

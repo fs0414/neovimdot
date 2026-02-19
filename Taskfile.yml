@@ -47,6 +47,24 @@ tasks:
     cmds:
       - docker run -it --rm --entrypoint bash -v "$(pwd)":/workspace {{.IMAGE_NAME}}:{{.TAG}}
 
+  test:
+    desc: 全テスト実行
+    cmds:
+      - eval $(luarocks --lua-version 5.1 path) && busted --lua nlua --helper tests/minimal_init.lua tests/
+
+  test:static:
+    desc: 静的テストのみ (パーサー不要)
+    cmds:
+      - eval $(luarocks --lua-version 5.1 path) && busted --lua nlua tests/lsp_config_spec.lua tests/consistency_spec.lua
+
+  test:docker:
+    deps: [build]
+    desc: Docker イメージ内でテスト実行
+    cmds:
+      - >-
+        docker run --rm --entrypoint nvim {{.IMAGE_NAME}}:{{.TAG}}
+        --headless +"luafile /root/.config/nvim/tests/test_docker_smoke.lua"
+
   version:
     desc: コンテナ内のNeovimバージョン確認
     cmds:

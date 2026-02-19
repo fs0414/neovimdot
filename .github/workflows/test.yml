@@ -1,0 +1,54 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Neovim
+        run: |
+          sudo add-apt-repository -y ppa:neovim-ppa/unstable
+          sudo apt-get update
+          sudo apt-get install -y neovim
+
+      - name: Install luarocks and test dependencies
+        run: |
+          sudo apt-get install -y luarocks
+          luarocks --lua-version 5.1 install busted
+          luarocks --lua-version 5.1 install nlua
+
+      - name: Install plugins (Lazy sync)
+        run: |
+          nvim --headless "+Lazy! sync" +qa || true
+
+      - name: Install Treesitter parsers
+        run: |
+          nvim --headless \
+            -c "TSInstallSync lua javascript typescript tsx rust go ruby html css json yaml toml markdown bash vim vimdoc" \
+            -c "qa"
+
+      - name: Run tests
+        run: |
+          eval $(luarocks --lua-version 5.1 path) && busted --lua nlua --helper tests/minimal_init.lua tests/
+
+  docker-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t nvim-config:test .
+
+      - name: Run Docker smoke test
+        run: |
+          docker run --rm --entrypoint nvim nvim-config:test \
+            --headless +"luafile /root/.config/nvim/tests/test_docker_smoke.lua"

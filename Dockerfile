@@ -70,10 +70,12 @@ RUN ln -sf /opt/lua-language-server/bin/lua-language-server /usr/local/bin/lua-l
 COPY . /root/.config/nvim/
 
 # Pre-install plugins
-RUN nvim --headless "+Lazy! sync" +qa || true
+RUN nvim --headless "+Lazy! sync" +qa
 
 # Pre-install Treesitter parsers
-RUN nvim --headless "+TSInstall! lua javascript typescript tsx rust go ruby html css json yaml toml markdown bash vim vimdoc" +qa || true
+RUN nvim --headless \
+    -c "TSInstallSync lua javascript typescript tsx rust go ruby html css json yaml toml markdown bash vim vimdoc" \
+    -c "qa"
 
 WORKDIR /workspace
 ENTRYPOINT ["nvim"]

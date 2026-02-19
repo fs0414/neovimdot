@@ -221,6 +221,7 @@ require("lazy").setup({
   { "nvim-lua/plenary.nvim", lazy = true },
   { "antoinemadec/FixCursorHold.nvim", lazy = true },
   { "marilari88/neotest-vitest", lazy = true },
+  { "MisanthropicBit/neotest-busted", lazy = true },
 
   -- autopairs (mini.pairs)
   {
