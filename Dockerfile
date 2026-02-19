@@ -41,12 +41,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Neovim + Node.js + core tools (merged into a single RUN layer)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       software-properties-common \
+       software-properties-common curl ca-certificates \
     && add-apt-repository -y ppa:neovim-ppa/unstable \
     && apt-get update \
     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y --no-install-recommends \
-       neovim nodejs git ripgrep fd-find curl xclip \
+       neovim nodejs git ripgrep fd-find xclip \
        build-essential ca-certificates \
     && ln -sf /usr/bin/fdfind /usr/bin/fd \
     # npm global tools
