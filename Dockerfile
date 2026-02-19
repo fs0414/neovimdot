@@ -69,11 +69,11 @@ RUN ln -sf /opt/lua-language-server/bin/lua-language-server /usr/local/bin/lua-l
 # Copy Neovim config
 COPY . /root/.config/nvim/
 
-# Pre-install plugins + Treesitter parsers
-RUN nvim --headless "+Lazy! sync" +qa 2>/dev/null || true \
-    && nvim --headless "+TSUpdateSync" +qa 2>/dev/null || true \
-    # Remove build cache
-    && rm -rf /root/.cache/nvim/treesitter
+# Pre-install plugins
+RUN nvim --headless "+Lazy! sync" +qa || true
+
+# Pre-install Treesitter parsers
+RUN nvim --headless "+TSInstall! lua javascript typescript tsx rust go ruby html css json yaml toml markdown bash vim vimdoc" +qa || true
 
 WORKDIR /workspace
 ENTRYPOINT ["nvim"]

@@ -24,16 +24,14 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "lua", "javascript", "typescript", "tsx", "rust", "go", "ruby",
-          "html", "css", "json", "yaml", "toml", "markdown", "bash", "vim", "vimdoc",
-        },
-        auto_install = true,
-        highlight = { enable = true },
-      })
-    end,
+    opts = {
+      ensure_installed = {
+        "lua", "javascript", "typescript", "tsx", "rust", "go", "ruby",
+        "html", "css", "json", "yaml", "toml", "markdown", "bash", "vim", "vimdoc",
+      },
+      auto_install = true,
+      highlight = { enable = true },
+    },
   },
 
   -- markview (マークダウン時のみ)
