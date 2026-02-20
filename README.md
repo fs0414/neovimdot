@@ -192,32 +192,148 @@ Run the same Neovim environment anywhere without local setup.
 
 ```bash
 # Open current directory in Neovim
-docker run -it --rm -v "$(pwd)":/workspace sora041490/nvim-config
-
-# Open a specific file
-docker run -it --rm -v "$(pwd)":/workspace sora041490/nvim-config src/main.ts
-
-# With git config mounted
 docker run -it --rm \
   -v "$(pwd)":/workspace \
   -v "$HOME/.gitconfig":/root/.gitconfig:ro \
   -v "$HOME/.ssh":/root/.ssh:ro \
   sora041490/nvim-config
+
+# Open a specific file
+docker run -it --rm \
+  -v "$(pwd)":/workspace \
+  -v "$HOME/.gitconfig":/root/.gitconfig:ro \
+  -v "$HOME/.ssh":/root/.ssh:ro \
+  sora041490/nvim-config src/main.ts
 ```
 
-The image includes Neovim, Node.js 22, LSPs (typescript-language-server, lua-language-server, vscode-langservers-extracted), formatters (prettierd, stylua), and all plugins pre-installed. Supports `linux/amd64` and `linux/arm64`.
+Add an alias to your shell config (`~/.zshrc`, `~/.bashrc`, etc.) for quick access:
+
+```bash
+alias dvim='docker run -it --rm -v "$(pwd)":/workspace -v "$HOME/.gitconfig":/root/.gitconfig:ro -v "$HOME/.ssh":/root/.ssh:ro sora041490/nvim-config'
+```
+
+Then use it like a local editor:
+
+```bash
+dvim              # Open current directory
+dvim src/main.ts  # Open a specific file
+```
+
+The image includes Neovim, Node.js 22, LSPs (typescript-language-server, lua-language-server, vscode-langservers-extracted), formatters (prettierd, stylua, shfmt), lazygit, fzf, and all plugins pre-installed. Supports `linux/amd64` and `linux/arm64`.
+
+Language-specific tools (Go, Rust, Python, Ruby, Deno, etc.) are **not** included to keep the image small. Install them inside the container as needed:
+
+```bash
+# Enter a shell in the container
+docker run -it --rm --entrypoint bash -v "$(pwd)":/workspace sora041490/nvim-config
+
+# Go
+apt-get update && apt-get install -y golang-go
+go install golang.org/x/tools/gopls@latest
+go install mvdan.cc/gofumpt@latest
+go install golang.org/x/tools/cmd/goimports@latest
+
+# Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env"
+# rust-analyzer and rustfmt are included with rustup
+
+# Python
+apt-get update && apt-get install -y python3 python3-pip python3-venv
+pip3 install --break-system-packages isort black ty
+
+# Ruby
+apt-get update && apt-get install -y ruby ruby-dev
+gem install ruby-lsp
+
+# Deno
+curl -fsSL https://deno.land/install.sh | sh
+
+# Biome (project-local recommended)
+pnpm add -D @biomejs/biome
+```
 
 With [go-task](https://taskfile.dev/) installed:
 
 ```bash
 task build          # Build image locally
-task run            # Open current directory
-task run:git        # With git config mounted
-task shell          # Debug shell
+task run            # Open current directory (with git config)
+task shell          # Debug shell (with git config)
 task version        # Check Neovim version
 ```
 
 See [Docker Hub](https://hub.docker.com/r/sora041490/nvim-config) for more details.
+
+## Adding a New Language
+
+### 1. Create LSP server config
+
+Add `lsp/<server_name>.lua`:
+
+```lua
+---@type vim.lsp.Config
+return {
+  cmd = { 'pyright-langserver', '--stdio' },
+  filetypes = { 'python' },
+  root_markers = { 'pyproject.toml', 'setup.py', '.git' },
+}
+```
+
+### 2. Enable the LSP server
+
+Add the server name to `vim.lsp.enable()` in `lua/lsp/init.lua`:
+
+```lua
+vim.lsp.enable({
+  -- ...existing servers
+  "pyright",
+})
+```
+
+### 3. Add Treesitter parser
+
+Add the language to `ensure_installed` in `lua/config/lazy.lua`:
+
+```lua
+ensure_installed = {
+  -- ...existing parsers
+  "python",
+},
+```
+
+If using Docker, also add it to the `install()` call in `Dockerfile`.
+
+### 4. Add formatter (optional)
+
+Add formatter rules in `lua/plugins/formatter.lua`:
+
+```lua
+python = { "isort", "black" },
+```
+
+### 5. Install the LSP binary
+
+The binary specified in `cmd` must be available in your PATH:
+
+```bash
+# Example: Python
+pip install pyright
+
+# Example: via Homebrew
+brew install pyright
+```
+
+For Docker, add the binary installation to `Dockerfile` as well.
+
+### Checklist
+
+| # | File | Action |
+|---|------|--------|
+| 1 | `lsp/<name>.lua` | Create server config |
+| 2 | `lua/lsp/init.lua` | Add to `vim.lsp.enable()` |
+| 3 | `lua/config/lazy.lua` | Add parser to `ensure_installed` |
+| 4 | `lua/plugins/formatter.lua` | Add formatter (optional) |
+| 5 | `Dockerfile` | Add parser + binary (optional) |
 
 ## Updates
 

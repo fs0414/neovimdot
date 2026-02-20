@@ -16,11 +16,6 @@ tasks:
   run:
     desc: カレントディレクトリでNeovimを起動
     cmds:
-      - docker run -it --rm -v "$(pwd)":/workspace {{.IMAGE_NAME}}:{{.TAG}} {{.CLI_ARGS}}
-
-  run:git:
-    desc: git設定をマウントして起動
-    cmds:
       - >-
         docker run -it --rm
         -v "$(pwd)":/workspace
@@ -45,7 +40,12 @@ tasks:
   shell:
     desc: コンテナ内でbashを起動 (デバッグ用)
     cmds:
-      - docker run -it --rm --entrypoint bash -v "$(pwd)":/workspace {{.IMAGE_NAME}}:{{.TAG}}
+      - >-
+        docker run -it --rm --entrypoint bash
+        -v "$(pwd)":/workspace
+        -v "$HOME/.gitconfig":/root/.gitconfig:ro
+        -v "$HOME/.ssh":/root/.ssh:ro
+        {{.IMAGE_NAME}}:{{.TAG}}
 
   test:
     desc: 全テスト実行

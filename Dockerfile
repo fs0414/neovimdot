@@ -25,6 +25,25 @@ RUN STYLUA_ARCH=$([ "$TARGETARCH" = "arm64" ] && echo "linux-aarch64" || echo "l
        "https://github.com/JohnnyMorganz/StyLua/releases/download/v${STYLUA_VERSION}/stylua-${STYLUA_ARCH}.zip" \
     && unzip /tmp/stylua.zip -d /usr/local/bin/
 
+# lazygit
+ARG LAZYGIT_VERSION=0.44.1
+RUN LAZYGIT_ARCH=$([ "$TARGETARCH" = "arm64" ] && echo "arm64" || echo "x86_64") \
+    && wget -qO- "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_${LAZYGIT_ARCH}.tar.gz" \
+    | tar xzf - -C /usr/local/bin lazygit
+
+# shfmt
+ARG SHFMT_VERSION=3.10.0
+RUN SHFMT_ARCH=$([ "$TARGETARCH" = "arm64" ] && echo "arm64" || echo "amd64") \
+    && wget -qO /usr/local/bin/shfmt \
+       "https://github.com/mvdan/sh/releases/download/v${SHFMT_VERSION}/shfmt_v${SHFMT_VERSION}_linux_${SHFMT_ARCH}" \
+    && chmod +x /usr/local/bin/shfmt
+
+# fzf
+ARG FZF_VERSION=0.57.0
+RUN FZF_ARCH=$([ "$TARGETARCH" = "arm64" ] && echo "arm64" || echo "amd64") \
+    && wget -qO- "https://github.com/junegunn/fzf/releases/download/v${FZF_VERSION}/fzf-${FZF_VERSION}-linux_${FZF_ARCH}.tar.gz" \
+    | tar xzf - -C /usr/local/bin
+
 # ============================================================
 # Stage 2: Final image
 # ============================================================
@@ -38,7 +57,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     XDG_STATE_HOME=/root/.local/state \
     XDG_CACHE_HOME=/root/.cache
 
-# Neovim + Node.js + core tools (merged into a single RUN layer)
+# Neovim + Node.js + core tools
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        software-properties-common curl ca-certificates \
@@ -54,7 +73,7 @@ RUN apt-get update \
        typescript-language-server typescript \
        vscode-langservers-extracted \
        @fsouza/prettierd prettier \
-       pnpm \
+       pnpm tree-sitter-cli \
     # cleanup
     && apt-get purge -y software-properties-common \
     && apt-get autoremove -y \
@@ -63,7 +82,10 @@ RUN apt-get update \
 
 # Copy static binaries from builder stage
 COPY --from=builder /opt/lua-language-server /opt/lua-language-server
-COPY --from=builder /usr/local/bin/stylua /usr/local/bin/stylua
+COPY --from=builder /usr/local/bin/stylua    /usr/local/bin/stylua
+COPY --from=builder /usr/local/bin/lazygit   /usr/local/bin/lazygit
+COPY --from=builder /usr/local/bin/shfmt     /usr/local/bin/shfmt
+COPY --from=builder /usr/local/bin/fzf       /usr/local/bin/fzf
 RUN ln -sf /opt/lua-language-server/bin/lua-language-server /usr/local/bin/lua-language-server
 
 # Copy Neovim config
@@ -72,9 +94,9 @@ COPY . /root/.config/nvim/
 # Pre-install plugins
 RUN nvim --headless "+Lazy! sync" +qa
 
-# Pre-install Treesitter parsers
+# Pre-install Treesitter parsers (nvim-treesitter main branch API)
 RUN nvim --headless \
-    -c "TSInstallSync lua javascript typescript tsx rust go ruby html css json yaml toml markdown bash vim vimdoc" \
+    -c "lua require('nvim-treesitter').install({'lua','javascript','typescript','tsx','rust','go','ruby','html','css','json','yaml','toml','markdown','bash','vim','vimdoc','python'}):wait()" \
     -c "qa"
 
 WORKDIR /workspace

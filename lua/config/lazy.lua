@@ -19,19 +19,20 @@ require("lazy").setup({
   -- colorSchema (即時読み込み)
   { "fcpg/vim-orbital", lazy = false },
 
-  -- treesitter (即時読み込み)
+  -- treesitter (即時読み込み / main branch API)
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     build = ":TSUpdate",
-    opts = {
-      ensure_installed = {
-        "lua", "javascript", "typescript", "tsx", "rust", "go", "ruby",
-        "html", "css", "json", "yaml", "toml", "markdown", "bash", "vim", "vimdoc",
-      },
-      auto_install = true,
-      highlight = { enable = true },
-    },
+    config = function()
+      require("nvim-treesitter").setup({
+        ensure_installed = {
+          "lua", "javascript", "typescript", "tsx", "rust", "go", "ruby",
+          "html", "css", "json", "yaml", "toml", "markdown", "bash", "vim", "vimdoc",
+        },
+        auto_install = true,
+      })
+    end,
   },
 
   -- markview (マークダウン時のみ)
@@ -96,7 +97,7 @@ require("lazy").setup({
           if not vim.api.nvim_buf_is_valid(buf) then
             return false
           end
-          
+
           local fn = vim.fn
           -- 除外するファイルタイプ
           local excluded_filetypes = { "oil", "gitcommit", "gitrebase", "hgcommit", "snacks_input" }
