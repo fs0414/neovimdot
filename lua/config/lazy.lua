@@ -28,7 +28,7 @@ require("lazy").setup({
       require("nvim-treesitter").setup({
         ensure_installed = {
           "lua", "javascript", "typescript", "tsx", "rust", "go", "ruby",
-          "html", "css", "json", "yaml", "toml", "markdown", "bash", "vim", "vimdoc",
+          "html", "css", "json", "yaml", "toml", "markdown", "bash", "vim", "vimdoc", "python",
         },
         auto_install = true,
       })
