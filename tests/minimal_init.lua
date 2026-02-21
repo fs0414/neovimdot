@@ -20,7 +20,10 @@ if handle then
     local name, ftype = vim.uv.fs_scandir_next(handle)
     if not name then break end
     if ftype == "directory" then
-      vim.opt.rtp:append(lazy_dir .. "/" .. name)
+      local plugin_dir = lazy_dir .. "/" .. name
+      vim.opt.rtp:append(plugin_dir)
+      -- busted の require がプラグインモジュールを解決できるようにする
+      package.path = plugin_dir .. "/lua/?.lua;" .. plugin_dir .. "/lua/?/init.lua;" .. package.path
     end
   end
 end
