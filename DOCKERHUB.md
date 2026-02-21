@@ -2,6 +2,12 @@
 
 Portable Neovim environment as a Docker image. Run your fully configured editor anywhere.
 
+## Pull
+
+```bash
+docker pull sora041490/nvim-config
+```
+
 ## Quick Start
 
 ```bash
