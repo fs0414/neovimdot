@@ -13,6 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Link config to ~/.config/nvim
+        run: |
+          mkdir -p ~/.config
+          ln -sf "$GITHUB_WORKSPACE" ~/.config/nvim
+
       - name: Install Neovim
         run: |
           sudo add-apt-repository -y ppa:neovim-ppa/unstable
@@ -27,12 +32,12 @@ jobs:
 
       - name: Install plugins (Lazy sync)
         run: |
-          nvim --headless "+Lazy! sync" +qa || true
+          nvim --headless "+Lazy! sync" +qa
 
       - name: Install Treesitter parsers
         run: |
           nvim --headless \
-            -c "TSInstallSync lua javascript typescript tsx rust go ruby html css json yaml toml markdown bash vim vimdoc" \
+            -c "lua require('nvim-treesitter').install({'lua','javascript','typescript','tsx','rust','go','ruby','html','css','json','yaml','toml','markdown','bash','vim','vimdoc','python'}):wait()" \
             -c "qa"
 
       - name: Run tests
