@@ -1,5 +1,5 @@
 -- LSP 設定ファイルの構造を検証
-local config_dir = vim.fn.stdpath("config")
+local config_dir = vim.g.test_config_dir or vim.fn.stdpath("config")
 
 describe("lsp config files", function()
   -- lsp/ ディレクトリ内の全 .lua ファイルを検証

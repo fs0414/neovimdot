@@ -1,5 +1,5 @@
 -- Dockerfile と lazy.lua の treesitter パーサーリスト整合性チェック
-local config_dir = vim.fn.stdpath("config")
+local config_dir = vim.g.test_config_dir or vim.fn.stdpath("config")
 
 --- ファイルからクォート付きパーサー名を抽出するヘルパー
 ---@param filepath string
